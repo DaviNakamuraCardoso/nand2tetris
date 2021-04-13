@@ -1,0 +1,8 @@
+/** "Not" chip implementation from Nand2Tetris course */
+CHIP Not {
+    IN a;
+    OUT out;
+
+    PARTS:
+        Nand(a=a, b=a, out=out);
+}
