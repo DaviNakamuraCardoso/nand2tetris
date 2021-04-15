@@ -1,4 +1,4 @@
-/** "And" chip implementation from Nand2Tetris course
+/** "Xor" chip implementation from Nand2Tetris course
 /* Website: www.nand2tetris.org  */
 
 CHIP Xor {

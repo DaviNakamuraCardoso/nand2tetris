@@ -45,3 +45,7 @@
 
 
 ### Boolean functions from
+```
+And16.hdl And.hdl DMux4Way.hdl DMux8Way.hdl DMux.hdl Mux16.hdl Mux4Way16.hdl Mux8Way16.hdl Mux.hdl Not16.hdl Not.hdl Or16.hdl Or8Way.hdl Or.hdl Xor.hdl
+
+```
