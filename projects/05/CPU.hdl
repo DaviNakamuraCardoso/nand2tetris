@@ -53,7 +53,8 @@ CHIP CPU {
 
 
     /* Dregister */
-    DRegister(in=AluOut, load=instruction[4], out=Dout);
+    And(a=instruction[4], b=instruction[15], out=loadD);
+    DRegister(in=AluOut, load=loadD, out=Dout);
 
     /* WriteM? */
     And(a=instruction[3], b=instruction[15], out=writeM);
@@ -68,7 +69,7 @@ CHIP CPU {
     /* Program counter */
     Not(in=isNegative, out=postmp);
     Not(in=isZero, out=postmp2);
-    And(a=postmp, b=postmp2, out=isPositive); 
+    And(a=postmp, b=postmp2, out=isPositive);
 
     And(a=instruction[15], b=instruction[0], out=jmp0);
     And(a=instruction[15], b=instruction[1], out=jmp1);
