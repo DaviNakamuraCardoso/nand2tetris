@@ -116,7 +116,7 @@ unsigned int is_numeric(char* buff)
 void check_line(TABLE* root, char* cmd, int* memindex, FILE* out)
 {
     char *ptr, buff[200], *existing, *new;
-    int i, l, val;
+    int i, j, l, val;
     // Do nothing for invalid lines
 
     l = strlen(cmd);
@@ -132,19 +132,24 @@ void check_line(TABLE* root, char* cmd, int* memindex, FILE* out)
     // Check for a variable
     if (strchr(cmd, '@') != NULL)
     {
+        j = 0;
         ptr = strchr(cmd, '@');
         for (i = 1; ptr[i] != '\0' && ptr[i] != '\n'; i++)
         {
-            buff[i-1] = ptr[i];
+            if (ptr[i] == ' ') {
+                continue;
+            }
+            buff[j] = ptr[i];
+            j++;
         }
-        buff[i-2] = '\0';
+        buff[j-1] = '\0';
 
         fprintf(stderr, "Variable: %s\n", buff);
         existing = search_ins(root, buff);
 
         if (is_numeric(buff))
         {
-            fprintf(stderr, "Found numeric variable: %s..\n", buff); 
+            fprintf(stderr, "Found numeric variable: %s..\n", buff);
             fprintf(out, "@%s\n", buff);
         }
         else if (existing != NULL)

@@ -6,10 +6,12 @@
 #include <parser.h>
 #include <hasm.h>
 
+
 int main(int argc, char* argv[])
 {
     char* program, *name;
     int len;
+    unsigned short symbolic;
     TABLE* root;
     FILE *src, *src_second, *src_third, *dest, *err;
 
@@ -17,7 +19,6 @@ int main(int argc, char* argv[])
         printf("Source file not specified.\nUsage: ./hasm <filename>\n");
         return 1;
     }
-
 
     // Program name
     program = argv[1];
@@ -54,7 +55,7 @@ int main(int argc, char* argv[])
     printf("Parsing...\n");
     parse(root, src_third, dest);
     printf("Done.\n");
-    fclose(src_third); 
+    fclose(src_third);
 
     return 0;
 }

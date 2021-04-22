@@ -82,11 +82,14 @@ void add_ins(TABLE* root, char* cmd, FILE* stream)
             dest = "000";
         }
 
-        for (; cmd[i] != ';' && cmd[i] != '\0' && cmd[i] != '\n'; j++, i++) {
+        for (; cmd[i] != ';' && cmd[i] != '\0' && cmd[i] != '\n' && cmd[i] != ' ';i++) {
             comp[j] = cmd[i];
+            j++;
         }
+        int ind;
 
-        comp[j] = '\0';
+        ind = (j > 1) ? (j-1) : (j);
+        comp[ind] = '\0';
         fprintf(stderr, "Comp is now %s...\n", comp);
         comp = search_ins(root, comp);
         fprintf(stderr, "Found comp as being %s...\n", comp);
@@ -104,7 +107,9 @@ void add_ins(TABLE* root, char* cmd, FILE* stream)
             for (; cmd[i] != '\0'; k++, i++) {
                 jmp[k] = cmd[i];
             }
-            jmp[k] = '\0';
+
+            ind = (k > 1) ? (k-1) : (k);
+            jmp[ind] = '\0';
             fprintf(stderr, "Jump is now %s\n", jmp);
 
             jmp = search_ins(root, jmp);
