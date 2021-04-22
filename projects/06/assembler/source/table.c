@@ -135,7 +135,7 @@ char* to_bin(int dno)
     return str;
 }
 
-void add_ins(TABLE* root, char* cmd)
+void add_ins(TABLE* root, char* cmd, FILE* stream)
 {
         char* ptr, *val;
 
@@ -143,7 +143,7 @@ void add_ins(TABLE* root, char* cmd)
         {
             ptr = strchr(cmd, '@');
             val = to_bin(atoi(ptr+1));
-            printf("%s\n", val);
+            fprintf(stream, "%s\n", val);
         }
         else if (strlen(cmd) > 1)
         {
@@ -194,15 +194,15 @@ void add_ins(TABLE* root, char* cmd)
             }
 
 
-            printf("111");
-            printf("%s", comp);
-            printf("%s", dest);
-            printf("%s", jmp);
-            printf("\n");
+            fprintf(stream, "111");
+            fprintf(stream, "%s", comp);
+            fprintf(stream, "%s", dest);
+            fprintf(stream, "%s", jmp);
+            fprintf(stream, "\n");
         }
 }
 
-void add_symbols(TABLE* root, FILE* f)
+void add_symbols(TABLE* root, FILE* f, FILE* dest)
 {
     char buff[400], cmd[400];
     int i;
@@ -222,6 +222,6 @@ void add_symbols(TABLE* root, FILE* f)
             i++;
         }
         cmd[i] = '\0';
-        add_ins(root, cmd);
+        add_ins(root, cmd, dest);
     }
 }

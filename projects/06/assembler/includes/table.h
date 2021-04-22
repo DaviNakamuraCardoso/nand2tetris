@@ -13,7 +13,7 @@ void add_command(TABLE* root, char* cmd, char* value);
 void add_values(TABLE* root, FILE* f);
 
 // Adds all symbols in the source file
-void add_symbols(TABLE* root, FILE* f);
+void add_symbols(TABLE* root, FILE* f, FILE* dest);
 
 // Search instructions on table
-char* search_ins(TABLE* root, char* cmd); 
+char* search_ins(TABLE* root, char* cmd);

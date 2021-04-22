@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     char* program, *name;
     int len;
     TABLE* root;
-    FILE* src;
+    FILE* src, *dest;
 
 
     if (argc < 2) {
@@ -26,10 +26,11 @@ int main(int argc, char* argv[])
     printf("Assembling %s\n", name);
 
     src = fopen(program, "r");
+    dest = fopen(name, "w");
 
     root = setup();
 
-    add_symbols(root, src);
+    add_symbols(root, src, dest);
 
 
 
