@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <utils.h>
 #include <table.h>
 
 
@@ -16,6 +17,7 @@ TABLE* init_table(TABLE* root, char c)
         new->next[i] = NULL;
     }
     new->value = NULL;
+    new->locked = 0;
 
     if (root != NULL) {
         root->next[a] = new;
@@ -69,11 +71,11 @@ void add_values(TABLE* root, FILE* f)
             val[j] = buff[i];
         }
         val[j-1] = '\0';
+        fprintf(stderr, "Adding command %s with %s as value\n", cmd, val);
 
         add_command(root, cmd, val);
     }
 
-    fclose(f);
 
      return;
 }
@@ -98,12 +100,87 @@ char* search_ins(TABLE* root, char* cmd)
     return ptr;
 }
 
-unsigned int is_valid(char c)
+unsigned int is_numeric(char* buff)
+{
+    int i;
+    for (i = 0; buff[i] != '\0'; i++)
+    {
+        if ((buff[i]) < 48 || (buff[i] > 57))
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void check_line(TABLE* root, char* cmd, int* memindex, FILE* out)
+{
+    char *ptr, buff[200], *existing, *new;
+    int i, l, val;
+    // Do nothing for invalid lines
+
+    l = strlen(cmd);
+    if (l <= 1)
+    {
+        return;
+    }
+
+
+    fprintf(stderr, "Checking %s...\n", cmd);
+
+
+    // Check for a variable
+    if (strchr(cmd, '@') != NULL)
+    {
+        ptr = strchr(cmd, '@');
+        for (i = 1; ptr[i] != '\0' && ptr[i] != '\n'; i++)
+        {
+            buff[i-1] = ptr[i];
+        }
+        buff[i-2] = '\0';
+
+        fprintf(stderr, "Variable: %s\n", buff);
+        existing = search_ins(root, buff);
+
+        if (is_numeric(buff))
+        {
+            fprintf(stderr, "Found numeric variable: %s..\n", buff); 
+            fprintf(out, "@%s\n", buff);
+        }
+        else if (existing != NULL)
+        {
+            fprintf(stderr, "Variable already exists at the value of %s\n", existing);
+            fprintf(out, "@%s\n", existing);
+        }
+        else
+        {
+            new = malloc(16*sizeof(char));
+            val = *memindex;
+
+            sprintf(new, "%i", val);
+            fprintf(stderr, "Adding variable %s with value %i...\n", buff, val);
+            add_command(root, buff, new);
+            fprintf(out, "@%i\n", val);
+            (*memindex)++;
+        }
+    }
+
+    else if (strchr(cmd, '(') == NULL)
+    {
+        fprintf(out, "%s\n", cmd);
+    }
+
+
+    return;
+
+}
+
+unsigned int valid_char(char c)
 {
     switch (c) {
         case '\n':
         case '/':
-        case ' ':
+        case 0:
         {
             return 0;
         }
@@ -112,116 +189,99 @@ unsigned int is_valid(char c)
     return 1;
 }
 
-char* to_bin(int dno)
+void setup_vars(TABLE* root, FILE* f)
 {
-    int rem, f, i;
-    char* str;
-    f = 0;
-    str = malloc(16*sizeof(char));
-    for (i = 0; i < 16; i++)
-    {
-        str[i] = (char) 48;
-    }
+    int i, j, memindex;
+    char buff[1000], cmd[1000];
+    FILE *out;
 
-    while(dno != 0)
-    {
-        rem = dno % 2;
-        str[15-f] = (char) (rem+48);
-        dno = dno / 2;
-        f++;
+    memindex = 16;
 
-    }
-
-    return str;
-}
-
-void add_ins(TABLE* root, char* cmd, FILE* stream)
-{
-        char* ptr, *val;
-
-        if (strchr(cmd, '@') != NULL)
-        {
-            ptr = strchr(cmd, '@');
-            val = to_bin(atoi(ptr+1));
-            fprintf(stream, "%s\n", val);
-        }
-        else if (strlen(cmd) > 1)
-        {
-            char *dest, *comp, *jmp;
-            int i, j, k;
-
-            i = 0;
-            j = 0;
-            k = 0;
-
-            dest = malloc(16*sizeof(char));
-            comp = malloc(16*sizeof(char));
-            jmp = malloc(16*sizeof(char));
-
-            if (strchr(cmd, '=') != NULL)
-            {
-                for (; cmd[i] != '=' && cmd[i] != '\0'; i++) {
-                    dest[i] = cmd[i];
-                }
-                dest[i] = '=';
-                dest[i+1] = '\0';
-                dest = search_ins(root, dest);
-            }
-            else
-            {
-                dest = "000";
-            }
-            i++;
-            for (; cmd[i] != ';' && cmd[i] != '\0'; j++) {
-                comp[j] = cmd[i];
-                i++;
-            }
-            comp[j-1] = '\0';
-            comp = search_ins(root, comp);
-
-            if (strchr(cmd, ';') != NULL)
-            {
-
-                for (; cmd[i] != '\0'; k++, i++) {
-                    jmp[k] = cmd[i];
-                }
-                jmp[k-1] = '\0';
-                jmp = search_ins(root, jmp);
-            }
-            else
-            {
-                jmp = "000";
-            }
-
-
-            fprintf(stream, "111");
-            fprintf(stream, "%s", comp);
-            fprintf(stream, "%s", dest);
-            fprintf(stream, "%s", jmp);
-            fprintf(stream, "\n");
-        }
-}
-
-void add_symbols(TABLE* root, FILE* f, FILE* dest)
-{
-    char buff[400], cmd[400];
-    int i;
-
-    if (f == NULL)
-    {
-        printf("Destination provided does not exist\n");
-        return;
-    }
-
-    while (fgets(buff, 400, f) != NULL)
+    out = fopen("hack.out", "w");
+    while (fgets(buff, 1000, f) != NULL)
     {
         i = 0;
-        while (is_valid(buff[i]))
+        j = 0;
+        while (valid_char(buff[i]))
         {
-            cmd[i] = buff[i];
+            if (buff[i] == ' ')
+            {
+                i++;
+                continue;
+            }
+            cmd[j] = buff[i];
             i++;
+            j++;
         }
-        cmd[i] = '\0';
-        add_ins(root, cmd, dest);
+        cmd[j] = '\0';
+        fprintf(stderr, "Checking line %s...\n", cmd);
+        check_line(root, cmd, &memindex, out);
     }
+    fclose(out);
+
+    return;
+}
+
+
+void find_label(TABLE* root, char* cmd, int* line_num)
+{
+    int i, j, length;
+    char *ptr, buff[400], *new;
+
+    length = strlen(cmd);
+
+    // Check for a LABEL
+    if (strchr(cmd, '(') != NULL)
+    {
+        ptr = strchr(cmd, '(');
+        for (i = 1; ptr[i] != ')'; i++)
+        {
+            buff[i-1] = ptr[i];
+        }
+        buff[i-1] = '\0';
+        fprintf(stderr, "LABEL found: %s\n", buff);
+
+
+        new = malloc(16*sizeof(char));
+        sprintf(new, "%i", *line_num);
+        add_command(root, buff, new);
+        return;
+
+    }
+    else if (length > 1)
+    {
+        (*line_num)++;
+    }
+
+}
+
+void setup_labels(TABLE* root, FILE* f)
+{
+    int i, j, line_num;
+    char buff[1000], cmd[1000];
+
+    line_num = 0;
+
+    while (fgets(buff, 1000, f) != NULL)
+    {
+        i = 0;
+        j = 0;
+        while (valid_char(buff[i]))
+        {
+            if (buff[i] == ' ')
+            {
+                i++;
+                continue;
+            }
+            cmd[j] = buff[i];
+            i++;
+            j++;
+        }
+        cmd[j] = '\0';
+        fprintf(stderr, "Searching for labels in line %s...\n", cmd);
+        find_label(root, cmd, &line_num);
+    }
+
+    return;
+
 }
