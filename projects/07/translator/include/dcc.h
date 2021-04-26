@@ -1,5 +1,5 @@
 // Basic error function
-void error(char* message); 
+void error(char* message);
 
 // Translates basic commands (arithmetic and memory instructions)
-void base_translation(char* filename);
+void base_translation(FILE* f, FILE* d);

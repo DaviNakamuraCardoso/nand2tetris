@@ -8,4 +8,6 @@
 void write_line(char* cmd, FILE* f)
 {
     // Put your code here
+    fprintf(f, "%s\n", cmd);
+    return;
 }

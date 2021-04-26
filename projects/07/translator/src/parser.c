@@ -1,5 +1,5 @@
 /*
-* Parser for the Davi Compiler Collection
+*   Parser for the Davi Compiler Collection (DCC)
 */
 
 #include <stdio.h>
@@ -32,10 +32,30 @@ char* filename;
 
 
 // Parse a line from the source file to a string
-void parse_line(FILE* f, char* destination)
+void parse_line(char* buff, char** destination)
 {
     // Indexes for the buffer and file
     int i, j;
 
-    return;
+    for (i = 0, j = 0; buff[i] != '\0'; i++, j++)
+    {
+        switch (buff[i]) {
+            case '/':
+                return;
+            case ' ':
+            case 0:
+            case '\n': 
+            {
+                (*destination)[j] = '\0';
+                fprintf(stderr, "%s\n", *destination);
+                destination++;
+                i++;
+                j = 0;
+            }
+        }
+        if (buff[i] == '\0') return;
+
+        (*destination)[j] = buff[i];
+
+    }
 }
