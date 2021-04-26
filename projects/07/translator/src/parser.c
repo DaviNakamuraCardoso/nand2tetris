@@ -44,13 +44,13 @@ void parse_line(char* buff, char** destination)
                 return;
             case ' ':
             case 0:
-            case '\n': 
+            case '\n':
             {
                 (*destination)[j] = '\0';
-                fprintf(stderr, "%s\n", *destination);
                 destination++;
                 i++;
                 j = 0;
+                if (buff[i] == '\n') return;
             }
         }
         if (buff[i] == '\0') return;

@@ -50,7 +50,7 @@ int argc; char** argv;
 // Translates arithmetic operations and memory accesses from VM to Hack Assembly
 void base_translation(FILE* f, FILE* d)
 {
-    char **destination, buff[800], *cmd1, *cmd2, *cmd3, *translation;
+    char **destination, buff[800], comment[802], *cmd1, *cmd2, *cmd3, *translation;
     COMMAND p;
     TREE* root;
 
@@ -66,14 +66,18 @@ void base_translation(FILE* f, FILE* d)
         cmd3 = malloc(1000*sizeof(char));
 
         cmd1[0] = '\0';
-        cmd2[1] = '\0';
-        cmd3[2] = '\0';
+        cmd2[0] = '\0';
+        cmd3[0] = '\0';
 
         destination[0] = cmd1;
         destination[1] = cmd2;
         destination[2] = cmd3;
 
         parse_line(buff, destination);
+        fprintf(stderr, "Line %s parsed\n", buff);
+
+        translation = NULL;
+
         if ((*cmd2) != '\0') {
 
             p = (cmd1[1] == 'u')? PUSH : POP;
@@ -84,11 +88,17 @@ void base_translation(FILE* f, FILE* d)
             fprintf(stderr, "p is %i\n", p);
 
             translation = search_command(root, cmd2, atoi(cmd3), p);
-            fprintf(stderr, "%s\n", translation);
-            write_line(translation, d);
 
         }
+        else if ((*cmd1) != '\0'){
+            translation = arithmetic_manager(cmd1);
+        }
 
+        fprintf(d, "// %s\n", buff);
+
+        fprintf(stderr, "%s\n", translation);
+
+        if (translation != NULL) write_line(translation, d);
 
         free(cmd1);
         free(cmd2);
@@ -96,6 +106,13 @@ void base_translation(FILE* f, FILE* d)
 
     }
 
+    // Safe EOF
+    /*
+    (END)
+    @END
+    0;JMP
+    **/
+    fprintf(d, "(END)\n@END\n0;JMP\n");
     return;
 
 
