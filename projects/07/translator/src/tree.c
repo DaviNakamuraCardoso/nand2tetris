@@ -93,7 +93,6 @@ char* search_command(TREE* root, char* mem, int val, COMMAND cmd)
         case PUSH:
         {
             if (current->push == NULL) return NULL;
-            fprintf(stderr, "About to return push function\n"); 
             return current->push(mem, val);
         }
     }
