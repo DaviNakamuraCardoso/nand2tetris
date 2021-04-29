@@ -9,8 +9,8 @@ $(L)tree.o: $(S)tree.c
 	gcc -I$(I) -c $(S)tree.c -o $(L)tree.o
 
 # Function module
-$(L)function.o:
-	gcc -I$(I) -c $(S)function.c -o $(L)function.o
+$(L)functioncmds.o:
+	gcc -I$(I) -c $(S)functioncmds.c -o $(L)functioncmds.o
 
 # Commands module
 $(L)commands.o: $(S)commands.c
@@ -29,5 +29,5 @@ $(L)dcc.o: $(S)dcc.c
 	gcc -I$(I) -c $(S)dcc.c -o $(L)dcc.o
 
 # Executable
-dcc: $(L)tree.o $(L)function.o $(L)commands.o $(L)writer.o $(L)parser.o $(L)dcc.o
-	gcc $(L)tree.o $(L)function.o $(L)commands.o $(L)writer.o $(L)parser.o $(L)dcc.o -o dcc
+dcc: $(L)tree.o $(L)functioncmds.o $(L)commands.o $(L)writer.o $(L)parser.o $(L)dcc.o
+	gcc $(L)tree.o $(L)functioncmds.o $(L)commands.o $(L)writer.o $(L)parser.o $(L)dcc.o -o dcc

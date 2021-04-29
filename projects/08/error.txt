@@ -1,0 +1,757 @@
+Scanning // This file is part of www.nand2tetris.org
+...
+Line // This file is part of www.nand2tetris.org
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // and the book "The Elements of Computing Systems"
+...
+Line // and the book "The Elements of Computing Systems"
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // by Nisan and Schocken, MIT Press.
+...
+Line // by Nisan and Schocken, MIT Press.
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // File name: projects/08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm
+...
+Line // File name: projects/08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning // Puts the first argument[0] elements of the Fibonacci series
+...
+Line // Puts the first argument[0] elements of the Fibonacci series
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // in the memory, starting in the address given in argument[1].
+...
+Line // in the memory, starting in the address given in argument[1].
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // Argument[0] and argument[1] are initialized by the test script 
+...
+Line // Argument[0] and argument[1] are initialized by the test script 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning // before this code starts running.
+...
+Line // before this code starts running.
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 0
+(null)
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push argument 1
+...
+Line push argument 1
+ parsed
+CMD1 is push
+CMD2 is argument
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@1
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning pop pointer 1           // that = argument[1]
+...
+Line pop pointer 1           // that = argument[1]
+ parsed
+CMD1 is pop
+CMD2 is pointer
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 1
+@SP
+M=M-1
+A=M
+D=M
+@THAT
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push constant 0
+...
+Line push constant 0
+ parsed
+CMD1 is push
+CMD2 is constant
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning pop that 0              // first element in the series = 0
+...
+Line pop that 0              // first element in the series = 0
+ parsed
+CMD1 is pop
+CMD2 is that
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 1
+@0
+D=A
+@THAT
+D=M+D
+@temp
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@temp
+A=M
+M=D
+
+Scanning push constant 1
+...
+Line push constant 1
+ parsed
+CMD1 is push
+CMD2 is constant
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning pop that 1              // second element in the series = 1
+...
+Line pop that 1              // second element in the series = 1
+ parsed
+CMD1 is pop
+CMD2 is that
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 1
+@1
+D=A
+@THAT
+D=M+D
+@temp
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@temp
+A=M
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push argument 0
+...
+Line push argument 0
+ parsed
+CMD1 is push
+CMD2 is argument
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning push constant 2
+...
+Line push constant 2
+ parsed
+CMD1 is push
+CMD2 is constant
+CMD3 is 2
+Args is now 3
+About to parse a function command.
+p is 0
+@2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning sub
+...
+Line sub
+ parsed
+CMD1 is sub
+CMD2 is 
+CMD3 is 
+Args is now 1
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=M-D
+@SP
+M=M+1
+
+Scanning pop argument 0          // num_of_elements -= 2 (first 2 elements are set)
+...
+Line pop argument 0          // num_of_elements -= 2 (first 2 elements are set)
+ parsed
+CMD1 is pop
+CMD2 is argument
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 1
+@0
+D=A
+@ARG
+D=M+D
+@temp
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@temp
+A=M
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning label MAIN_LOOP_START
+...
+Line label MAIN_LOOP_START
+ parsed
+CMD1 is label
+CMD2 is MAIN_LOOP_START
+CMD3 is 
+Args is now 2
+About to print a branch command.
+(MAIN_LOOP_STAR)
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push argument 0
+...
+Line push argument 0
+ parsed
+CMD1 is push
+CMD2 is argument
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning if-goto COMPUTE_ELEMENT // if num_of_elements > 0, goto COMPUTE_ELEMENT
+...
+Line if-goto COMPUTE_ELEMENT // if num_of_elements > 0, goto COMPUTE_ELEMENT
+ parsed
+CMD1 is if-goto
+CMD2 is COMPUTE_ELEMENT
+CMD3 is 
+Args is now 2
+About to print a branch command.
+@SP
+M=M-1
+A=M
+D=M
+@COMPUTE_ELEMENT
+D;JNE
+
+Scanning goto END_PROGRAM        // otherwise, goto END_PROGRAM
+...
+Line goto END_PROGRAM        // otherwise, goto END_PROGRAM
+ parsed
+CMD1 is goto
+CMD2 is END_PROGRAM
+CMD3 is  
+Args is now 3
+About to parse a function command.
+p is 1
+@END_PROGRAM$ret.0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5
+D=A
+@0
+D=D+A
+@SP
+D=M-D
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@END_PROGRAM
+0;JMP
+(END_PROGRAM$ret.0)
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning label COMPUTE_ELEMENT
+...
+Line label COMPUTE_ELEMENT
+ parsed
+CMD1 is label
+CMD2 is COMPUTE_ELEMENT
+CMD3 is 
+Args is now 2
+About to print a branch command.
+(COMPUTE_ELEMEN)
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push that 0
+...
+Line push that 0
+ parsed
+CMD1 is push
+CMD2 is that
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@0
+D=A
+@THAT
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning push that 1
+...
+Line push that 1
+ parsed
+CMD1 is push
+CMD2 is that
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@1
+D=A
+@THAT
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning add
+...
+Line add
+ parsed
+CMD1 is add
+CMD2 is 
+CMD3 is 
+Args is now 1
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=M+D
+@SP
+M=M+1
+
+Scanning pop that 2              // that[2] = that[0] + that[1]
+...
+Line pop that 2              // that[2] = that[0] + that[1]
+ parsed
+CMD1 is pop
+CMD2 is that
+CMD3 is 2
+Args is now 3
+About to parse a function command.
+p is 1
+@2
+D=A
+@THAT
+D=M+D
+@temp
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@temp
+A=M
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push pointer 1
+...
+Line push pointer 1
+ parsed
+CMD1 is push
+CMD2 is pointer
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning push constant 1
+...
+Line push constant 1
+ parsed
+CMD1 is push
+CMD2 is constant
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning add
+...
+Line add
+ parsed
+CMD1 is add
+CMD2 is 
+CMD3 is 
+Args is now 1
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=M+D
+@SP
+M=M+1
+
+Scanning pop pointer 1           // that += 1
+...
+Line pop pointer 1           // that += 1
+ parsed
+CMD1 is pop
+CMD2 is pointer
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 1
+@SP
+M=M-1
+A=M
+D=M
+@THAT
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning push argument 0
+...
+Line push argument 0
+ parsed
+CMD1 is push
+CMD2 is argument
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 0
+Starting execution of function push_command
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning push constant 1
+...
+Line push constant 1
+ parsed
+CMD1 is push
+CMD2 is constant
+CMD3 is 1
+Args is now 3
+About to parse a function command.
+p is 0
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+Scanning sub
+...
+Line sub
+ parsed
+CMD1 is sub
+CMD2 is 
+CMD3 is 
+Args is now 1
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=M-D
+@SP
+M=M+1
+
+Scanning pop argument 0          // num_of_elements--
+...
+Line pop argument 0          // num_of_elements--
+ parsed
+CMD1 is pop
+CMD2 is argument
+CMD3 is 0
+Args is now 3
+About to parse a function command.
+p is 1
+@0
+D=A
+@ARG
+D=M+D
+@temp
+M=D
+@SP
+M=M-1
+A=M
+D=M
+@temp
+A=M
+M=D
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning goto MAIN_LOOP_START
+...
+Line goto MAIN_LOOP_START
+ parsed
+CMD1 is goto
+CMD2 is MAIN_LOOP_START
+CMD3 is 
+Args is now 2
+About to print a branch command.
+@MAIN_LOOP_START
+0;JMP
+
+Scanning 
+...
+Line 
+ parsed
+CMD1 is 
+CMD2 is 
+CMD3 is 
+Args is now 1
+(null)
+Scanning label END_PROGRAM
+...
+Line label END_PROGRAM
+ parsed
+CMD1 is label
+CMD2 is END_PROGRAM
+CMD3 is 
+Args is now 2
+About to print a branch command.
+(END_PROGRA)
