@@ -6,11 +6,13 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <dcc.h>
+#include <string.h>
 #include <tree.h>
+#include <functioncmds.h>
 #include <commands.h>
 #include <parser.h>
 #include <writer.h>
+#include <dcc.h>
 
 
 int main(argc, argv)
@@ -33,6 +35,10 @@ int argc; char** argv;
     destination = parse_filename(source);
     dest = fopen(destination, "w");
 
+
+    // Basic initial commands
+
+    fprintf(dest, "\n@256\nD=A\n@SP\nM=D\n@300\nD=A\n@LCL\nM=D\n@400\nD=A\n@ARG\nM=D\n@3000\nD=A\n@THIS\nM=D\n@3010\nD=A\n@THAT\nM=D\n");
     // Perform the translation
     base_translation(src, dest);
 
@@ -50,6 +56,7 @@ int argc; char** argv;
 // Translates arithmetic operations and memory accesses from VM to Hack Assembly
 void base_translation(FILE* f, FILE* d)
 {
+    int args;
     char **destination, buff[800], comment[802], *cmd1, *cmd2, *cmd3, *translation;
     COMMAND p;
     TREE* root;
@@ -58,6 +65,9 @@ void base_translation(FILE* f, FILE* d)
     add_all_commands(root);
     destination = malloc(4*sizeof(char*));
 
+
+
+    args = 0;
     while (fgets(buff, 800, f) != NULL)
     {
         fprintf(stderr, "Scanning %s...\n", buff);
@@ -73,24 +83,37 @@ void base_translation(FILE* f, FILE* d)
         destination[1] = cmd2;
         destination[2] = cmd3;
 
-        parse_line(buff, destination);
+        args = parse_line(buff, destination);
         fprintf(stderr, "Line %s parsed\n", buff);
 
         translation = NULL;
 
-        if ((*cmd2) != '\0') {
+        fprintf(stderr, "CMD1 is %s\n", cmd1);
+        fprintf(stderr, "CMD2 is %s\n", cmd2);
+        fprintf(stderr, "CMD3 is %s\n", cmd3);
 
+        fprintf(stderr, "Args is now %i\n", args);
+
+        if (args == 3) {
+
+            fprintf(stderr, "About to parse a function command.\n");
             p = (cmd1[1] == 'u')? PUSH : POP;
 
-            fprintf(stderr, "CMD1 is %s\n", cmd1);
-            fprintf(stderr, "CMD2 is %s\n", cmd2);
-            fprintf(stderr, "CMD3 is %s\n", cmd3);
             fprintf(stderr, "p is %i\n", p);
 
-            translation = search_command(root, cmd2, atoi(cmd3), p);
+            if (*cmd1 == 'p')
+            {
+                translation = search_command(root, cmd2, atoi(cmd3), p);
+            }
+            else
+            {
+                translation = function_manager(cmd1, cmd2, cmd3);
+            }
 
-        }
-        else if ((*cmd1) != '\0'){
+        } else if (args == 2) {
+            fprintf(stderr, "About to print a branch command.\n");
+            translation = branch_manager(cmd1, cmd2);
+        } else if (args == 1){
             translation = arithmetic_manager(cmd1);
         }
 
@@ -98,7 +121,11 @@ void base_translation(FILE* f, FILE* d)
 
         fprintf(stderr, "%s\n", translation);
 
-        if (translation != NULL) write_line(translation, d);
+        if (translation != NULL) {
+            write_line(translation, d);
+            free(translation);
+        }
+
 
         free(cmd1);
         free(cmd2);

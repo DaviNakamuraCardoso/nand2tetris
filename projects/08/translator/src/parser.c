@@ -32,30 +32,37 @@ char* filename;
 
 
 // Parse a line from the source file to a string
-void parse_line(char* buff, char** destination)
+int parse_line(char* buff, char** destination)
 {
     // Indexes for the buffer and file
-    int i, j;
+    int i, j, ind;
 
+    ind = 0;
     for (i = 0, j = 0; buff[i] != '\0'; i++, j++)
     {
         switch (buff[i]) {
             case '/':
-                return;
+            {
+                (*destination)[0] = '\0';
+                return ind;
+            }
             case ' ':
-            case 0:
+            case '\t':
+            case '\r':
             case '\n':
             {
                 (*destination)[j] = '\0';
                 destination++;
                 i++;
+                ind++;
                 j = 0;
-                if (buff[i] == '\n') return;
+                if (buff[i] == '\n' || ind == 3) return ind;
             }
         }
-        if (buff[i] == '\0') return;
+        if (buff[i] == '\0') return ind;
 
         (*destination)[j] = buff[i];
 
     }
+
 }

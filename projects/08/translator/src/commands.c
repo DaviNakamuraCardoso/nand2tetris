@@ -8,7 +8,9 @@
 #include <string.h>
 #include <tree.h>
 #include <commands.h>
+#include <functioncmds.h>
 
+int cps = 0;
 
 char* get_symbol(char* memset)
 {
@@ -102,7 +104,6 @@ char* push_command(char* memset, int value)
     strcat(buff, v);
     strcat(buff, "D=A\n");
 
-
     // @Symbol
     strcat(buff, "@");
     strcat(buff, symbol);
@@ -121,7 +122,6 @@ char* push_command(char* memset, int value)
     * M=M+1
     */
     strcat(buff, "@SP\nA=M\nM=D\n@SP\nM=M+1");
-
 
     return buff;
 }
@@ -492,6 +492,9 @@ char* arithmetic_manager(char* cmd)
         case 'n':
             r = arithmetic3(cmd);
             break;
+        case 'r':
+            r = command_return();
+            break;
         default:
             r = NULL;
     }
@@ -518,6 +521,7 @@ void add_all_commands(TREE* root)
 
     // push/pop pointer (0/1)
     add_command(root, "pointer", push_pointer, pop_pointer);
+
 
     return;
 
