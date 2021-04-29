@@ -41,7 +41,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning // Puts the first argument[0] elements of the Fibonacci series
 ...
@@ -86,7 +86,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push argument 1
 ...
@@ -133,7 +133,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push constant 0
 ...
@@ -224,7 +224,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push argument 0
 ...
@@ -314,7 +314,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning label MAIN_LOOP_START
 ...
@@ -325,7 +325,7 @@ CMD2 is MAIN_LOOP_START
 CMD3 is 
 Args is now 2
 About to print a branch command.
-(MAIN_LOOP_STAR)
+(MAIN_LOOP_START)
 Scanning 
 ...
 Line 
@@ -333,7 +333,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push argument 0
 ...
@@ -378,60 +378,11 @@ Line goto END_PROGRAM        // otherwise, goto END_PROGRAM
  parsed
 CMD1 is goto
 CMD2 is END_PROGRAM
-CMD3 is  
-Args is now 3
-About to parse a function command.
-p is 1
-@END_PROGRAM$ret.0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@LCL
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@ARG
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THIS
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THAT
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@5
-D=A
-@0
-D=D+A
-@SP
-D=M-D
-@ARG
-M=D
-@SP
-D=M
-@LCL
-M=D
+CMD3 is 
+Args is now 2
+About to print a branch command.
 @END_PROGRAM
 0;JMP
-(END_PROGRAM$ret.0)
 
 Scanning 
 ...
@@ -440,7 +391,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning label COMPUTE_ELEMENT
 ...
@@ -451,7 +402,7 @@ CMD2 is COMPUTE_ELEMENT
 CMD3 is 
 Args is now 2
 About to print a branch command.
-(COMPUTE_ELEMEN)
+(COMPUTE_ELEMENT)
 Scanning 
 ...
 Line 
@@ -459,7 +410,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push that 0
 ...
@@ -553,7 +504,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push pointer 1
 ...
@@ -632,7 +583,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning push argument 0
 ...
@@ -722,7 +673,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning goto MAIN_LOOP_START
 ...
@@ -743,7 +694,7 @@ Line
 CMD1 is 
 CMD2 is 
 CMD3 is 
-Args is now 1
+Args is now 0
 (null)
 Scanning label END_PROGRAM
 ...
@@ -754,4 +705,4 @@ CMD2 is END_PROGRAM
 CMD3 is 
 Args is now 2
 About to print a branch command.
-(END_PROGRA)
+(END_PROGRAM)

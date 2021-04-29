@@ -369,7 +369,7 @@ char* command_label(char* label)
     char* buff;
 
     buff = malloc(1000*sizeof(char));
-    label[strlen(label)-1] = '\0';
+    label[strlen(label)] = '\0';
 
     strcat(buff, "(");
     strcat(buff, label);

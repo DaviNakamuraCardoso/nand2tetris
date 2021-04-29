@@ -30,24 +30,26 @@ char* filename;
     return buffer;
 }
 
-
 // Parse a line from the source file to a string
 int parse_line(char* buff, char** destination)
 {
     // Indexes for the buffer and file
-    int i, j, ind;
+    int i, j, ind, words;
 
     ind = 0;
+    words = 0;
     for (i = 0, j = 0; buff[i] != '\0'; i++, j++)
     {
         switch (buff[i]) {
             case '/':
             {
                 (*destination)[0] = '\0';
-                return ind;
+                return words;
             }
-            case ' ':
             case '\t':
+            case 0:
+            case 32:
+            case '\b':
             case '\r':
             case '\n':
             {
@@ -55,13 +57,29 @@ int parse_line(char* buff, char** destination)
                 destination++;
                 i++;
                 ind++;
+                if (j > 0) words++;
                 j = 0;
-                if (buff[i] == '\n' || ind == 3) return ind;
+                if (buff[i] == '\n' || ind == 3) return words;
             }
         }
-        if (buff[i] == '\0') return ind;
+        if (buff[i] == '\0') return words;
 
-        (*destination)[j] = buff[i];
+        if ((buff[i] >= '0' && buff[i] <= '9') || (buff[i] >= 'a' && buff[i] <= 'z')
+            || (buff[i] >= 'A' && buff[i] <= 'Z') || (buff[i] == '_' || buff[i] ==
+        '-'))
+        {
+            (*destination)[j] = buff[i];
+        }
+        else {
+            (*destination)[j] = '\0';
+            destination++;
+            i++;
+            ind++;
+            if (j > 0) words++;
+            j = 0;
+            if (buff[i] == '\n' || ind == 3) return words;
+
+        }
 
     }
 

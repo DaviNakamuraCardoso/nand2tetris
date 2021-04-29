@@ -168,7 +168,7 @@ M=D
 
 // label MAIN_LOOP_START
 
-(MAIN_LOOP_STAR)
+(MAIN_LOOP_START)
 // 
 
 // push argument 0
@@ -194,62 +194,14 @@ D;JNE
 
 // goto END_PROGRAM        // otherwise, goto END_PROGRAM
 
-@END_PROGRAM$ret.0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@LCL
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@ARG
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THIS
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THAT
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@5
-D=A
-@0
-D=D+A
-@SP
-D=M-D
-@ARG
-M=D
-@SP
-D=M
-@LCL
-M=D
 @END_PROGRAM
 0;JMP
-(END_PROGRAM$ret.0)
 
 // 
 
 // label COMPUTE_ELEMENT
 
-(COMPUTE_ELEMEN)
+(COMPUTE_ELEMENT)
 // 
 
 // push that 0
@@ -410,7 +362,7 @@ M=D
 
 // label END_PROGRAM
 
-(END_PROGRA)
+(END_PROGRAM)
 (END)
 @END
 0;JMP

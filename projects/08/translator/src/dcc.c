@@ -57,7 +57,7 @@ int argc; char** argv;
 void base_translation(FILE* f, FILE* d)
 {
     int args;
-    char **destination, buff[800], comment[802], *cmd1, *cmd2, *cmd3, *translation;
+    char **destination, *buff, comment[802], *cmd1, *cmd2, *cmd3, *translation;
     COMMAND p;
     TREE* root;
 
@@ -65,6 +65,7 @@ void base_translation(FILE* f, FILE* d)
     add_all_commands(root);
     destination = malloc(4*sizeof(char*));
 
+    buff = malloc(800*sizeof(char));
 
 
     args = 0;
@@ -130,6 +131,9 @@ void base_translation(FILE* f, FILE* d)
         free(cmd1);
         free(cmd2);
         free(cmd3);
+        free(buff);
+
+        buff = malloc(800*sizeof(char));
 
     }
 
