@@ -4,9 +4,13 @@
     Usage:
         $./dcc <filename.vm>
 */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <tree.h>
 #include <functioncmds.h>
 #include <commands.h>
@@ -18,8 +22,10 @@
 int main(argc, argv)
 int argc; char** argv;
 {
-    char *destination, *source;
+    char *destination, *source, *full_path;
+    struct dirent* de;
     FILE *src, *dest;
+    DIR *dir;
 
     // Checks for usage errors
     if (argc != 2) {
@@ -28,6 +34,47 @@ int argc; char** argv;
 
     // Opens up the files
     source = argv[1];
+
+    if (is_dir(source))
+    {
+        fprintf(stderr, "Printing directory\n");
+        dir = opendir(source);
+        destination = parse_dirname(source);
+
+        fprintf(stderr, "Dirname is %s\n", destination);
+
+        if (dir == NULL) error("Could not open given directory");
+
+        dest = fopen(destination, "w");
+
+        // Initial definitions
+        dir_defs(dest);
+        bootcode(dest);
+
+        fprintf(stderr, "About to loop.\n");
+
+        while ((de = readdir(dir)) != NULL)
+        {
+            full_path = malloc(1000*sizeof(char));
+            fprintf(stderr, "%s\n", de->d_name);
+            if (is_vm(de->d_name))
+            {
+                sprintf(full_path, "%s/%s", source, de->d_name);
+                src = fopen(full_path, "r");
+                base_translation(src, dest);
+                STATIC++;
+                fclose(src);
+            }
+            free(full_path);
+        }
+
+        closedir(dir);
+        fclose(dest);
+        free(destination);
+
+        return 0;
+    }
+
     src = fopen(source, "r");
     if (src == NULL) error("Source file does not exist");
 
@@ -36,9 +83,6 @@ int argc; char** argv;
     dest = fopen(destination, "w");
 
 
-    // Basic initial commands
-
-    fprintf(dest, "\n@256\nD=A\n@SP\nM=D\n@300\nD=A\n@LCL\nM=D\n@400\nD=A\n@ARG\nM=D\n@3000\nD=A\n@THIS\nM=D\n@3010\nD=A\n@THAT\nM=D\n");
     // Perform the translation
     base_translation(src, dest);
 
@@ -111,10 +155,11 @@ void base_translation(FILE* f, FILE* d)
                 translation = function_manager(cmd1, cmd2, cmd3);
             }
 
-        } else if (args == 2) {
+        } else if (args == 2 && strlen(cmd2) > 1) {
             fprintf(stderr, "About to print a branch command.\n");
             translation = branch_manager(cmd1, cmd2);
-        } else if (args == 1){
+        } else if (args == 1 || strlen(cmd2) <= 1){
+            fprintf(stderr, "About to parse a 1 arg command\n");
             translation = arithmetic_manager(cmd1);
         }
 
@@ -137,16 +182,27 @@ void base_translation(FILE* f, FILE* d)
 
     }
 
-    // Safe EOF
-    /*
-    (END)
-    @END
-    0;JMP
-    **/
-    fprintf(d, "(END)\n@END\n0;JMP\n");
     return;
 
 
+}
+
+// Checks if a name is a dir or not
+unsigned int is_dir(const char* name)
+{
+    int i;
+    for (i = 0; name[i] != '\0'; i++)
+    {
+        if (name[i] == '.') return 0;
+    }
+
+    return 1;
+}
+
+// Checks if a given file is a Virtual Machine file or not
+unsigned int is_vm(const char* filename)
+{
+    return (strstr(filename, ".vm") != NULL);
 }
 
 // Displays error message and exits the program

@@ -131,7 +131,7 @@ char* command_call(char* function_name, int nargs)
 char* command_function(char* function_name, int locals)
 {
 
-    char* buff, *push_zeros, *nlocals;
+    char* buff, *push_zeros, *nlocals, *zeros_end;
 
     // buffer
     buff = malloc(1000*sizeof(char));
@@ -139,6 +139,9 @@ char* command_function(char* function_name, int locals)
 
     // Push zeros label
     push_zeros = malloc(100*sizeof(char));
+    zeros_end = malloc(100*sizeof(char));
+
+    sprintf(zeros_end, "END_PUSH_ZEROS.%i", zeros);
     sprintf(push_zeros, "PUSH_ZEROS.%i", zeros);
     zeros++;
 
@@ -164,10 +167,14 @@ char* command_function(char* function_name, int locals)
         M=0
         (PUSH_ZEROS)
     */
-    strcat(buff, "@tmp\nM=0\n(");
+    strcat(buff, "@R13\nM=0\nD=0\n(");
     strcat(buff, push_zeros);
     strcat(buff, ")\n");
 
+    strcat(buff, nlocals);
+    strcat(buff, "D=A-D\n@");
+    strcat(buff, zeros_end);
+    strcat(buff, "\nD;JLE\n");
 
     /*
         @SP
@@ -179,18 +186,15 @@ char* command_function(char* function_name, int locals)
         M=M+1
         D=M
     */
-    strcat(buff, "@SP\nA=M\nM=0\n@SP\nM=M+1\n@tmp\nM=M+1\nD=M\n");
+    strcat(buff, "@SP\nA=M\nM=0\n@SP\nM=M+1\n@R13\nM=M+1\nD=M\n");
 
-    /*
-        @nlocals
-        D=A-D
-        @PUSH_ZEROS
-        D;JGT
-    */
-    strcat(buff, nlocals);
-    strcat(buff, "D=A-D\n@");
+    strcat(buff, "@");
     strcat(buff, push_zeros);
-    strcat(buff, "\nD;JGT\n");
+    strcat(buff, "\n0;JMP\n");
+
+    strcat(buff, "(");
+    strcat(buff, zeros_end);
+    strcat(buff, ")\n");
 
 
     return buff;
@@ -231,7 +235,7 @@ char* command_return(void)
     strcat(buff, "@5\nD=A\n@endFrame\nD=M-D\nA=D\nD=M\n@retAddr\nM=D\n");
 
     /*
-        // ARG = pop()
+        // *ARG = pop()
         @SP
         M=M-1
         A=M
@@ -247,8 +251,10 @@ char* command_return(void)
         // SP = ARG+1
         @ARG
         D=M
+        @1
+        D=D+A
         @SP
-        M=D+1
+        M=D
     */
     strcat(buff, "@ARG\nD=M\n@SP\nM=D+1\n");
 
@@ -260,10 +266,12 @@ char* command_return(void)
         D=A
         @endFrame
         D=M-D
+        A=D
+        D=M
         @THAT
         M=D
     */
-    strcat(buff, "@1\nD=A\n@endFrame\nD=M-D\n@THAT\nM=D\n");
+    strcat(buff, "@1\nD=A\n@endFrame\nD=M-D\nA=D\nD=M\n@THAT\nM=D\n");
 
     /*
         // THIS is *(endFrame - 2)
@@ -271,10 +279,12 @@ char* command_return(void)
         D=A
         @endFrame
         D=M-D
+        A=D
+        D=M
         @THIS
         M=D
     */
-    strcat(buff, "@2\nD=A\n@endFrame\nD=M-D\n@THIS\nM=D\n");
+    strcat(buff, "@2\nD=A\n@endFrame\nD=M-D\nA=D\nD=M\n@THIS\nM=D\n");
 
     /*
         // ARG is *(endFrame - 3)
@@ -282,11 +292,13 @@ char* command_return(void)
         D=A
         @endFrame
         D=M-D
+        A=D
+        D=M
         @ARG
         M=D
     */
 
-    strcat(buff, "@3\nD=A\n@endFrame\nD=M-D\n@ARG\nM=D\n");
+    strcat(buff, "@3\nD=A\n@endFrame\nD=M-D\nA=D\nD=M\n@ARG\nM=D\n");
 
     /*
 
@@ -295,11 +307,13 @@ char* command_return(void)
         D=A
         @endFrame
         D=M-D
+        A=D
+        D=M
         @LCL
         M=D
     */
 
-    strcat(buff, "@4\nD=A\n@endFrame\nD=M-D\n@LCL\nM=D\n");
+    strcat(buff, "@4\nD=A\n@endFrame\nD=M-D\nA=D\nD=M\n@LCL\nM=D\n");
 
     /*
         @retAddr
