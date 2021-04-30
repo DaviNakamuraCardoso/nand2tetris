@@ -30,6 +30,34 @@ char* filename;
     return buffer;
 }
 
+// Parse the dirname for a given directory
+char* parse_dirname(char* dirname)
+{
+    int i, len;
+    char* ret, *filename;
+
+    len = 2 * strlen(dirname) + 1;
+    ret = malloc(len * sizeof(char));
+    ret[0] = '\0';
+
+    for (i = 0; dirname[i] != '\0'; i++)
+    {
+        if (dirname[i] == '/')
+        {
+            filename = dirname + i + 1;
+        }
+
+    }
+
+    strcat(ret, dirname);
+    strcat(ret, "/");
+    strcat(ret, filename);
+    strcat(ret, ".asm");
+
+    return ret;
+
+}
+
 // Parse a line from the source file to a string
 int parse_line(char* buff, char** destination)
 {
@@ -66,7 +94,7 @@ int parse_line(char* buff, char** destination)
 
         if ((buff[i] >= '0' && buff[i] <= '9') || (buff[i] >= 'a' && buff[i] <= 'z')
             || (buff[i] >= 'A' && buff[i] <= 'Z') || (buff[i] == '_' || buff[i] ==
-        '-'))
+        '-' || (buff[i] == '.')))
         {
             (*destination)[j] = buff[i];
         }
