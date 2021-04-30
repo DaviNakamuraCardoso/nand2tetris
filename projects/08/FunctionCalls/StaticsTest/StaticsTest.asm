@@ -123,7 +123,7 @@ M=M+1
 M=M-1
 A=M
 D=M
-@Static.0
+@Class1.vm.0
 M=D
 
 // push argument 1
@@ -144,7 +144,7 @@ M=M+1
 M=M-1
 A=M
 D=M
-@Static.1
+@Class1.vm.1
 M=D
 
 // push constant 0
@@ -246,7 +246,7 @@ D=M
 
 // push static 0
 
-@Static.0
+@Class1.vm.0
 D=M
 @SP
 A=M
@@ -255,7 +255,7 @@ M=D
 M=M+1
 // push static 1
 
-@Static.1
+@Class1.vm.1
 D=M
 @SP
 A=M
@@ -389,7 +389,7 @@ M=M+1
 M=M-1
 A=M
 D=M
-@Static.0
+@Class2.vm.0
 M=D
 
 // push argument 1
@@ -410,7 +410,7 @@ M=M+1
 M=M-1
 A=M
 D=M
-@Static.1
+@Class2.vm.1
 M=D
 
 // push constant 0
@@ -512,7 +512,7 @@ D=M
 
 // push static 0
 
-@Static.0
+@Class2.vm.0
 D=M
 @SP
 A=M
@@ -521,7 +521,7 @@ M=D
 M=M+1
 // push static 1
 
-@Static.1
+@Class2.vm.1
 D=M
 @SP
 A=M
@@ -719,59 +719,6 @@ D=M
 @5
 M=D
 
-// call Class1.get 0
-
-@Class1.get$ret.2
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@LCL
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@ARG
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THIS
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THAT
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@5
-D=A
-@0
-D=D+A
-@SP
-D=M-D
-@ARG
-M=D
-@SP
-D=M
-@LCL
-M=D
-@Class1.get
-0;JMP
-(Class1.get$ret.2)
-
 // push constant 23
 
 @23
@@ -792,7 +739,7 @@ M=D
 M=M+1
 // call Class2.set 2
 
-@Class2.set$ret.3
+@Class2.set$ret.2
 D=A
 @SP
 A=M
@@ -841,7 +788,7 @@ D=M
 M=D
 @Class2.set
 0;JMP
-(Class2.set$ret.3)
+(Class2.set$ret.2)
 
 // pop temp 0 // Dumps the return value
 
@@ -851,6 +798,59 @@ A=M
 D=M
 @5
 M=D
+
+// call Class1.get 0
+
+@Class1.get$ret.3
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5
+D=A
+@0
+D=D+A
+@SP
+D=M-D
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@Class1.get
+0;JMP
+(Class1.get$ret.3)
 
 // call Class2.get 0
 

@@ -2,7 +2,7 @@
 void error(char* message);
 
 // Translates basic commands (arithmetic and memory instructions)
-void base_translation(FILE* f, FILE* d);
+void base_translation(FILE* f, FILE* d, char* filename);
 
 // Checks if a given name is a directory or not
 unsigned int is_dir(const char* name);

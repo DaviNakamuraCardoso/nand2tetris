@@ -95,6 +95,7 @@ M=D
 (Main.fibonacci)
 @R13
 M=0
+D=0
 (PUSH_ZEROS.0)
 @0
 D=A-D
@@ -525,6 +526,7 @@ A=M
 (Sys.init)
 @R13
 M=0
+D=0
 (PUSH_ZEROS.1)
 @0
 D=A-D

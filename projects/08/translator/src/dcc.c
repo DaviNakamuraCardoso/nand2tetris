@@ -61,8 +61,7 @@ int argc; char** argv;
             {
                 sprintf(full_path, "%s/%s", source, de->d_name);
                 src = fopen(full_path, "r");
-                base_translation(src, dest);
-                STATIC++;
+                base_translation(src, dest, de->d_name);
                 fclose(src);
             }
             free(full_path);
@@ -84,7 +83,7 @@ int argc; char** argv;
 
 
     // Perform the translation
-    base_translation(src, dest);
+    base_translation(src, dest, destination);
 
 
     // Close all files
@@ -98,7 +97,7 @@ int argc; char** argv;
 }
 
 // Translates arithmetic operations and memory accesses from VM to Hack Assembly
-void base_translation(FILE* f, FILE* d)
+void base_translation(FILE* f, FILE* d, char* filename)
 {
     int args;
     char **destination, *buff, comment[802], *cmd1, *cmd2, *cmd3, *translation;
@@ -148,7 +147,11 @@ void base_translation(FILE* f, FILE* d)
 
             if (*cmd1 == 'p')
             {
-                translation = search_command(root, cmd2, atoi(cmd3), p);
+                if (strstr(cmd2, "static") != NULL) {
+                    translation = static_man(cmd1, atoi(cmd3), filename);
+                } else {
+                    translation = search_command(root, cmd2, atoi(cmd3), p);
+                }
             }
             else
             {

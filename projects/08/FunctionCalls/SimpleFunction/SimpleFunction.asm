@@ -15,21 +15,25 @@
 // function SimpleFunction.test 2
 
 (SimpleFunction.test)
-@tmp
+@R13
 M=0
+D=0
 (PUSH_ZEROS.0)
+@2
+D=A-D
+@END_PUSH_ZEROS.0
+D;JLE
 @SP
 A=M
 M=0
 @SP
 M=M+1
-@tmp
+@R13
 M=M+1
 D=M
-@2
-D=A-D
 @PUSH_ZEROS.0
-D;JGT
+0;JMP
+(END_PUSH_ZEROS.0)
 
 // push local 0
 
@@ -188,6 +192,3 @@ M=D
 A=M
 0;JMP
 
-(END)
-@END
-0;JMP

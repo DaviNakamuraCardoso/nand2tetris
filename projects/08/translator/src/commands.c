@@ -195,7 +195,7 @@ char* constant_push(char* memset, int value)
     return buff;
 }
 
-char* push_static(char* memset, int value, int statics)
+char* push_static(char* name, int value)
 {
     char *v, *buff;
 
@@ -204,10 +204,10 @@ char* push_static(char* memset, int value, int statics)
 
     buff[0] = '\0';
 
-    sprintf(v, "@Static.%i_%i\n", statics, value);
+    sprintf(v, "@%s.%i\n", name, value);
 
     /*
-    @Static.value
+    @Name.value
     D=M
     */
     strcat(buff, v);
@@ -225,14 +225,14 @@ char* push_static(char* memset, int value, int statics)
 
 }
 
-char* pop_static(char* memset, int val, int statics)
+char* pop_static(char* name, int value)
 {
     char *v, *buff;
 
     v = malloc(7*sizeof(char));
     buff = malloc(1000*sizeof(char));
 
-    sprintf(v, "@Static.%i_%i\n", statics, val);
+    sprintf(v, "@%s.%i\n", name, value);
 
     /*
     * @SP
@@ -249,6 +249,17 @@ char* pop_static(char* memset, int val, int statics)
 
     return buff;
 
+}
+
+char* static_man(char* cmd1, int value, char* name)
+{
+    if (cmd1[1] == 'u')
+    {
+        return (push_static(name, value));
+
+    }
+
+    return (pop_static(name, value)); 
 }
 
 char* push_temp(char* memset, int value)
