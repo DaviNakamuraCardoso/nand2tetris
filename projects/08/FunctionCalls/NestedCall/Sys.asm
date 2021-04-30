@@ -1,75 +1,3 @@
-
-@256
-D=A
-@SP
-M=D
-@300
-D=A
-@LCL
-M=D
-@400
-D=A
-@ARG
-M=D
-@3000
-D=A
-@THIS
-M=D
-@3010
-D=A
-@THAT
-M=D
-@Sys.init$ret.0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@LCL
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@ARG
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THIS
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@THAT
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-@5
-D=A
-@0
-D=D+A
-@SP
-D=M-D
-@ARG
-M=D
-@SP
-D=M
-@LCL
-M=D
-@Sys.init
-0;JMP
-(Sys.init$ret.0)
-
 // // Sys.vm for NestedCall test.
 
 // 
@@ -87,25 +15,21 @@ M=D
 // function Sys.init 0
 
 (Sys.init)
-@R13
+@tmp
 M=0
-D=0
 (PUSH_ZEROS.0)
-@0
-D=A-D
-@END_PUSH_ZEROS.0
-D;JLE
 @SP
 A=M
 M=0
 @SP
 M=M+1
-@R13
+@tmp
 M=M+1
 D=M
+@0
+D=A-D
 @PUSH_ZEROS.0
-0;JMP
-(END_PUSH_ZEROS.0)
+D;JGT
 
 // push constant 4000	// test THIS and THAT context save
 
@@ -145,7 +69,7 @@ M=D
 
 // call Sys.main 0
 
-@Sys.main$ret.1
+@Sys.main$ret.0
 D=A
 @SP
 A=M
@@ -194,7 +118,7 @@ D=M
 M=D
 @Sys.main
 0;JMP
-(Sys.main$ret.1)
+(Sys.main$ret.0)
 
 // pop temp 1
 
@@ -234,25 +158,21 @@ M=D
 // function Sys.main 5
 
 (Sys.main)
-@R13
+@tmp
 M=0
-D=0
 (PUSH_ZEROS.1)
-@5
-D=A-D
-@END_PUSH_ZEROS.1
-D;JLE
 @SP
 A=M
 M=0
 @SP
 M=M+1
-@R13
+@tmp
 M=M+1
 D=M
+@5
+D=A-D
 @PUSH_ZEROS.1
-0;JMP
-(END_PUSH_ZEROS.1)
+D;JGT
 
 // push constant 4001
 
@@ -305,13 +225,13 @@ M=M+1
 D=A
 @LCL
 D=M+D
-@R14
+@temp
 M=D
 @SP
 M=M-1
 A=M
 D=M
-@R14
+@temp
 A=M
 M=D
 
@@ -330,13 +250,13 @@ M=M+1
 D=A
 @LCL
 D=M+D
-@R14
+@temp
 M=D
 @SP
 M=M-1
 A=M
 D=M
-@R14
+@temp
 A=M
 M=D
 
@@ -355,13 +275,13 @@ M=M+1
 D=A
 @LCL
 D=M+D
-@R14
+@temp
 M=D
 @SP
 M=M-1
 A=M
 D=M
-@R14
+@temp
 A=M
 M=D
 
@@ -376,7 +296,7 @@ M=D
 M=M+1
 // call Sys.add12 1
 
-@Sys.add12$ret.2
+@Sys.add12$ret.1
 D=A
 @SP
 A=M
@@ -425,7 +345,7 @@ D=M
 M=D
 @Sys.add12
 0;JMP
-(Sys.add12$ret.2)
+(Sys.add12$ret.1)
 
 // pop temp 0
 
@@ -622,25 +542,21 @@ A=M
 // function Sys.add12 0
 
 (Sys.add12)
-@R13
+@tmp
 M=0
-D=0
 (PUSH_ZEROS.2)
-@0
-D=A-D
-@END_PUSH_ZEROS.2
-D;JLE
 @SP
 A=M
 M=0
 @SP
 M=M+1
-@R13
+@tmp
 M=M+1
 D=M
+@0
+D=A-D
 @PUSH_ZEROS.2
-0;JMP
-(END_PUSH_ZEROS.2)
+D;JGT
 
 // push constant 4002
 
@@ -773,3 +689,6 @@ M=D
 A=M
 0;JMP
 
+(END)
+@END
+0;JMP

@@ -1,0 +1,10 @@
+push constant 2
+push constant 3
+call sum 2
+label ENDOF
+goto ENDOF
+function sum 2
+push argument 0
+push argument 1
+add
+return

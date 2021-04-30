@@ -1,24 +1,3 @@
-
-@256
-D=A
-@SP
-M=D
-@300
-D=A
-@LCL
-M=D
-@400
-D=A
-@ARG
-M=D
-@3000
-D=A
-@THIS
-M=D
-@3010
-D=A
-@THAT
-M=D
 // // This file is part of www.nand2tetris.org
 
 // // and the book "The Elements of Computing Systems"
@@ -30,6 +9,8 @@ M=D
 // 
 
 // // Performs a simple calculation and returns the result.
+
+// 
 
 // function SimpleFunction.test 2
 
@@ -175,24 +156,32 @@ M=D+1
 D=A
 @endFrame
 D=M-D
+A=D
+D=M
 @THAT
 M=D
 @2
 D=A
 @endFrame
 D=M-D
+A=D
+D=M
 @THIS
 M=D
 @3
 D=A
 @endFrame
 D=M-D
+A=D
+D=M
 @ARG
 M=D
 @4
 D=A
 @endFrame
 D=M-D
+A=D
+D=M
 @LCL
 M=D
 @retAddr
