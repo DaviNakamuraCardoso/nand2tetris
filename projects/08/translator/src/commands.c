@@ -3,12 +3,14 @@
 * Commands for the Davi Compiler Collection (DCC)
 *
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tree.h>
 #include <commands.h>
 #include <functioncmds.h>
+
 
 int cps = 0;
 
@@ -148,7 +150,7 @@ char* pop_command(char* memset, int value)
     */
     strcat(buff, "@");
     strcat(buff, symbol);
-    strcat(buff, "\nD=M+D\n@temp\nM=D\n");
+    strcat(buff, "\nD=M+D\n@R14\nM=D\n");
 
     /*
     * @SP
@@ -159,7 +161,7 @@ char* pop_command(char* memset, int value)
     * A=M
     * M=D
     **/
-    strcat(buff, "@SP\nM=M-1\nA=M\nD=M\n@temp\nA=M\nM=D\n");
+    strcat(buff, "@SP\nM=M-1\nA=M\nD=M\n@R14\nA=M\nM=D\n");
 
     return buff;
 }
@@ -193,7 +195,7 @@ char* constant_push(char* memset, int value)
     return buff;
 }
 
-char* push_static(char* memset, int value)
+char* push_static(char* memset, int value, int statics)
 {
     char *v, *buff;
 
@@ -202,7 +204,7 @@ char* push_static(char* memset, int value)
 
     buff[0] = '\0';
 
-    sprintf(v, "@Static.%i\n", value);
+    sprintf(v, "@Static.%i_%i\n", statics, value);
 
     /*
     @Static.value
@@ -223,14 +225,14 @@ char* push_static(char* memset, int value)
 
 }
 
-char* pop_static(char* memset, int val)
+char* pop_static(char* memset, int val, int statics)
 {
     char *v, *buff;
 
     v = malloc(7*sizeof(char));
     buff = malloc(1000*sizeof(char));
 
-    sprintf(v, "@Static.%i\n", val);
+    sprintf(v, "@Static.%i_%i\n", statics, val);
 
     /*
     * @SP
@@ -514,7 +516,7 @@ void add_all_commands(TREE* root)
     add_command(root, "constant", constant_push, NULL);
 
     // push/pop static (add)
-    add_command(root, "static", push_static, pop_static);
+    // add_command(root, "static", push_static, pop_static);
 
     // push/pop temp (add)
     add_command(root, "temp", push_temp, pop_temp);
