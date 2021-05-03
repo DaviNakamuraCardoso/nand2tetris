@@ -1,0 +1,35 @@
+/**
+*
+*       Player class for Project 09 of the course "Nand2tetris"
+*
+*
+*
+*/
+
+
+class Player {
+    field int points;
+
+    // Defines a new player
+    constructor Player new() {
+        let points = 0;
+        return this;
+    }
+
+    // Get the number of points
+    method int getPoints() {
+        return points;
+    }
+
+    // Update the number of points
+    method void addPoints(int val) {
+        let points = points + val;
+        return;
+    }
+
+    // Print the points
+    method void print() {
+        do Output.printInt(points);
+        return;
+    }
+}

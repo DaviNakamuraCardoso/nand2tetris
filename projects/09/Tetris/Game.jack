@@ -1,0 +1,44 @@
+/**
+*
+*       Game class for Project 09 of "Nand2tetris" course
+*
+*
+*/
+
+class Game {
+    field int isPaused;
+    field Player player;
+    field Matrix matrix;
+
+    // Builds a game with a player and a matrix
+    constructor Game new(Player p, Matrix m) {
+
+        // Initial settings
+        let isPaused = 0;
+        let player = p;
+        let matrix = m;
+
+        return this;
+    }
+
+    // Set the game mode to pause
+    method void pause() {
+        let isPaused = 1;
+        return;
+    }
+
+    // Set the game mode to play
+    method void play() {
+        let isPaused = 0;
+        return;
+    }
+
+    // Prints the essential info
+    method void print() {
+        do player.print();
+        do matrix.print();
+        do Output.printString("Tetris");
+        do Output.println();
+        return;
+    }
+}
