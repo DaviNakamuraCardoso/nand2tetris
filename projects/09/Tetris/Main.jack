@@ -1,0 +1,26 @@
+/**
+*       Source code for Project 09 of the course "Nand2tetris",
+*       by Shimon Schocken and Noam Nisan;
+*
+*/
+
+// Basic Hello World
+class Main {
+    function void main() {
+
+        var Player p;
+        var Matrix m;
+        var Game g;
+
+        do Output.printString("Hello, Tetris!");
+        do Output.println();
+
+        let p = Player.new();
+        let m = Matrix.new(20, 20);
+        let g = Game.new(p, m);
+
+        do g.print();
+        
+        return;
+    }
+}
