@@ -1,0 +1,75 @@
+/**
+*
+*       Matrix class for Project 09 of Nand2tetris
+*
+*
+*/
+
+class Matrix {
+    field int width, height;
+    field Array columns;
+
+    // Builds a new matrix based on width and height
+    constructor Matrix new(int w, int h) {
+        var int i, j;
+        var Array a1;
+
+        // Basic field
+        let width = w;
+        let height = h;
+
+        let i = 0;
+        let j = 0;
+
+        let columns = Array.new(w);
+
+        // Creates a new matrix filled with zeros
+        while (i < width)
+        {
+            // Sets a new array
+            let a1 = Array.new(width);
+
+            // Fill the array with zeros
+            while (j < height)
+            {
+                let a1[j] = 0;
+                let j = j + 1;
+            }
+
+            // Set the column to the created array
+            let columns[i] = a1;
+
+            let i = i + 1;
+        }
+
+        return this;
+
+    }
+
+    // Returns the value of a given cell
+    method int getCell(int col, int row) {
+        var int ret;
+        var Array tmp;
+        // Get the
+        let tmp = columns[col];
+        let ret = tmp[row]; 
+        return ret;
+    }
+
+    // Returns 1 if the cell exists and 0 if not
+    method int isSafe(int col, int row) {
+
+        if ((col > width) | (col < 0)) { return 0; }
+        if ((row > height) | (row < 0)) { return 0; }
+
+        return 1;
+    }
+
+    method void print() {
+        do Output.printInt(width);
+        do Output.println();
+        do Output.printInt(height);
+        do Output.println();
+        return;
+    }
+}
