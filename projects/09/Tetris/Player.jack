@@ -2,8 +2,6 @@
 *
 *       Player class for Project 09 of the course "Nand2tetris"
 *
-*
-*
 */
 
 
@@ -21,9 +19,21 @@ class Player {
         return points;
     }
 
+    // Render
+    method void render() {
+        do Output.printInt(points);
+        do Output.println();
+        return;
+    }
+
     // Update the number of points
     method void addPoints(int val) {
         let points = points + val;
+        return;
+    }
+
+    // Update the player points
+    method void update() {
         return;
     }
 
@@ -32,4 +42,6 @@ class Player {
         do Output.printInt(points);
         return;
     }
+
+
 }

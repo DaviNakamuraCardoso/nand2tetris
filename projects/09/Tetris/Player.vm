@@ -11,6 +11,16 @@ push argument 0
 pop pointer 0
 push this 0
 return
+function Player.render 0
+push argument 0
+pop pointer 0
+push this 0
+call Output.printInt 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 0
+return
 function Player.addPoints 0
 push argument 0
 pop pointer 0
@@ -18,6 +28,11 @@ push this 0
 push argument 1
 add
 pop this 0
+push constant 0
+return
+function Player.update 0
+push argument 0
+pop pointer 0
 push constant 0
 return
 function Player.print 0

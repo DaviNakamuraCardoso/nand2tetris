@@ -6,7 +6,7 @@
 */
 
 class Game {
-    field int isPaused;
+    field boolean paused, over, quit;
     field Player player;
     field Matrix matrix;
 
@@ -14,31 +14,70 @@ class Game {
     constructor Game new(Player p, Matrix m) {
 
         // Initial settings
-        let isPaused = 0;
+        let paused = false;
+        let over = false;
         let player = p;
         let matrix = m;
 
         return this;
     }
 
-    // Set the game mode to pause
-    method void pause() {
-        let isPaused = 1;
+    // Accessors
+    method boolean isPaused() { return paused; }
+    method boolean isOver() { return over; }
+    method Player getPlayer() { return player; }
+    method Matrix getMatrix() { return matrix; }
+
+    // Setters
+    method void pause() { let paused = true; return; }
+    method void play() { let paused = false; return; }
+    method void end() { let over = true; return; }
+    method void start() {let over = false; return; }
+
+
+    // Main loop
+    method void updateGame() {
+        while (~over) {
+            do update();
+            do render();
+        }
+
         return;
     }
 
-    // Set the game mode to play
-    method void play() {
-        let isPaused = 0;
+    // Get keypresses
+    method void update() {
+        var char key;
+        let key = Keyboard.keyPressed();
+        do switch(key);
+        return;
+
+    }
+
+    // Render the player and the matrix
+    method void render() {
+        do player.render();
+        do matrix.render();
+        return;
+    }
+
+    // Switch on the key value
+    method void switch(char key) {
+        if (key = 81) { do end(); return; }
+        if (key = 82) { do end(); return; }
+        do updateComponents();
+        return;
+    }
+
+    // Update player and matrix;
+    method void updateComponents() {
+        do player.update();
+        do matrix.update();
         return;
     }
 
     // Prints the essential info
     method void print() {
-        do player.print();
-        do matrix.print();
-        do Output.printString("Tetris");
-        do Output.println();
         return;
     }
 }
