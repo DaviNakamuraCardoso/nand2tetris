@@ -1,0 +1,97 @@
+/**
+*       Menu class
+*/
+
+class Menu {
+    field boolean visible, new_game, quit;
+
+    // Builds a new menu object
+    constructor Menu new() {
+        // Set the fields
+        let visible = true;
+        let new_game = false;
+        let quit = false;
+
+        return this;
+    }
+
+    method void reset() {
+
+        // Set all variables to standard
+        let visible = true;
+        let new_game = false;
+        let quit = false;
+
+        return;
+    }
+
+    // Accessors
+    method boolean isVisible() { return visible; }
+    method boolean newGame() { return new_game; }
+    method boolean quitGame() { return quit; }
+
+
+    // Updates the variables based on keypresses
+    method void update(Game game) {
+        while (~quitGame()) {
+            do reset();
+            do render();
+            do updateMenu(game);
+            do game.updateGame();
+        }
+        return;
+    }
+
+    // Listen for
+    method void updateMenu(Game game) {
+        var char key;
+        while (~newGame()) {
+            let key = Keyboard.keyPressed();
+            if (key = 80) { do setNewGame(); }
+            if (key = 81) { do setQuit(); do game.end(); return; }
+        }
+
+        return;
+    }
+
+    method void setQuit() {
+        let quit = true;
+        return;
+    }
+
+    // Set a new game variable
+    method void setNewGame() {
+        let new_game = true;
+        let visible = false;
+        return;
+    }
+
+    // Renders the menu (if visible)
+    method void render() {
+
+        // If it is not visible, pass
+        if (~isVisible()) { return; }
+
+        do Menu.drawTitle();
+        do Menu.drawMessage();
+
+        return;
+    }
+
+    // Draws a title
+    function void drawTitle() {
+        // Print the string TETRIS
+        do Output.printString("TETRIS");
+        do Output.println();
+        return;
+    }
+
+    // Draws a message
+    function void drawMessage() {
+        // Print "Press p to play"
+        do Output.printString("Press 'p' to play");
+        do Output.println();
+        return;
+    }
+
+}
