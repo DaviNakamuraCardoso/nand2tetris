@@ -12,7 +12,7 @@ unsigned int is_whitespace(char* ptr)
 {
     switch (*ptr) {
         case 0:
-            return 0; 
+            return 0;
         case ' ':
         case '\t':
         {
@@ -29,7 +29,7 @@ unsigned int is_not_endofline(char* c)
 
 unsigned int is_not_endof_comment(char* c)
 {
-    return !(*(c) == '*' && (*c+1) == '/');
+    return !(*(c-1) == '*' && (*c) == '/');
 }
 
 char* cycle_text(char* text, unsigned int (*validator) (char*))
@@ -49,11 +49,24 @@ char* handle_whitespaces(char* text)
 
 char* handle_inline_comments(char* text)
 {
-    // Returns the char after the end of line character
-    return (cycle_text(text, is_not_endofline)+1);
+    char* ret;
+
+    // Gets a pointer to the first endofline
+    ret = cycle_text(text, is_not_endofline);
+
+    // Avoids empty strings
+    ret = (*ret == '\0')? ret : (ret+1);
+
+    return (ret);
 }
 
 char* handle_multiple_line_comments(char* text)
 {
-    return (cycle_text(text, is_not_endof_comment)+1);
+    char* ret;
+
+    ret = cycle_text(text, is_not_endof_comment);
+
+    ret = (*ret == '\0')? ret : (ret+1);
+
+    return (ret);
 }

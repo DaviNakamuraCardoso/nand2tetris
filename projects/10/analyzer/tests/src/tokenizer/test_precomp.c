@@ -18,7 +18,7 @@ unsigned int compare_results(char** input, char** expected,
         msg = tested_function(input[i]);
         if (strcmp(msg, expected[i]) != 0)
         {
-            printf("Could not parse whitespaces for %i.\n", i);
+            printf("Fail parsing %i.\n", i);
             printf("Input: %s\n", input[i]);
             printf("Expected: %s\n", expected[i]);
             printf("Returned: %s\n", msg);
@@ -86,21 +86,27 @@ unsigned int can_handle_inline_comments(void)
 unsigned int can_handle_multiple_line_comments(void)
 {
     unsigned int result;
-    char *msg, *new;
 
-    msg = "/** This is a JavaDoc\n*I wont fix this bad code\n*/\nclass Kotlin extends Java {";
+    char* msgs[] = {
+        "/** This is a JavaDoc */\nclass Hello {\n",
+        "/***/",
+        "typedef struct _hello {",
+        "HELLO**/create_hello(char* msg)\n",
+        "a *= b / a * c / */(a**2)\n",
+        ""
+    };
 
-    new = handle_multiple_line_comments(msg);
+    char* expected[] = {
+        "\nclass Hello {\n",
+        "",
+        "",
+        "create_hello(char* msg)\n",
+        "(a**2)\n",
+        ""
+    };
 
-    result = strcmp(new, "\nclass Kotlin extends Java {") == 0;
 
-    if (!result)
-    {
-        printf("Unexpected result: %s\n", new);
-        return 0;
-    }
-
-    return 1;
+    return compare_results(msgs, expected, 6, handle_multiple_line_comments);
 }
 
 // unsigned int doesnt_open_null_file(void)
