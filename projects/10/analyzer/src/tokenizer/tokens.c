@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <tokenizer/tokens.h>
 
 // Generates a new symbol and set existence to false
@@ -71,9 +72,15 @@ SYMBOL* set_symbol(SYMBOL* root, char* key)
 }
 
 // Adds a symbol to a root
-void add_symbol(SYMBOL* root, char* key, char* (*handler) (char*))
+void add_symbol(SYMBOL* root, char* key, ...)
 {
+    va_list ap;
     SYMBOL* s;
+    char* (*handler) (char*);
+
+    va_start(ap, key);
+
+    handler = va_arg(ap, char* (*) (char*));
 
     // Set the space of a symbol
     s = set_symbol(root, key);

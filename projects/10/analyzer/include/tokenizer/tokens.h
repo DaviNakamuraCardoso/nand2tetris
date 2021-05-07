@@ -19,7 +19,7 @@ typedef struct _symbol
 SYMBOL* create_symbol(void);
 
 // Adds a symbol to a root
-void add_symbol(SYMBOL* root, char* key, char* (*handler) (char*));
+void add_symbol(SYMBOL* root, char* key, ...);
 
 // Releases a Trie
 void release_symbol(SYMBOL** root);

@@ -80,8 +80,8 @@ unsigned int adding_strings_does_not_fail(void)
     SYMBOL* s;
     s = create_symbol();
 
-    add_symbol(s, "&", NULL);
-    add_symbol(s, "&a", NULL);
+    add_symbol(s, "&");
+    add_symbol(s, "&a");
 
     if (!s->next['&']->exists || !(s->next['&']->next['a']->exists)) {
         printf("Fail adding values in tree\n");
@@ -123,7 +123,7 @@ unsigned int search_in_tree(void)
     root = create_symbol();
     for (i = 0; i < size; i++)
     {
-        add_symbol(root, symbols[i], NULL);
+        add_symbol(root, symbols[i]);
     }
 
 
