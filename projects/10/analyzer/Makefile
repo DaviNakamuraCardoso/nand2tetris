@@ -18,6 +18,10 @@ $(O)$(T)precomp.o: $(S)$(T)precomp.c
 $(O)$(T)tokens.o: $(S)$(T)tokens.c
 	gcc -I$(I) -c $(S)$(T)tokens.c -o $(O)$(T)tokens.o
 
+# Reader
+$(O)$(T)reader.o: $(S)$(T)reader.c
+	gcc -I$(I) -c $(S)$(T)reader.c -o $(O)$(T)reader.o
+
 # Cleaner
 $(O)$(T)cleaner.o: $(S)$(T)cleaner.c
 	gcc -I$(I) -c $(S)$(T)cleaner.c -o $(O)$(T)cleaner.o

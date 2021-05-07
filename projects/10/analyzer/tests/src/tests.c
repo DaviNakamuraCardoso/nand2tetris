@@ -9,7 +9,7 @@
 #include <tests.h>
 #include <tokenizer/test_tokens.h>
 #include <tokenizer/test_precomp.h>
-#include <tokenizer/test_cleaner.h>
+#include <tokenizer/test_reader.h>
 
 #define BASE_DIR ".."
 
@@ -24,9 +24,11 @@ int main(void)
         test_compilation,
         test_tokenizer,
         test_precomp,
-        test_cleaner,
+        test_reader,
         test_memory_leaks
     };
+
+    
     test_num = 5;
 
     for (i = 0; i < test_num; i++)
