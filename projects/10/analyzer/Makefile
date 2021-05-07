@@ -1,0 +1,27 @@
+# Makefile
+
+# (L)ibraries, (S)ource, (O)bjects, (I)ncludes
+L = ./lib/
+S = ./src/
+O = ./obj/
+I = ./include/
+
+# (T)okenizer and (C)ompilation engine
+T = tokenizer/
+C = compengine/
+
+# Tokens
+$(O)$(T)tokens.o: $(S)$(T)tokens.c
+	gcc -I$(I) -c $(S)$(T)tokens.c -o $(O)$(T)tokens.o
+
+# Tokenizer library
+$(L)libtokenizer.a: $(O)$(T)tokens.o
+	ar -rcs $(L)libtokenizer.a $(O)$(T)tokens.o
+
+# Main module
+$(O)dcc.o: $(S)dcc.c
+	gcc -I$(I) -c $(S)dcc.c -o $(O)dcc.o
+
+# Executable
+dcc: $(O)dcc.o $(L)libtokenizer.a
+	gcc -I$(I) -L$(L) $(O)dcc.o -ltokenizer -o dcc
