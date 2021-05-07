@@ -35,9 +35,17 @@ $(O)$(T)test_precomp.o: $(S)$(T)test_precomp.c
 $(O)$(T)precomp_test.o: $(TS)$(T)precomp.c
 	gcc -I$(TH) -c $(TS)$(T)precomp.c -o $(O)$(T)precomp_test.o
 
+# Test the precomp
+$(O)$(T)test_cleaner.o: $(S)$(T)test_cleaner.c
+	gcc -I$(TH) -c $(S)$(T)test_cleaner.c -o $(O)$(T)test_cleaner.o
+
+# Get the precomp module
+$(O)$(T)cleaner_test.o: $(TS)$(T)cleaner.c
+	gcc -I$(TH) -c $(TS)$(T)cleaner.c -o $(O)$(T)cleaner_test.o
+
 # Tokenizer test
-$(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o
-	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o
+$(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o
+	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

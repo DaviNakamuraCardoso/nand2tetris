@@ -9,5 +9,5 @@
 int main(void)
 {
     printf("Hello, compiler!\n");
-    return 0; 
+    return 0;
 }

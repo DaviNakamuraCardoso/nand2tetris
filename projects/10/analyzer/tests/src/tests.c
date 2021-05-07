@@ -9,6 +9,7 @@
 #include <tests.h>
 #include <tokenizer/test_tokens.h>
 #include <tokenizer/test_precomp.h>
+#include <tokenizer/test_cleaner.h>
 
 #define BASE_DIR ".."
 
@@ -22,9 +23,11 @@ int main(void)
     unsigned int (*test_functions[]) (void) = {
         test_compilation,
         test_tokenizer,
-        test_precomp
+        test_precomp,
+        test_cleaner,
+        test_memory_leaks
     };
-    test_num = 3;
+    test_num = 5;
 
     for (i = 0; i < test_num; i++)
     {
@@ -49,6 +52,19 @@ unsigned int test_compilation(void)
     program_name = "dcc";
 
     sprintf(buff, "cd .. && make \"%s\"", program_name);
+
+    status = system(buff);
+
+    return (status == 0);
+}
+
+unsigned int test_memory_leaks(void)
+{
+    int status;
+    char buff[200], *program_name;
+    program_name = "./dcc";
+
+    sprintf(buff, "cd .. && valgrind \"%s\"", program_name);
 
     status = system(buff);
 

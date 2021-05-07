@@ -10,9 +10,17 @@ I = ./include/
 T = tokenizer/
 C = compengine/
 
+# Precompilation functions
+$(O)$(T)precomp.o: $(S)$(T)precomp.c
+	gcc -I$(I) -c $(S)$(T)precomp.c -o $(O)$(T)precomp.o
+
 # Tokens
 $(O)$(T)tokens.o: $(S)$(T)tokens.c
 	gcc -I$(I) -c $(S)$(T)tokens.c -o $(O)$(T)tokens.o
+
+# Cleaner
+$(O)$(T)cleaner.o: $(S)$(T)cleaner.c
+	gcc -I$(I) -c $(S)$(T)cleaner.c -o $(O)$(T)cleaner.o
 
 # Tokenizer library
 $(L)libtokenizer.a: $(O)$(T)tokens.o
