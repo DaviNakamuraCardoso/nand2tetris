@@ -92,7 +92,7 @@ void add_symbol(SYMBOL* root, char* key, ...)
     return;
 }
 
-SYMBOL* get_symbol(SYMBOL* root, char* symbol)
+SYMBOL* get_symbol(SYMBOL* root, char* s)
 {
 
     int i, a;
@@ -101,9 +101,9 @@ SYMBOL* get_symbol(SYMBOL* root, char* symbol)
     current = root;
 
     // Adds a symbol to each character in the string
-    for (i = 0; symbol[i] != '\0'; i++)
+    for (i = 0; s[i] != '\0'; i++)
     {
-        a = (int) symbol[i];
+        a = (int) s[i];
 
         // If a next node with the letter does not exist, create one
         if (current == NULL)
@@ -123,11 +123,12 @@ unsigned int search_symbol(SYMBOL* root, char* symbol)
 
     s = get_symbol(root, symbol);
 
-    if (s != NULL)
-        return (s->exists);
+    if (s == NULL)
+    {
+        return 0;
+    }
 
-    return 0;
-
+    return (s->exists);
 }
 
 char* handle_symbol(SYMBOL* root, char* symbol, char* input)

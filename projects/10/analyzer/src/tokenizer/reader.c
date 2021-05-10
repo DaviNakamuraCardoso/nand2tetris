@@ -46,10 +46,11 @@ char* get_file(char* filename)
     f = openfile(filename);
     size = file_size(filename);
 
-    buff = malloc(size* sizeof(char));
+    buff = malloc((size+1)* sizeof(char));
 
     read(fileno(f), buff, size);
 
+    buff[size] = '\0';
     fclose(f);
 
     return buff;
