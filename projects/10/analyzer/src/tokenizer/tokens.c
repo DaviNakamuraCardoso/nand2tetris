@@ -76,11 +76,11 @@ void add_symbol(SYMBOL* root, char* key, ...)
 {
     va_list ap;
     SYMBOL* s;
-    char* (*handler) (char*);
+    char** (*handler) (char*, char*);
 
     va_start(ap, key);
 
-    handler = va_arg(ap, char* (*) (char*));
+    handler = va_arg(ap, char** (*) (char*, char*));
 
     // Set the space of a symbol
     s = set_symbol(root, key);
@@ -131,14 +131,18 @@ unsigned int search_symbol(SYMBOL* root, char* symbol)
     return (s->exists);
 }
 
-char* handle_symbol(SYMBOL* root, char* symbol, char* input)
+char** handle_symbol(SYMBOL* root, char* symbol, char* text, char* buff)
 {
     SYMBOL* s;
+
+    s = get_symbol(root, symbol);
 
     if (s != NULL)
     {
         if (s->handler != NULL)
-            return s->handler(input);
+        {
+            return s->handler(text, buff);
+        }
     }
 
     return NULL;

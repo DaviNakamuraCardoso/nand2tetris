@@ -13,7 +13,7 @@
 #include <tokenizer/cleaner.h>
 
 // Adds all keywords and symbols described in a file
-void add_keywords_and_symbols(SYMBOL* root, char* filename)
+void add_keywords_and_symbols(SYMBOL* root, char* filename, char** (*handler) (char*, char*))
 {
     int i, j;
     char* content, buff[200];
@@ -27,7 +27,7 @@ void add_keywords_and_symbols(SYMBOL* root, char* filename)
             buff[j] = content[i];
         }
         buff[j] = '\0';
-        add_symbol(root, buff);
+        add_symbol(root, buff, handler);
     }
     free(content);
 
@@ -101,4 +101,32 @@ char* get_number_constant(char* expression)
     ret[k] = '\0';
 
     return (ret);
+}
+
+char** symbol_handler(char* text, char* buff)
+{
+    char* r, **ret;
+    r = malloc(7 * sizeof(char));
+    r = "symbol";
+
+    ret = malloc(3*sizeof(char*));
+
+    ret[0] = text+strlen(buff);
+    ret[1] = r;
+    ret[2] = buff;
+
+    return (ret);
+}
+
+
+SYMBOL* symbol_manager(void)
+{
+    SYMBOL* s;
+
+    s = create_symbol();
+
+    add_keywords_and_symbols(s, "../syntax/symbols.csv", symbol_handler);
+
+    return s;
+
 }

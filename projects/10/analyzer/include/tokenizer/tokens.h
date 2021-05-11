@@ -10,7 +10,7 @@ typedef struct _symbol
 {
     unsigned int exists:1;
     struct _symbol* next[SYMBOL_NUM];
-    char* (*handler) (char*);
+    char** (*handler) (char*, char*);
 
 } SYMBOL;
 
@@ -26,3 +26,5 @@ void release_symbol(SYMBOL** root);
 
 // Search a symbol in root
 unsigned int search_symbol(SYMBOL* root, char* symbol);
+
+char** handle_symbol(SYMBOL* root, char* symbol, char* text, char* buff); 

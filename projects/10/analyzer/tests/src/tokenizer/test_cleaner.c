@@ -41,7 +41,7 @@ unsigned int test_keywords_from_file(void)
     root = create_symbol();
     for (i = 0; i < size; i++)
     {
-        add_keywords_and_symbols(root, filenames[i]);
+        add_keywords_and_symbols(root, filenames[i], NULL);
 
         for (j = 0; j < cmp_size; j++)
         {
@@ -109,6 +109,7 @@ unsigned int test_get_string_literals(void)
     return 1;
 }
 
+
 unsigned int test_number_literals(void)
 {
     int i, size;
@@ -134,7 +135,7 @@ unsigned int test_number_literals(void)
     {
 
         result = get_number_constant(input[i]);
-        
+
         if (result == NULL)
         {
             if (strcmp("", expected[i]) != 0) return 0;
@@ -156,6 +157,63 @@ unsigned int test_number_literals(void)
     return 1;
 }
 
+unsigned int test_symbol_manager(void)
+{
+    int i, size, cmp1, cmp2, cmp3;
+    SYMBOL* root;
+    char **result;
+
+    char* input1[] = {
+        "- 1",
+        "; let",
+        "& 9"
+    };
+
+    char* input2[] = {
+        "-",
+        ";",
+        "&"
+    };
+
+    char* ret1[] = {
+        " 1",
+        " let",
+        " 9"
+    };
+
+    size = 3;
+    root = symbol_manager();
+
+    for (i = 0; i < size; i++)
+    {
+        result = handle_symbol(root, input2[i], input1[i], input2[i]);
+
+        if (result == NULL)
+        {
+            continue;
+        }
+
+        cmp1 = strcmp(result[0], ret1[i]);
+        cmp2 = cmp1 + strcmp(result[1], "symbol");
+        cmp3 = cmp2 + strcmp(result[2], input2[i]);
+
+        if (cmp3 != 0)
+        {
+            printf("%s\n", result[0]);
+            printf("%s\n", result[1]);
+            printf("%s\n", result[2]);
+            return 0;
+
+        }
+
+        free(result);
+    }
+
+    release_symbol(root);
+
+    return 1;
+}
+
 
 unsigned int test_cleaner(void)
 {
@@ -164,10 +222,11 @@ unsigned int test_cleaner(void)
     unsigned int (*tests[]) (void) = {
         test_keywords_from_file,
         test_get_string_literals,
-        test_number_literals
+        test_number_literals,
+        test_symbol_manager
     };
 
-    size = 3;
+    size = 4;
 
     for (i = 0; i < size; i++)
     {
