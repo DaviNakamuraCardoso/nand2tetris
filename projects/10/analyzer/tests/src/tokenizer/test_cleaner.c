@@ -63,7 +63,7 @@ unsigned int test_keywords_from_file(void)
 unsigned int test_get_string_literals(void)
 {
     int i, size;
-    char* result;
+    char** result;
 
     char* string_literals[] = {
         "my $phrase = \"Howdy, World!\";",
@@ -87,23 +87,27 @@ unsigned int test_get_string_literals(void)
 
     for (i = 0; i < size; i++)
     {
-        result = get_string_literal(string_literals[i]);
+        result = get_string_literal(string_literals[i], "\"");
 
-        if (result == NULL)
+        if (result[2] == NULL)
         {
             if (strcmp("", expected[i]) != 0) return 0;
+            free(result);
             continue;
         }
-        if (strcmp(result, expected[i]) != 0)
+        if (strcmp(result[2], expected[i]) != 0)
         {
             printf("Error parsing string literals\nNumber: %i\n", i);
             printf("Expected: %s\n", expected[i]);
-            printf("Result: %s\n", result);
+            printf("Result: %s\n", result[2]);
             return 0;
         }
 
-        if (result != NULL) free(result);
-
+        if (result != NULL)
+        {
+            free(result[2]);
+            free(result);
+        }
     }
 
     return 1;
@@ -157,11 +161,51 @@ unsigned int test_number_literals(void)
     return 1;
 }
 
-unsigned int test_symbol_manager(void)
+unsigned int generic_keyword_test(char **input1, char **input2, char** ret1, const char* key, int size)
 {
-    int i, size, cmp1, cmp2, cmp3;
+
+    int i, cmp1, cmp2, cmp3;
     SYMBOL* root;
     char **result;
+
+    root = symbol_manager("../syntax");
+
+
+    for (i = 0; i < size; i++)
+    {
+        result = handle_symbol(root, input2[i], input1[i], input2[i]);
+
+        cmp1 = strcmp(result[0], ret1[i]);
+        cmp2 = strcmp(result[1], key);
+        cmp3 = strcmp(result[2], input2[i]);
+
+
+        if (cmp1 != 0 || cmp2 != 0 || cmp3 != 0)
+        {
+            // Print results
+            printf("%s\n", result[0]);
+            printf("%s\n", result[1]);
+            printf("%s\n", result[2]);
+
+            // Clean up
+            release_symbol(&root);
+            free(result[1]);
+            free(result);
+            return 0;
+        }
+
+        free(result[1]);
+        free(result);
+    }
+
+    release_symbol(&root);
+
+    return 1;
+}
+
+unsigned int test_symbol_manager(void)
+{
+    int size;
 
     char* input1[] = {
         "- 1",
@@ -182,35 +226,98 @@ unsigned int test_symbol_manager(void)
     };
 
     size = 3;
-    root = symbol_manager();
+
+    return generic_keyword_test(input1, input2, ret1, "symbol", size);
+}
+
+unsigned int test_keywords(void)
+{
+    int size;
+
+
+    char* input1[] = {
+        "let i =",
+        "var int i",
+        "while ()"
+    };
+
+    char* input2[] = {
+        "let",
+        "var",
+        "while"
+
+    };
+
+    char* ret1[] = {
+        " i =",
+        " int i",
+        " ()"
+    };
+
+    size = 3;
+
+    return generic_keyword_test(input1, input2, ret1, "keyword", size);
+}
+
+unsigned int test_string_manager(void)
+{
+    int size, i, ra, rb, rc;
+    SYMBOL* root;
+    char **result = NULL;
+
+    char* input1[] = {
+        "print \"Hellow, World\";",
+        "say \"Hail!\";",
+        ""
+    };
+
+    char* input2[] = {
+        "\"",
+        "\"",
+        ""
+    };
+
+    char* ret[] = {
+        ";",
+        ";",
+
+    };
+
+    char* ret2[] = {
+        "Hellow, World",
+        "Hail!",
+    };
+
+    size = 2;
+
+    root = symbol_manager("../syntax");
 
     for (i = 0; i < size; i++)
     {
         result = handle_symbol(root, input2[i], input1[i], input2[i]);
 
-        if (result == NULL)
-        {
-            continue;
-        }
+        if (result == NULL) continue;
 
-        cmp1 = strcmp(result[0], ret1[i]);
-        cmp2 = cmp1 + strcmp(result[1], "symbol");
-        cmp3 = cmp2 + strcmp(result[2], input2[i]);
+        ra = strcmp(result[0], ret[i]);
+        rb = strcmp(result[1], "StringConstant");
+        rc = strcmp(result[2], ret2[i]);
 
-        if (cmp3 != 0)
+
+        if (ra != 0 || rb != 0 || rc != 0)
         {
-            printf("%s\n", result[0]);
-            printf("%s\n", result[1]);
-            printf("%s\n", result[2]);
+            printf("Error in comparison %i\n", i);
+            printf("Result: %s\n%s\n%s\n", result[0], result[1], result[2]);
+            printf("Expected: %s\n%s\n%s\n", ret[i], "StringConstant", ret2[i]);
+            release_symbol(&root);
+            free(result);
             return 0;
-
         }
 
+        free(result[2]);
         free(result);
     }
 
-    release_symbol(root);
-
+    release_symbol(&root);
     return 1;
 }
 
@@ -223,10 +330,12 @@ unsigned int test_cleaner(void)
         test_keywords_from_file,
         test_get_string_literals,
         test_number_literals,
-        test_symbol_manager
+        test_symbol_manager,
+        test_keywords,
+        test_string_manager
     };
 
-    size = 4;
+    size = 6;
 
     for (i = 0; i < size; i++)
     {

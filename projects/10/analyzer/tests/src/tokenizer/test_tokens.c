@@ -105,7 +105,7 @@ unsigned int search_in_tree(void)
         "that",
         "&",
         "=",
-        "if",
+        "\"",
         "&&&"
     };
 
