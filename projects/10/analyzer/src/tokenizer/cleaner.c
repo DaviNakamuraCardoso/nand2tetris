@@ -75,7 +75,7 @@ char** get_string_literal(char* expression, char* b)
         ret = malloc(3*sizeof(char*));
 
         ret[0] = last+1;
-        ret[1] = "StringConstant";
+        ret[1] = strdup("StringConstant");
         ret[2] = buff;
     }
 
@@ -87,30 +87,45 @@ unsigned int is_number(char c)
     return (c >= '0' && c <= '9');
 }
 
-char* get_number_constant(char* expression)
+char** get_number_constant(char* expression, char* buffer)
 {
-    int i, j, k;
-    char *ret;
+    int i, j, k, size;
+    char *ret, **result;
+
 
     // Get the first number occurrence
     for (i = 0; !is_number(expression[i]) && expression[i] != '\0'; i++) {}
 
     // Get the last number occurrence
-    for (j = i; is_number(expression[j]); j++) { }
+    for (j = i; is_number(expression[j]) && expression[i] != '\0'; j++) { }
 
-    // Returns null if there are no numbers
-    if ((j-i) == 0) return NULL;
+    size = j-i;
 
-    ret = malloc((1+j-i) * sizeof(char));
+    result = malloc(3*sizeof(char*));
 
-    for (k = 0; k < (j-i); k++)
+    if ((size) <= 0)
+    {
+        return NULL; 
+    }
+
+    ret = malloc((1+size) * sizeof(char));
+
+    for (k = 0; k < (size); k++)
     {
         ret[k] = expression[k+i];
     }
 
     ret[k] = '\0';
 
-    return (ret);
+    endret:
+    {
+        result[0] = (expression+size);
+        result[1] = strdup("integerConstant");
+        result[2] = ret;
+    }
+
+
+    return (result);
 }
 
 
@@ -122,7 +137,7 @@ char** handle_symbol_or_keyword(char* text, char* buff, char* key)
 
     ret[0] = text+strlen(buff);
     ret[1] = strdup(key);
-    ret[2] = buff;
+    ret[2] = strdup(buff);
 
     return (ret);
 }
