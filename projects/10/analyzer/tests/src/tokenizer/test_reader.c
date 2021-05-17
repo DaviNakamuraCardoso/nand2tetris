@@ -87,6 +87,7 @@ unsigned int test_reader(void)
 
     size = 2;
 
+    printf("Running reader tests.\n"); 
     for (i = 0; i < size; i++)
     {
         if (!tests[i]())

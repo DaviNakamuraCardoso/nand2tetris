@@ -20,8 +20,8 @@ unsigned int test_write_xml(void)
     test_file = fopen("files/tokenizer/test_write_xml.xml", "w");
 
     char** results[] = {
-        get_string_literal("\"Hello, World!\"", "\""),
-        get_number_constant("3923 Hello", "3"),
+        // get_string_literal("\"Hello, World!\"", "\""),
+        // get_number_constant("3923 Hello", "3"),
 
     };
 
@@ -53,7 +53,7 @@ unsigned int test_write_xml(void)
 
 unsigned int test_file_step(void)
 {
-    
+
 
 }
 
@@ -65,8 +65,9 @@ unsigned int test_parser(void)
         test_write_xml
     };
 
-    size = 1;
+    size = 0;
 
+    printf("Running parser tests.\n");
     for (i = 0; i < size; i++)
     {
         if (!tests[i]())

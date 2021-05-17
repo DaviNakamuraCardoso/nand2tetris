@@ -24,16 +24,14 @@ int main(void)
 
     unsigned int (*test_functions[]) (void) = {
         test_compilation,
-        test_tokenizer,
         test_precomp,
         test_reader,
         test_memory_leaks,
-        test_cleaner,
         test_parser
     };
 
 
-    test_num = 7;
+    test_num = 5;
 
     for (i = 0; i < test_num; i++)
     {

@@ -9,6 +9,7 @@ I = ./include/
 # (T)okenizer and (C)ompilation engine
 T = tokenizer/
 C = compengine/
+U = utils/
 
 # Precompilation functions
 $(O)$(T)precomp.o: $(S)$(T)precomp.c
@@ -30,10 +31,18 @@ $(O)$(T)cleaner.o: $(S)$(T)cleaner.c
 $(L)libtokenizer.a: $(O)$(T)tokens.o
 	ar -rcs $(L)libtokenizer.a $(O)$(T)tokens.o
 
+# Error handler
+$(O)$(U)error.o: 
+	gcc -I$(I) -c $(S)$(U)error.c -o $(O)$(U)error.o
+
+# Utils
+$(L)libdccutils.a: $(O)$(U)error.o
+	ar -rcs $(L)libdccutils.a $(O)$(U)error.o
+
 # Main module
 $(O)dcc.o: $(S)dcc.c
 	gcc -I$(I) -c $(S)dcc.c -o $(O)dcc.o
 
 # Executable
 dcc: $(O)dcc.o $(L)libtokenizer.a
-	gcc -I$(I) -L$(L) $(O)dcc.o -ltokenizer -o dcc
+	gcc -I$(I) -L$(L) $(O)dcc.o -ltokenizer -ldccutils -o dcc
