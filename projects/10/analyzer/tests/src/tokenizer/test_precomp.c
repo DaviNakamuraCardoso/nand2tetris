@@ -73,7 +73,7 @@ unsigned int can_handle_inline_comments(void)
     char* expec[] = {
         "",
         "my a = b;",
-        "i++; // increase i by 1",
+        "\ni++; // increase i by 1",
         "bool checkIfFileIsNull(File f)\n",
         "a = a / b;\n",
         ""
@@ -91,7 +91,7 @@ unsigned int can_handle_multiple_line_comments(void)
         "/** This is a JavaDoc */\nclass Hello {\n",
         "/***/",
         "typedef struct _hello {",
-        "HELLO**/create_hello(char* msg)\n",
+        "/**HELLO**/create_hello(char* msg)\n",
         "a *= b / a * c / */(a**2)\n",
         ""
     };
@@ -99,9 +99,9 @@ unsigned int can_handle_multiple_line_comments(void)
     char* expected[] = {
         "\nclass Hello {\n",
         "",
-        "",
+        "typedef struct _hello {",
         "create_hello(char* msg)\n",
-        "(a**2)\n",
+        "a *= b / a * c / */(a**2)\n",
         ""
     };
 
@@ -109,10 +109,61 @@ unsigned int can_handle_multiple_line_comments(void)
     return compare_results(msgs, expected, 6, handle_multiple_line_comments);
 }
 
-// unsigned int doesnt_open_null_file(void)
-// {
+unsigned int can_precompile(void)
+{
+    short size, i;
+    char filename[200], *output_file, *expected;
 
-// }
+    expected = "class\nMain\n{\nfunction\nvoid\nmain()\n{\n}\n}\n";
+
+    size = 3;
+
+    for (i = 0; i < size; i++)
+    {
+        sprintf(filename, "files/tokenizer/precompile_test%i.jack", i);
+        output_file = precompile(filename);
+
+        if (strcmp(expected, output_file) != 0)
+        {
+            printf("Fail in test %i\n", i);
+            printf("Output is %s\n", output_file);
+            return 0;
+        }
+
+        free(output_file);
+    }
+
+    return 1;
+}
+
+unsigned int can_precompile_string_literals(void)
+{
+    short size, s;
+    char filename[200], *output, *expected;
+
+    expected = "class\nMain\n{\nfunction\nvoid\nmain()\n{\ndo\nOutput.printString(\n\"Hello, World\"\n);\n}\n}\n";
+
+    size = 1;
+
+    for (s = 0; s < size; s++)
+    {
+        sprintf(filename, "files/tokenizer/string_literals_test_%i.jack", s);
+        output = precompile(filename);
+
+        if (strcmp(output, expected) != 0)
+        {
+            printf("Error in test %i\n", s);
+            printf("Output is %s\n", output);
+            free(output);
+            return 0;
+        }
+
+        free(output);
+    }
+
+    return 1;
+}
+
 
 unsigned int test_precomp(void)
 {
@@ -121,11 +172,14 @@ unsigned int test_precomp(void)
     unsigned int (*tests[]) (void) = {
         can_handle_whitespaces,
         can_handle_inline_comments,
-        can_handle_multiple_line_comments
+        can_handle_multiple_line_comments,
+        can_precompile,
+        can_precompile_string_literals
     };
 
-    size = 3;
+    size = 5;
 
+    printf("Running precomp tests.\n");
     for (i = 0; i < size; i++)
     {
         if (!tests[i]()) return 0;
