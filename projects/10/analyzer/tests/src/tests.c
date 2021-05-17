@@ -11,6 +11,7 @@
 #include <tokenizer/test_precomp.h>
 #include <tokenizer/test_reader.h>
 #include <tokenizer/test_cleaner.h>
+#include <tokenizer/test_parser.h>
 
 #define BASE_DIR ".."
 
@@ -27,11 +28,12 @@ int main(void)
         test_precomp,
         test_reader,
         test_memory_leaks,
-        test_cleaner
+        test_cleaner,
+        test_parser
     };
 
 
-    test_num = 6;
+    test_num = 7;
 
     for (i = 0; i < test_num; i++)
     {

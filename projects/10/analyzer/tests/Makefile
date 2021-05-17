@@ -51,9 +51,18 @@ $(O)$(T)test_module_reader.o: $(TS)$(T)reader.c
 $(O)$(T)cleaner_test.o: $(TS)$(T)cleaner.c
 	gcc -I$(TH) -c $(TS)$(T)cleaner.c -o $(O)$(T)cleaner_test.o
 
+# Test the parser
+$(O)$(T)test_parser.o: $(S)$(T)test_parser.c
+	gcc -I$(TH) -c $(S)$(T)test_parser.c -o $(O)$(T)test_parser.o
+
+# Get the parser module
+$(O)$(T)test_module_parser.o: $(TS)$(T)parser.c
+	gcc -I$(TH) -c $(TS)$(T)parser.c -o $(O)$(T)test_module_parser.o
+
+
 # Tokenizer test
-$(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o
-	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o
+$(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o $(O)$(T)test_parser.o $(O)$(T)test_module_parser.o
+	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o $(O)$(T)test_parser.o $(O)$(T)test_module_parser.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

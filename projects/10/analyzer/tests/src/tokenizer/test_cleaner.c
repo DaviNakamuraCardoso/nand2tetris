@@ -147,7 +147,6 @@ unsigned int test_number_literals(void)
         if (result == NULL)
         {
             if (strcmp("", expected[i]) != 0) return 0;
-            printf("Result was null\n");
             continue;
         }
 
@@ -167,6 +166,7 @@ unsigned int test_number_literals(void)
         free(result);
 
     }
+
 
     return 1;
 }
@@ -222,22 +222,25 @@ unsigned int test_symbol_manager(void)
     char* input1[] = {
         "- 1",
         "; let",
-        "& 9"
+        "& 9",
+        "NO SYMBOLS"
     };
 
     char* input2[] = {
         "-",
         ";",
-        "&"
+        "&",
+        ""
     };
 
     char* ret1[] = {
         " 1",
         " let",
-        " 9"
+        " 9",
+        "NO SYMBOLS"
     };
 
-    size = 3;
+    size = 4;
 
     return generic_keyword_test(input1, input2, ret1, "symbol", size);
 }
@@ -342,7 +345,7 @@ unsigned int test_get_number_literals(void)
 
 
     char* input1[] = {
-        "12",
+        "12 is",
         "7 days",
         "40",
         "30 years old"
@@ -363,7 +366,7 @@ unsigned int test_get_number_literals(void)
     };
 
     char* expected2[] = {
-        "",
+        " is",
         " days",
         "",
         " years old"
@@ -376,6 +379,11 @@ unsigned int test_get_number_literals(void)
     for (i = 0; i < size; i++)
     {
         result = handle_symbol(root, input2[i], input1[i], input2[i]);
+
+        if (result == NULL)
+        {
+            if (strcmp(expected2[i], "") == 0) continue;
+        }
 
         ca = strcmp(result[0], expected2[i]);
         cb = strcmp(result[1], "integerConstant");
@@ -401,6 +409,11 @@ unsigned int test_get_number_literals(void)
 
     release_symbol(&root);
     return 1;
+}
+
+unsigned int test_get_defined_var(void)
+{
+
 }
 
 

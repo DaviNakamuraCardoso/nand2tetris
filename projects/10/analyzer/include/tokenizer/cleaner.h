@@ -5,4 +5,6 @@ char** get_string_literal(char* expression, char* b);
 
 char** get_number_constant(char* expression, char* buff);
 
+char** get_defined_var(char* expresion, char* buff); 
+
 SYMBOL* symbol_manager(char* base_dir);

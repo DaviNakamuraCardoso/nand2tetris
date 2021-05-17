@@ -97,16 +97,14 @@ char** get_number_constant(char* expression, char* buffer)
     for (i = 0; !is_number(expression[i]) && expression[i] != '\0'; i++) {}
 
     // Get the last number occurrence
-    for (j = i; is_number(expression[j]) && expression[i] != '\0'; j++) { }
+    for (j = i; is_number(expression[j]) && expression[i] != '\0'; j++) {}
 
     size = j-i;
 
+    if ((size) <= 0) { return NULL; }
+
     result = malloc(3*sizeof(char*));
 
-    if ((size) <= 0)
-    {
-        return NULL; 
-    }
 
     ret = malloc((1+size) * sizeof(char));
 
@@ -152,6 +150,39 @@ char** keyword_handler(char* text, char* buff)
     return (handle_symbol_or_keyword(text, buff, "keyword"));
 }
 
+void add_string_literals(SYMBOL* root)
+{
+    add_symbol(root, "\"", get_string_literal);
+    return;
+}
+
+void add_number_constants(SYMBOL* root)
+{
+    char c, buff[2];
+
+    buff[1] = '\0';
+    for (c = '0'; c <= '9'; c++)
+    {
+        buff[0] = c;
+        add_symbol(root, buff, get_number_constant);
+    }
+
+    return;
+}
+
+unsigned int is_valid_var_character(char c, int position)
+{
+    unsigned int is_number, is_letter, is_underscore;
+
+    is_number = (c >= '0' && c <= '9');
+    is_letter = (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    is_underscore = (c == '_');
+
+    // Return false if a number is the first character
+    if (position == 0 && is_number) return 0;
+
+    return (is_letter || is_number || is_underscore);
+}
 
 SYMBOL* symbol_manager(char* base_dir)
 {
@@ -166,7 +197,8 @@ SYMBOL* symbol_manager(char* base_dir)
 
     add_keywords_and_symbols(s, path_symbols, symbol_handler);
     add_keywords_and_symbols(s, path_keywords, keyword_handler);
-    add_symbol(s, "\"", get_string_literal);
+    add_string_literals(s);
+    add_number_constants(s);
 
     return s;
 }

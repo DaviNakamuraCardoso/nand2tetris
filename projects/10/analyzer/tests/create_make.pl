@@ -1,6 +1,8 @@
+#! /usr/bin/perl -w
+
 use v5.14;
 
-my $var = "reader";
+my $var = $ARGV[0] || "hello";
 
 my $make_objects = "
 # Test the $var

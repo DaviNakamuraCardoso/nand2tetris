@@ -131,11 +131,38 @@ unsigned int search_symbol(SYMBOL* root, char* symbol)
     return (s->exists);
 }
 
+SYMBOL* get_first_symbol(SYMBOL* root, char* key)
+{
+    int i, size;
+    SYMBOL* current;
+
+    size = strlen(key);
+
+    char buff[size];
+
+    strcpy(buff, key);
+
+    for (i = 1; i < size; i++)
+    {
+        // Substring
+        buff[i] = '\0';
+
+        current = get_symbol(root, buff);
+        if (current != NULL) return current;
+
+        // Restore previous state
+        buff[i] = key[i];
+
+    }
+
+    return NULL;
+}
+
 char** handle_symbol(SYMBOL* root, char* symbol, char* text, char* buff)
 {
     SYMBOL* s;
 
-    s = get_symbol(root, symbol);
+    s = get_first_symbol(root, symbol);
 
     if (s != NULL)
     {
