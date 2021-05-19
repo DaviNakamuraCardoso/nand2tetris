@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tokenizer/precomp.h>
+#include <tokenizer/reader.h>
 
 unsigned int compare_results(char** input, char** expected,
     int size, char* (*tested_function) (char*))
@@ -109,7 +110,7 @@ unsigned int can_handle_multiple_line_comments(void)
     return compare_results(msgs, expected, 6, handle_multiple_line_comments);
 }
 
-unsigned int can_precompile(void)
+unsigned int can_clean_source(void)
 {
     short size, i;
     char filename[200], *output_file, *expected;
@@ -121,7 +122,7 @@ unsigned int can_precompile(void)
     for (i = 0; i < size; i++)
     {
         sprintf(filename, "files/tokenizer/precompile_test%i.jack", i);
-        output_file = precompile(filename);
+        output_file = clean_source(get_file(filename));
 
         if (strcmp(expected, output_file) != 0)
         {
@@ -136,7 +137,7 @@ unsigned int can_precompile(void)
     return 1;
 }
 
-unsigned int can_precompile_string_literals(void)
+unsigned int can_clean_string_literals(void)
 {
     short size, s;
     char filename[200], *output, *expected;
@@ -148,7 +149,7 @@ unsigned int can_precompile_string_literals(void)
     for (s = 0; s < size; s++)
     {
         sprintf(filename, "files/tokenizer/string_literals_test_%i.jack", s);
-        output = precompile(filename);
+        output = clean_source(get_file(filename));
 
         if (strcmp(output, expected) != 0)
         {
@@ -164,6 +165,33 @@ unsigned int can_precompile_string_literals(void)
     return 1;
 }
 
+unsigned int can_precompile(void)
+{
+    unsigned short s, size;
+    char filename[200], *result, *expected;
+
+    size = 5;
+    expected = "class\nMain\n{\nfunction\nvoid\nmain\n(\n)\n{\n}\n}\n";
+    for (s = 0; s < size; s++)
+    {
+        sprintf(filename, "files/tokenizer/precompile_%i.jack", s);
+
+        result = precompile(filename);
+
+        if (strcmp(result, expected) != 0)
+        {
+            printf("Output: %s", result);
+            printf("Expected: %s\n", expected);
+            free(result);
+            return 0;
+        }
+
+        free(result);
+
+    }
+
+    return 1;
+}
 
 unsigned int test_precomp(void)
 {
@@ -173,11 +201,12 @@ unsigned int test_precomp(void)
         can_handle_whitespaces,
         can_handle_inline_comments,
         can_handle_multiple_line_comments,
-        can_precompile,
-        can_precompile_string_literals
+        can_clean_source,
+        can_clean_string_literals,
+        can_precompile
     };
 
-    size = 5;
+    size = 6;
 
     printf("Running precomp tests.\n");
     for (i = 0; i < size; i++)

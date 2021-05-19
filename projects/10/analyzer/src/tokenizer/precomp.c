@@ -7,6 +7,7 @@
 #include <string.h>
 #include <tokenizer/precomp.h>
 #include <tokenizer/reader.h>
+#include <tokenizer/cleaner.h>
 #include <utils/error.h>
 
 
@@ -141,26 +142,43 @@ char* get_code(char* current, FILE* f)
 }
 
 
-char* precompile(char* filename)
+char* clean_source(char* source)
 {
-    short s;
-    char *source, *current;
-    FILE* f;
 
-    f = fopen("tokens.out", "w");
-    source = get_file(filename);
+    char* current;
+    FILE* f;
 
     current = source;
 
+    f = fopen("tokens.out", "w");
     while (current[0] != '\0')
     {
         current = next_code(current);
         current = get_string_literals(current, f);
         current = get_code(current, f);
     }
-
     fclose(f);
 
     return get_file("tokens.out");
+
+}
+
+
+char* precompile(char* filename)
+{
+    short s;
+    char *source, *cleaned, *precompiled;
+
+    source = get_file(filename);
+
+    // Removes all comments and whitespaces
+    cleaned = clean_source(source);
+
+    // Split all tokens
+    precompiled = split_symbols(cleaned);
+
+    free(source);
+
+    return precompiled;
 
 }
