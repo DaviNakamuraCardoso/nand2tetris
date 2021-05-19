@@ -51,12 +51,6 @@ unsigned int test_write_xml(void)
     return 1;
 }
 
-unsigned int test_file_step(void)
-{
-
-
-}
-
 unsigned int test_parser(void)
 {
     int i, size;
@@ -67,7 +61,6 @@ unsigned int test_parser(void)
 
     size = 0;
 
-    printf("Running parser tests.\n");
     for (i = 0; i < size; i++)
     {
         if (!tests[i]())
@@ -76,5 +69,6 @@ unsigned int test_parser(void)
             return 0;
         }
     }
+    printf("Running parser tests.\n");
     return 1;
 }

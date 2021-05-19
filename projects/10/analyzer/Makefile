@@ -32,7 +32,7 @@ $(L)libtokenizer.a: $(O)$(T)tokens.o
 	ar -rcs $(L)libtokenizer.a $(O)$(T)tokens.o
 
 # Error handler
-$(O)$(U)error.o: 
+$(O)$(U)error.o:
 	gcc -I$(I) -c $(S)$(U)error.c -o $(O)$(U)error.o
 
 # Utils
@@ -44,5 +44,5 @@ $(O)dcc.o: $(S)dcc.c
 	gcc -I$(I) -c $(S)dcc.c -o $(O)dcc.o
 
 # Executable
-dcc: $(O)dcc.o $(L)libtokenizer.a
+dcc: $(O)dcc.o $(L)libtokenizer.a $(L)libdccutils.a
 	gcc -I$(I) -L$(L) $(O)dcc.o -ltokenizer -ldccutils -o dcc

@@ -32,3 +32,12 @@ void write_xml(char** result, FILE* xml)
 
     return;
 }
+
+char* tokenize(char* filename)
+{
+    char* precompiled;
+
+    precompiled = precompile(filename);
+
+    return precompiled;
+}

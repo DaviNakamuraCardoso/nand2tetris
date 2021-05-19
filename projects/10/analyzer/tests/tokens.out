@@ -3,11 +3,17 @@ Main
 {
 function
 void
-main()
+main
+(
+)
 {
 do
-Output.printString(
+Output
+.
+printString
+(
 "Hello, World"
-);
+)
+;
 }
 }
