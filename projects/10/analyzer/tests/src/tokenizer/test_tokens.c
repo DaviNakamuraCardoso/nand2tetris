@@ -33,7 +33,7 @@ unsigned int test_add_word(void)
 
     for (short s = 0; s < size; s++)
     {
-        add_symbol(root, inputs[s]);
+        add_symbol(root, inputs[s], 0);
         if (!search_symbol(root, inputs[s]))
         {
             release_symbol(&root);
@@ -70,7 +70,7 @@ unsigned int test_search_words_that_arent_in_tree(void)
 
     for (s = 0; s < size; s++)
     {
-        add_symbol(root, in_tree[s]);
+        add_symbol(root, in_tree[s], 0);
     }
 
     for (s = 0; s < size; s++)
@@ -87,6 +87,47 @@ unsigned int test_search_words_that_arent_in_tree(void)
     return 1;
 }
 
+unsigned int test_get_token_type(void)
+{
+    unsigned short s, size;
+
+    char* inputs[] = {
+        "goto",
+        "$",
+        "\"",
+        "9"
+    };
+
+    TOKEN_TYPE types[] = {
+        KEYWORD,
+        IMPLEMENTED_SYMBOL,
+        STRING_LITERAL,
+        NUMBER_CONSTANT
+    };
+
+    SYMBOL*  root;
+
+    root = new_symbol();
+
+    for (s = 0; s < size; s++)
+    {
+        add_symbol(root, inputs[s], types[s]);
+    }
+
+    for (s = 0; s < size; s++)
+    {
+        if (get_token_type(root, inputs[s]) != types[s])
+        {
+            printf("Error in comparison %i\n", s);
+            release_symbol(&root);
+            return 0;
+        }
+    }
+    release_symbol(&root);
+
+    return 1;
+}
+
 unsigned int test_release_token(void)
 {
     SYMBOL* symbols[] = {NULL, new_symbol(), new_symbol()};
@@ -99,6 +140,52 @@ unsigned int test_release_token(void)
     }
 
     return 1;
+}
+
+unsigned int test_add_symbols_from_file_tokens(void)
+{
+    unsigned short s, t, size;
+    char filename[200];
+    SYMBOL* root;
+
+    TOKEN_TYPE types[] = {
+        KEYWORD,
+        IMPLEMENTED_SYMBOL
+    };
+
+    char* file1[] = { "goto", "while", "switch", "unsigned", "char" };
+
+    char* file2[] = { "&", "*", ".", "<", ">"};
+
+    char* file3[] = {"\"", "'", "\"", "'", "\""};
+
+    char* file4[] = {"1", "7", "4", "9", "3"};
+
+    char** files[] = { file1, file2, file3, file4};
+
+    size = 4;
+    for (s = 0; s < size; s++)
+    {
+        root = new_symbol();
+        sprintf(filename, "files/tokenizer/token_types_%i.csv", s);
+        add_symbols_from_file(root, filename, types[s]);
+
+        for (t = 0; t < 5; t++)
+        {
+            if (get_token_type(root, files[s][t]) != types[s])
+            {
+                release_symbol(&root);
+                printf("Error adding symbols from files.\n");
+                return 0;
+            }
+        }
+
+        release_symbol(&root);
+
+    }
+
+    return 1;
+
 }
 
 unsigned int test_get_one_char(void)
@@ -121,7 +208,7 @@ unsigned int test_get_one_char(void)
 
     for (short s = 0; s < size; s++)
     {
-        add_symbol(root, symbols[s]);
+        add_symbol(root, symbols[s], 0);
         if (!search_one_char(root, characters[s]))
         {
             release_symbol(&root);
@@ -155,7 +242,7 @@ unsigned int test_add_symbols_from_file(void)
         char filename[200];
         sprintf(filename, "files/tokenizer/symbols_%i.csv", s);
 
-        add_symbols_from_file(root, filename);
+        add_symbols_from_file(root, filename, 0);
 
         for (t = 0; t < 5; t++)
         {
@@ -183,10 +270,12 @@ unsigned int test_tokens(void)
         test_add_word,
         test_search_words_that_arent_in_tree,
         test_get_one_char,
-        test_add_symbols_from_file
+        test_add_symbols_from_file,
+        test_get_token_type,
+        test_add_symbols_from_file_tokens
     };
 
-    size = 6;
+    size = 8;
 
     for (i = 0; i < size; i++)
     {

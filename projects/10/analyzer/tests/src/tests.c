@@ -28,10 +28,11 @@ int main(void)
         test_reader,
         test_memory_leaks,
         test_tokens,
-        test_cleaner
+        test_cleaner,
+        test_parser
     };
 
-    test_num = 6;
+    test_num = 7;
 
     for (i = 0; i < test_num; i++)
     {
