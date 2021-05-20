@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <tokenizer/tokens.h>
 #include <utils/error.h>
@@ -44,7 +45,7 @@ void release_symbol(SYMBOL** root)
 }
 
 
-void add_symbol(SYMBOL* root, char* key)
+void add_symbol(SYMBOL* root, char* key, TOKEN_TYPE type)
 {
     short s, ascii;
     SYMBOL* current;
@@ -63,12 +64,12 @@ void add_symbol(SYMBOL* root, char* key)
     }
 
     current->exists = 1;
+    current->type = type;
 
     return;
 }
 
-
-unsigned int search_symbol(SYMBOL* root, char* key)
+SYMBOL* get_symbol(SYMBOL* root, char* key)
 {
     short s, ascii;
     SYMBOL* current;
@@ -77,13 +78,32 @@ unsigned int search_symbol(SYMBOL* root, char* key)
     for (s = 0; key[s] != '\0'; s++)
     {
         ascii = (int) key[s];
-        if (current->next[ascii] == NULL) return 0;
+        if (current->next[ascii] == NULL) return NULL;
         current = current->next[ascii];
     }
 
-    if (current == NULL) return 0;
+    return current;
+}
 
-    return (current->exists);
+
+unsigned int search_symbol(SYMBOL* root, char* key)
+{
+    SYMBOL* s;
+
+    s = get_symbol(root, key);
+
+    if (s == NULL) return 0;
+    return (s->exists);
+}
+
+TOKEN_TYPE get_token_type(SYMBOL* root, char* key)
+{
+
+    SYMBOL* s = get_symbol(root, key);
+
+    if (s == NULL) return -1;
+    
+    return s->type;
 }
 
 
@@ -98,7 +118,7 @@ unsigned int search_one_char(SYMBOL* root, char* key)
 }
 
 
-void add_symbols_from_file(SYMBOL* root, char* filename)
+void add_symbols_from_file(SYMBOL* root, char* filename, TOKEN_TYPE type)
 {
     char* buff, *whitespace = NULL;
     size_t size, len;
@@ -116,7 +136,7 @@ void add_symbols_from_file(SYMBOL* root, char* filename)
         whitespace = strchr(buff, ' ');
         if (whitespace != NULL) *whitespace = '\0';
 
-        add_symbol(root, buff);
+        add_symbol(root, buff, type);
     }
 
     fclose(f);
