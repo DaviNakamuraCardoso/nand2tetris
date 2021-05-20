@@ -2,9 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <tokenizer/tokens.h>
+#include <ctype.h>
 #include <tokenizer/reader.h>
+#include <tokenizer/tokens.h>
 #include <tokenizer/cleaner.h>
+#include <utils/error.h>
 
 
 unsigned long long escape_string_literals(char* source, FILE* f)
@@ -46,7 +48,7 @@ char* split_symbols(char* source)
     SYMBOL* symbols;
 
     symbols = new_symbol();
-    add_symbols_from_file(symbols, "../syntax/symbols.csv");
+    add_symbols_from_file(symbols, "./syntax/symbols.csv", IMPLEMENTED_SYMBOL);
 
     f = fopen("tokens.out", "w");
     for (i = 0; source[i] != '\0'; i++)
@@ -66,4 +68,52 @@ char* split_symbols(char* source)
     fclose(f);
 
     return get_file("tokens.out");
+}
+
+unsigned int is_valid_number_constant(char* number)
+{
+    short s;
+    long int val;
+
+    for (s = 0; number[s] != '\0'; s++)
+    {
+        if (!isdigit(number[s])) return 0;
+    }
+
+    val = atoi(number);
+
+    if (val > 33000) error("Number constant above the maximum value");
+
+    return 1;
+}
+
+TOKEN_TYPE string_or_constant(char* token)
+{
+
+    if ((*token) == '"') return STRING_LITERAL;
+
+    if ((*token) >= '0' && (*token) <= '9')
+    {
+        if (is_valid_number_constant(token)) return NUMBER_CONSTANT;
+    }
+
+    return -1;
+}
+
+unsigned int is_valid_variable_char(char c)
+{
+    return (isalpha(c) || c == '_');
+}
+
+
+TOKEN_TYPE check_variable(char* token)
+{
+    unsigned int i;
+
+    for (i = 0; token[i] != '\0'; i++)
+    {
+        if (!is_valid_variable_char(token[i])) return -1;
+    }
+
+    return VARIABLE;
 }
