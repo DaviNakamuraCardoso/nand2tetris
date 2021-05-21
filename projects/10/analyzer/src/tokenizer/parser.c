@@ -26,10 +26,29 @@ void write_xml(char* tagname, char* content, FILE* xml)
     return;
 }
 
+char* get_special_symbol(char* token)
+{
+    char* equ;
+    switch (*token)
+    {
+        case '&': {
+            equ = "&amp;"; break; }
+        case '<': {
+            equ = "&lt;"; break;}
+        case '>': {
+            equ = "&gt;"; break; }
+        case '"': {
+            equ = "&quot;"; break; }
+        default: {
+            equ = token; break; }
+    }
+
+    return equ;
+}
 
 char* get_token_content(TOKEN_TYPE t, char* token)
 {
-    char* content, *close;
+    char *content, *close;
 
     switch (t)
     {
@@ -38,6 +57,10 @@ char* get_token_content(TOKEN_TYPE t, char* token)
             content = token+1;
             close = strchr(content, '"');
             *close = '\0';
+            break;
+        }
+        case IMPLEMENTED_SYMBOL: {
+            content = get_special_symbol(token);
             break;
         }
         default:
@@ -72,6 +95,8 @@ void get_tag(SYMBOL* root, char* token, FILE* f)
     tag = get_tagname(t);
 
     write_xml(tag, content, f);
+
+    free(tag);
 
     return;
 }
@@ -112,6 +137,7 @@ char* get_xml(char* source)
     }
     add_xml_endnode(xml);
 
+    release_symbol(&types_table);
     fclose(xml);
     return get_file("tokens.xml");
 }
@@ -180,9 +206,12 @@ char* get_tagname(TOKEN_TYPE type)
 
 char* tokenize(char* filename)
 {
-    char* precompiled;
+    char* precompiled, *xml;
 
     precompiled = precompile(filename);
+    xml = get_xml(precompiled);
 
-    return precompiled;
+    free(precompiled);
+
+    return xml;
 }

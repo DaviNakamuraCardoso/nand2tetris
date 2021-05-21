@@ -21,6 +21,7 @@ SYMBOL* new_symbol(void)
     }
 
     new->exists = 0;
+    new->type = -1;
 
     return new;
 }
@@ -102,7 +103,7 @@ TOKEN_TYPE get_token_type(SYMBOL* root, char* key)
     SYMBOL* s = get_symbol(root, key);
 
     if (s == NULL) return -1;
-    
+
     return s->type;
 }
 
@@ -120,7 +121,7 @@ unsigned int search_one_char(SYMBOL* root, char* key)
 
 void add_symbols_from_file(SYMBOL* root, char* filename, TOKEN_TYPE type)
 {
-    char* buff, *whitespace = NULL;
+    char *buff, *whitespace = NULL;
     size_t size, len;
     FILE* f = fopen(filename, "r");
 
@@ -137,7 +138,13 @@ void add_symbols_from_file(SYMBOL* root, char* filename, TOKEN_TYPE type)
         if (whitespace != NULL) *whitespace = '\0';
 
         add_symbol(root, buff, type);
+        free(buff);
+
+        buff = NULL;
+        len = 0;
     }
+
+    free(buff);
 
     fclose(f);
 

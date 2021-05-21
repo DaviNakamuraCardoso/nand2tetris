@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <tokenizer/tokens.h>
 #include <tokenizer/precomp.h>
 #include <tokenizer/reader.h>
 #include <tokenizer/cleaner.h>
@@ -178,6 +179,7 @@ char* precompile(char* filename)
     precompiled = split_symbols(cleaned);
 
     free(source);
+    free(cleaned);
 
     return precompiled;
 

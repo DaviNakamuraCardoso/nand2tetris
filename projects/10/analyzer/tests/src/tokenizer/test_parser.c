@@ -20,14 +20,15 @@ unsigned int test_types_table(void)
         "if",
         "&",
         "{",
-        "hi"
+        "d",
+        "i"
     };
 
     TOKEN_TYPE types[] = {
-        KEYWORD, KEYWORD, IMPLEMENTED_SYMBOL, IMPLEMENTED_SYMBOL, -1
+        KEYWORD, KEYWORD, IMPLEMENTED_SYMBOL, IMPLEMENTED_SYMBOL, -1, -1
     };
 
-    size = 5;
+    size = 6;
 
     types_table = new_types_table();
 
@@ -141,7 +142,42 @@ unsigned int test_get_xml(void)
 
     for (s = 0; s < size; s++)
     {
-        printf("%s\n", get_xml(input[s]));
+        // printf("%s\n", get_xml(input[s]));
+    }
+
+    return 1;
+}
+
+unsigned int test_tokenize(void)
+{
+    unsigned short s, size;
+    char filename[200], target[200], *result, *expected;
+
+
+    size = 1;
+    for (s = 0; s < size; s++)
+    {
+        sprintf(filename, "files/tokenizer/tokenize_%i.jack", s);
+        sprintf(target, "files/tokenizer/tokenize_%i.xml", s);
+
+        result = tokenize(filename);
+        expected = get_file(target);
+
+        if (strcmp(result, expected) != 0)
+        {
+            printf("Error in tokenize function comparison %i\n", s);
+            printf("Result: %s\n", result);
+            printf("Expected: %s\n", expected);
+            printf("Diff is %i\n", strcmp(result, expected));
+
+            free(expected);
+            free(result);
+            return 0;
+        }
+
+        free(expected);
+        free(result);
+
     }
 
     return 1;
@@ -155,10 +191,11 @@ unsigned int test_parser(void)
         test_types_table,
         test_get_type,
         test_get_tag,
-        test_get_xml
+        test_get_xml,
+        test_tokenize
     };
 
-    size = 4;
+    size = 5;
 
     for (i = 0; i < size; i++)
     {

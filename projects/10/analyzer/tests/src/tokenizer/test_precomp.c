@@ -113,7 +113,7 @@ unsigned int can_handle_multiple_line_comments(void)
 unsigned int can_clean_source(void)
 {
     short size, i;
-    char filename[200], *output_file, *expected;
+    char filename[200], *output_file, *expected, *source;
 
     expected = "class\nMain\n{\nfunction\nvoid\nmain()\n{\n}\n}\n";
 
@@ -122,7 +122,8 @@ unsigned int can_clean_source(void)
     for (i = 0; i < size; i++)
     {
         sprintf(filename, "files/tokenizer/precompile_test%i.jack", i);
-        output_file = clean_source(get_file(filename));
+        source = get_file(filename);
+        output_file = clean_source(source);
 
         if (strcmp(expected, output_file) != 0)
         {
@@ -131,6 +132,7 @@ unsigned int can_clean_source(void)
             return 0;
         }
 
+        free(source);
         free(output_file);
     }
 
@@ -140,7 +142,7 @@ unsigned int can_clean_source(void)
 unsigned int can_clean_string_literals(void)
 {
     short size, s;
-    char filename[200], *output, *expected;
+    char filename[200], *output, *expected, *source;
 
     expected = "class\nMain\n{\nfunction\nvoid\nmain()\n{\ndo\nOutput.printString(\n\"Hello, World\"\n);\n}\n}\n";
 
@@ -149,7 +151,8 @@ unsigned int can_clean_string_literals(void)
     for (s = 0; s < size; s++)
     {
         sprintf(filename, "files/tokenizer/string_literals_test_%i.jack", s);
-        output = clean_source(get_file(filename));
+        source = get_file(filename);
+        output = clean_source(source);
 
         if (strcmp(output, expected) != 0)
         {
@@ -159,6 +162,7 @@ unsigned int can_clean_string_literals(void)
             return 0;
         }
 
+        free(source); 
         free(output);
     }
 

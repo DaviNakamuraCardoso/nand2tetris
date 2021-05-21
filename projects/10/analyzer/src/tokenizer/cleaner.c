@@ -65,6 +65,7 @@ char* split_symbols(char* source)
         fputc(source[i], f);
     }
 
+    release_symbol(&symbols); 
     fclose(f);
 
     return get_file("tokens.out");
