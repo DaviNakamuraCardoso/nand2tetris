@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <tokenizer/tokens.h>
 #include <tokenizer/reader.h>
 #include <tokenizer/cleaner.h>
@@ -99,9 +100,9 @@ unsigned int test_get_tag(void)
     };
 
     char* tags[] = {
-        "StringConstant",
-        "numberConstant",
-        "variable",
+        "stringConstant",
+        "integerConstant",
+        "identifier",
         "keyword",
         "symbol"
     };
@@ -109,7 +110,7 @@ unsigned int test_get_tag(void)
     size = 5;
     for (s = 0; s < size; s++)
     {
-        result = get_tag(input[s]);
+        result = get_tagname(input[s]);
 
         if (strcmp(result, tags[s]) != 0)
         {
@@ -120,9 +121,27 @@ unsigned int test_get_tag(void)
 
             return 0;
         }
-        
+
         free(result);
 
+    }
+
+    return 1;
+}
+
+unsigned int test_get_xml(void)
+{
+    short s, size;
+
+    size = 2;
+    char* input[] = {
+        "class\nMain\n{\nfunction\nvoid\nmain\n(\n)\n{\n}\n}\n",
+        "class\nHello\n{\nfunction\nvoid\nhello\n(\n)\n{\nOutput\n.\nprintString\n(\n\"Hello!\"\n)\n}\n}\n"
+    };
+
+    for (s = 0; s < size; s++)
+    {
+        printf("%s\n", get_xml(input[s]));
     }
 
     return 1;
@@ -135,10 +154,11 @@ unsigned int test_parser(void)
     unsigned int (*tests[]) (void) = {
         test_types_table,
         test_get_type,
-        test_get_tag
+        test_get_tag,
+        test_get_xml
     };
 
-    size = 3;
+    size = 4;
 
     for (i = 0; i < size; i++)
     {
