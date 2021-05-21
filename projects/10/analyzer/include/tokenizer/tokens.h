@@ -8,7 +8,8 @@ typedef enum {
     KEYWORD,
     STRING_LITERAL,
     NUMBER_CONSTANT,
-    VARIABLE
+    VARIABLE,
+    INVALID
 
 } TOKEN_TYPE;
 

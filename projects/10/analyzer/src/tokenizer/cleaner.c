@@ -9,6 +9,7 @@
 #include <utils/error.h>
 
 
+
 unsigned long long escape_string_literals(char* source, FILE* f)
 {
     unsigned long long l = 0;
@@ -19,7 +20,7 @@ unsigned long long escape_string_literals(char* source, FILE* f)
             fputc(source[l], f);
         } while (source[++l] != '"');
 
-        fputc('"', f);
+        fputc('"', f); 
 
     }
 
@@ -65,7 +66,7 @@ char* split_symbols(char* source)
         fputc(source[i], f);
     }
 
-    release_symbol(&symbols); 
+    release_symbol(&symbols);
     fclose(f);
 
     return get_file("tokens.out");
@@ -117,4 +118,24 @@ TOKEN_TYPE check_variable(char* token)
     }
 
     return VARIABLE;
+}
+
+char* get_special_symbol(char* token)
+{
+    char* equ;
+    switch (*token)
+    {
+        case '&': {
+            equ = "&amp;"; break; }
+        case '<': {
+            equ = "&lt;"; break;}
+        case '>': {
+            equ = "&gt;"; break; }
+        case '"': {
+            equ = "&quot;"; break; }
+        default: {
+            equ = token; break; }
+    }
+
+    return equ;
 }

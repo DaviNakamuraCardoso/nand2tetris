@@ -31,6 +31,13 @@ $(O)$(T)cleaner.o: $(S)$(T)cleaner.c
 $(L)libtokenizer.a: $(O)$(T)tokens.o
 	ar -rcs $(L)libtokenizer.a $(O)$(T)tokens.o
 
+$(C)$(T)parser.o:
+	gcc -I$(I) -c $(S)$(C)parser.c -o $(O)$(C)parser.o
+
+# Compilation Engine Library
+$(L)libcompengine.a: $(O)$(C)parser.o
+	ar -rcs $(L)libcompengine.a $(O)$(C)parser.o
+
 # Error handler
 $(O)$(U)error.o:
 	gcc -I$(I) -c $(S)$(U)error.c -o $(O)$(U)error.o

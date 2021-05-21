@@ -26,25 +26,23 @@ void write_xml(char* tagname, char* content, FILE* xml)
     return;
 }
 
-char* get_special_symbol(char* token)
+char* escape_string_specials(char* literal)
 {
-    char* equ;
-    switch (*token)
+    unsigned int i;
+    char buff[10000], symbol[2];
+
+    buff[0] = '\0';
+    for (i = 0; literal[i] != '\0'; i++)
     {
-        case '&': {
-            equ = "&amp;"; break; }
-        case '<': {
-            equ = "&lt;"; break;}
-        case '>': {
-            equ = "&gt;"; break; }
-        case '"': {
-            equ = "&quot;"; break; }
-        default: {
-            equ = token; break; }
+        symbol[0] = literal[i];
+        symbol[1] = '\0';
+        strcat(buff, get_special_symbol(symbol));
     }
 
-    return equ;
+    return strdup(buff);
+
 }
+
 
 char* get_token_content(TOKEN_TYPE t, char* token)
 {
@@ -57,7 +55,7 @@ char* get_token_content(TOKEN_TYPE t, char* token)
             content = token+1;
             close = strchr(content, '"');
             *close = '\0';
-            break;
+            return escape_string_specials(content);
         }
         case IMPLEMENTED_SYMBOL: {
             content = get_special_symbol(token);
@@ -69,7 +67,7 @@ char* get_token_content(TOKEN_TYPE t, char* token)
             break;
         }
     }
-    return content;
+    return strdup(content);
 }
 
 void add_xml_startnode(FILE* xml)
@@ -97,6 +95,7 @@ void get_tag(SYMBOL* root, char* token, FILE* f)
     write_xml(tag, content, f);
 
     free(tag);
+    free(content);
 
     return;
 }
