@@ -1,1 +1,19 @@
-<keyword>class</keyword><identifier>Hello</identifier><symbol>{</symbol><keyword>function</keyword><keyword>void</keyword><identifier>hello</identifier><symbol>(</symbol><symbol>)</symbol><symbol>{</symbol><identifier>Output</identifier><symbol>.</symbol><identifier>printString</identifier><symbol>(</symbol><stringConstant>Hello!</stringConstant><symbol>)</symbol><symbol>}</symbol><symbol>}</symbol>
+<tokens>
+	<keyword>class</keyword>
+	<identifier>Hello</identifier>
+	<symbol>{</symbol>
+	<keyword>function</keyword>
+	<keyword>void</keyword>
+	<identifier>hello</identifier>
+	<symbol>(</symbol>
+	<symbol>)</symbol>
+	<symbol>{</symbol>
+	<identifier>Output</identifier>
+	<symbol>.</symbol>
+	<identifier>printString</identifier>
+	<symbol>(</symbol>
+	<stringConstant>Hello!</stringConstant>
+	<symbol>)</symbol>
+	<symbol>}</symbol>
+	<symbol>}</symbol>
+</tokens>

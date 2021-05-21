@@ -21,7 +21,7 @@ void write_xml(char* tagname, char* content, FILE* xml)
     sprintf(closetag, "</%s>", tagname);
     sprintf(final, "%s%s%s", opentag, content, closetag);
 
-    fprintf(xml, "%s", final);
+    fprintf(xml, "\t%s\n", final);
 
     return;
 }
@@ -47,6 +47,18 @@ char* get_token_content(TOKEN_TYPE t, char* token)
         }
     }
     return content;
+}
+
+void add_xml_startnode(FILE* xml)
+{
+    fprintf(xml, "<tokens>\n");
+    return;
+}
+
+void add_xml_endnode(FILE* xml)
+{
+    fprintf(xml, "</tokens>\n");
+    return;
 }
 
 
@@ -91,12 +103,15 @@ char* get_xml(char* source)
 
     FILE* xml = fopen("tokens.xml", "w");
 
+    add_xml_startnode(xml);
     while (*source != '\0')
     {
         size = get_source_line(buff, source);
         get_tag(types_table, buff, xml);
         source += size;
     }
+    add_xml_endnode(xml);
+
     fclose(xml);
     return get_file("tokens.xml");
 }
