@@ -7,41 +7,63 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tokenizer/tokens.h>
+#include <tokenizer/reader.h>
 #include <tokenizer/precomp.h>
 #include <tokenizer/cleaner.h>
-
-void release_result(char** result)
-{
-    if (result == NULL) return;
-
-    if (result[1] != NULL) free(result[1]);
-    if (result[2] != NULL) free(result[2]);
-
-    free(result);
-    return;
-}
-
+#include <tokenizer/parser.h>
 
 
 void write_xml(char* tagname, char* content, FILE* xml)
 {
-    char opentag[200], closetag[200], final[500];
+    char opentag[100], closetag[100], final[500];
 
     sprintf(opentag, "<%s>", tagname);
     sprintf(closetag, "</%s>", tagname);
     sprintf(final, "%s%s%s", opentag, content, closetag);
 
-    fprintf(xml, "%s\n", final);
+    fprintf(xml, "%s", final);
 
     return;
 }
 
-char* get_tagname(SYMBOL* root, char* token)
+
+char* get_token_content(TOKEN_TYPE t, char* token)
 {
-    TOKEN_TYPE t;
-    t = get_token_type(root, token);
-    return get_tag(t);
+    char* content, *close;
+
+    switch (t)
+    {
+        case STRING_LITERAL:
+        {
+            content = token+1;
+            close = strchr(content, '"');
+            *close = '\0';
+            break;
+        }
+        default:
+        {
+            content = token;
+            break;
+        }
+    }
+    return content;
 }
+
+
+void get_tag(SYMBOL* root, char* token, FILE* f)
+{
+    char* content, *tag;
+    TOKEN_TYPE t;
+
+    t = get_type(root, token);
+    content = get_token_content(t, token);
+    tag = get_tagname(t);
+
+    write_xml(tag, content, f);
+
+    return;
+}
+
 
 unsigned int get_source_line(char* buff, char* source)
 {
@@ -51,27 +73,34 @@ unsigned int get_source_line(char* buff, char* source)
 
     while ((*source) != '\n')
     {
-        buff[i++] = source++;
+        buff[i] = (*source);
+        i++;
+        source++;
     }
+    buff[i] = '\0';
 
-    return 1;
+    return (++i);
 }
 
-char* get_xml(char* buff)
+
+char* get_xml(char* source)
 {
+    int size;
+    char buff[10000], *tagname;
     SYMBOL* types_table = new_types_table();
-    char buff[10000] = '\0';
-    FILE* xml = fopen("tokens.xml");
 
-    while (get_source_line(buff, source))
+    FILE* xml = fopen("tokens.xml", "w");
+
+    while (*source != '\0')
     {
-        write_xml(get_tagname(types_table, buff), buff, xml);
+        size = get_source_line(buff, source);
+        get_tag(types_table, buff, xml);
+        source += size;
     }
-
     fclose(xml);
-
     return get_file("tokens.xml");
 }
+
 
 SYMBOL* new_types_table(void)
 {
@@ -85,6 +114,7 @@ SYMBOL* new_types_table(void)
     return root;
 
 }
+
 
 TOKEN_TYPE get_type(SYMBOL* types_table, char* token)
 {
@@ -108,7 +138,7 @@ TOKEN_TYPE get_type(SYMBOL* types_table, char* token)
 }
 
 
-char* get_tag(TOKEN_TYPE type)
+char* get_tagname(TOKEN_TYPE type)
 {
     char* tag;
 
@@ -119,11 +149,14 @@ char* get_tag(TOKEN_TYPE type)
         case KEYWORD: {
             tag = "keyword"; break; }
         case STRING_LITERAL: {
-            tag = "StringConstant"; break; }
+            tag = "stringConstant"; break; }
         case VARIABLE: {
-            tag = "variable"; break; }
+            tag = "identifier"; break; }
         case NUMBER_CONSTANT: {
-            tag = "numberConstant"; break; }
+            tag = "integerConstant"; break; }
+        default: {
+            tag = "invalid"; break;
+        }
     }
 
     return strdup(tag);
