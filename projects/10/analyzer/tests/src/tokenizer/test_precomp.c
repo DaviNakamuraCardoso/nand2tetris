@@ -162,7 +162,8 @@ unsigned int can_clean_string_literals(void)
             return 0;
         }
 
-        free(source); 
+        
+        free(source);
         free(output);
     }
 

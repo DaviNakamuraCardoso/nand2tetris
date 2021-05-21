@@ -154,7 +154,7 @@ unsigned int test_tokenize(void)
     char filename[200], target[200], *result, *expected;
 
 
-    size = 1;
+    size = 2;
     for (s = 0; s < size; s++)
     {
         sprintf(filename, "files/tokenizer/tokenize_%i.jack", s);

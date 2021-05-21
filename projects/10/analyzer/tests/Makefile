@@ -17,7 +17,8 @@ TS = ./../src/
 TL = ./../lib/
 TO = ./../obj/
 
-
+CH = ./../include/
+CS = ./../src/
 
 # Test the creation of tokens
 $(O)$(T)test_tokens.o: $(S)$(T)test_tokens.c
@@ -59,15 +60,27 @@ $(O)$(T)test_parser.o: $(S)$(T)test_parser.c
 $(O)$(T)test_module_parser.o: $(TS)$(T)parser.c
 	gcc -I$(TH) -c $(TS)$(T)parser.c -o $(O)$(T)test_module_parser.o
 
+# Test the parser
+$(O)$(C)test_parser.o: $(S)$(C)test_parser.c
+	gcc -I$(TH) -c $(S)$(C)test_parser.c -o $(O)$(C)test_parser.o
+
+# Get the parser module
+$(O)$(C)test_module_parser.o: $(CS)$(C)parser.c
+	gcc -I$(TH) -c $(CS)$(C)parser.c -o $(O)$(C)test_module_parser.o
 
 # Tokenizer test
 $(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o $(O)$(T)test_parser.o $(O)$(T)test_module_parser.o
 	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o $(O)$(T)test_parser.o $(O)$(T)test_module_parser.o
+
+
+$(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o
+	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o
+
 
 # Main test file
 $(O)tests.o: $(S)tests.c
 	gcc -I$(H) -c $(S)tests.c -o $(O)tests.o
 
 # Executable
-tests: $(O)tests.o $(L)libtesttokenizer.a
-	gcc -I$(TH) -L$(L) $(O)tests.o  -ltesttokenizer -o tests
+tests: $(O)tests.o $(L)libtesttokenizer.a $(L)libtestcompengine.a
+	gcc -I$(TH) -L$(L) $(O)tests.o  -ltesttokenizer -ltestcompengine -o tests
