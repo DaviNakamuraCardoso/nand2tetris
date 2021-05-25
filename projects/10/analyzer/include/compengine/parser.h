@@ -15,3 +15,5 @@ TOKEN* new_token(char* value, TOKEN_TYPE type);
 void release_token(TOKEN** tokenptr);
 
 TOKEN* parse_token(char* xml);
+
+TOKEN* get_next_token(FILE* xml); 

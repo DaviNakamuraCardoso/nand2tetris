@@ -79,6 +79,24 @@ TOKEN* parse_token(char* xml)
 
 }
 
+TOKEN* get_next_token(FILE* xml)
+{
+    char* buff = NULL;
+    size_t size, len;
+    TOKEN* token;
+
+    len = getline(&buff, &size, xml);
+
+    // Returns NULL if the EOF is reached
+    if (len == -1) return NULL;
+
+    // Get the token
+    token = parse_token(buff);
+    free(buff);
+
+    return token;
+}
+
 
 void release_token(TOKEN** tokenptr)
 {
