@@ -141,6 +141,49 @@ unsigned int test_parse_token_compengine(void)
     }
 }
 
+unsigned int test_get_next_token(void)
+{
+    unsigned short s, t, size;
+    FILE* f;
+
+    TOKEN* result;
+
+    TOKEN tokens[] = {
+        {.content="class", .type=KEYWORD},
+        {.content="Hello", .type=VARIABLE},
+        {.content="Howdy, World!", .type=STRING_LITERAL},
+        {.content="29", .type=NUMBER_CONSTANT},
+        {.content="~", .type=IMPLEMENTED_SYMBOL}
+    };
+
+    size = 5;
+
+    f = fopen("./files/compengine/get_next_token.xml", "r");
+    for (s = 0; s < size; s++)
+    {
+        result = get_next_token(f);
+
+        if (result->type != tokens[s].type)
+        {
+            printf("Wrong token type.\n");
+            return 0;
+        }
+
+        if (strcmp(result->content, tokens[s].content) != 0)
+        {
+            release_token(&result);
+            printf("Wrong token content.\n") ;
+            return 0;
+        }
+
+        release_token(&result);
+    }
+
+    fclose(f);
+
+    return 1;
+}
+
 
 unsigned int test_compparser(void)
 {
@@ -149,10 +192,11 @@ unsigned int test_compparser(void)
     unsigned int (*tests[]) (void) = {
         test_new_token,
         test_release_token_compengine,
-        test_parse_token_compengine
+        test_parse_token_compengine,
+        test_get_next_token
     };
 
-    size = 3;
+    size = 4;
 
     for (s = 0; s < size; s++)
     {

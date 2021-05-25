@@ -13,6 +13,8 @@
 #include <tokenizer/test_cleaner.h>
 #include <tokenizer/test_parser.h>
 #include <compengine/test_parser.h>
+#include <compengine/test_compile.h>
+#include <compengine/test_statements.h>
 
 #define BASE_DIR ".."
 
@@ -31,10 +33,12 @@ int main(void)
         test_tokens,
         test_cleaner,
         test_parser,
-        test_compparser
+        test_compparser,
+        test_compile,
+        test_statements
     };
 
-    test_num = 8;
+    test_num = 10;
 
     for (i = 0; i < test_num; i++)
     {
