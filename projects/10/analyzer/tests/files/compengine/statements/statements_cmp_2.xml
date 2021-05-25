@@ -2,6 +2,8 @@
 	<whileStatement>
 		<keyword>while</keyword>
 		<symbol>(</symbol>
+		<expression>
+		</expression>
 		<symbol>)</symbol>
 		<symbol>{</symbol>
 		<statements>
@@ -11,6 +13,8 @@
 	<whileStatement>
 		<keyword>while</keyword>
 		<symbol>(</symbol>
+		<expression>
+		</expression>
 		<symbol>)</symbol>
 		<symbol>{</symbol>
 		<statements>

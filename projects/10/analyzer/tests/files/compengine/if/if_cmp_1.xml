@@ -1,5 +1,5 @@
-<whileStatement>
-	<keyword>while</keyword>
+<ifStatement>
+	<keyword>if</keyword>
 	<symbol>(</symbol>
 	<expression>
 	</expression>
@@ -8,4 +8,4 @@
 	<statements>
 	</statements>
 	<symbol>}</symbol>
-</whileStatement>
+</ifStatement>
