@@ -3,5 +3,7 @@
 	<symbol>(</symbol>
 	<symbol>)</symbol>
 	<symbol>{</symbol>
+	<statements>
+	</statements>
 	<symbol>}</symbol>
 </whileStatement>

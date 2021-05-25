@@ -1,0 +1,20 @@
+<statements>
+	<whileStatement>
+		<keyword>while</keyword>
+		<symbol>(</symbol>
+		<symbol>)</symbol>
+		<symbol>{</symbol>
+		<statements>
+		</statements>
+		<symbol>}</symbol>
+	</whileStatement>
+	<whileStatement>
+		<keyword>while</keyword>
+		<symbol>(</symbol>
+		<symbol>)</symbol>
+		<symbol>{</symbol>
+		<statements>
+		</statements>
+		<symbol>}</symbol>
+	</whileStatement>
+</statements>

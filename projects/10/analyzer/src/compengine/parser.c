@@ -40,6 +40,7 @@ TOKEN_TYPE get_token_type_from_tag(char* tagname)
                 case 'n':
                     return NUMBER_CONSTANT;
             }
+        default: return INVALID;
     }
 
     return INVALID;
@@ -95,6 +96,27 @@ TOKEN* get_next_token(FILE* xml)
     free(buff);
 
     return token;
+}
+
+void rollback(FILE* f)
+{
+    char c;
+    int p;
+
+    // Skips the first newline character
+    fseek(f, -1, SEEK_CUR);
+
+    do {
+        fseek(f, -2, SEEK_CUR);
+        c = fgetc(f);
+        p = ftell(f);
+
+    } while (c != '\n' && p != 1);
+
+    // In case of the first element, completely resets the file pointer
+    if (p == 1) rewind(f);
+
+    return;
 }
 
 

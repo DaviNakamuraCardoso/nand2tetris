@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <utils/tests.h>
 #include <tokenizer/reader.h>
 #include <compengine/compile.h>
@@ -55,14 +56,56 @@ unsigned int test_while(void)
     return 1;
 }
 
+unsigned int test_compile_statements(void)
+{
+    unsigned short s, size;
+    int i = 0;
+    char *result, *expected, filename[200], filename2[200], filename3[200];
+    FILE *f, *t;
+
+    size = 3;
+    for (s = 0; s < size; s++)
+    {
+        sprintf(filename, "./files/compengine/statements/statements_%i.xml", s);
+        sprintf(filename2, "./files/compengine/statements/statements_out_%i.xml", s);
+        sprintf(filename3, "./files/compengine/statements/statements_cmp_%i.xml", s);
+
+        f = fopen(filename, "r");
+        t = fopen(filename2, "w");
+
+        CODE c = {.target=t, .source=f, .identation=&i};
+
+        compile_statements(&c);
+
+        fclose(f);
+        fclose(t) ;
+
+        result = get_file(filename2);
+        expected = get_file(filename3);
+
+        if (strcmp(result, expected) != 0)
+        {
+            printf("Error in compile_statements function number %i\n", s);
+            free(result);
+            free(expected);
+            return 0;
+        }
+        free(result);
+        free(expected);
+    }
+
+    return 1;
+}
+
 
 unsigned int test_statements(void)
 {
 
     unsigned int (*tests[]) (void) = {
-        test_while
+        test_while,
+        test_compile_statements
     };
 
 
-    return test(tests, 1);
+    return test(tests, 2);
 }

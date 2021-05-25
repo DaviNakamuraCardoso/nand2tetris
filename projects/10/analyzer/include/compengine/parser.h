@@ -16,4 +16,6 @@ void release_token(TOKEN** tokenptr);
 
 TOKEN* parse_token(char* xml);
 
-TOKEN* get_next_token(FILE* xml); 
+TOKEN* get_next_token(FILE* xml);
+
+void rollback(FILE* f);

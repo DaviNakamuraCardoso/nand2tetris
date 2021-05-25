@@ -1,7 +1,7 @@
 /**
 *
 *       Tests for the Compilation Engine Parser
-*
+*       (c) 2021 Davi Nakamura Cardoso
 */
 
 #include <stdio.h>
@@ -184,6 +184,62 @@ unsigned int test_get_next_token(void)
     return 1;
 }
 
+unsigned int test_rollback(void)
+{
+    unsigned short s, size;
+    FILE* f;
+    TOKEN* t;
+
+    f = fopen("./files/compengine/rollback.xml", "r");
+    size = 5;
+
+    char* contents[] = {
+        "class", "Hello", "Howdy, World!", "29", "~"
+    };
+
+    TOKEN_TYPE types[] = {
+        KEYWORD, VARIABLE, STRING_LITERAL, NUMBER_CONSTANT, IMPLEMENTED_SYMBOL
+    };
+
+    for (s = 0; s < size; s++)
+    {
+        t = get_next_token(f);
+        release_token(&t);
+    }
+
+    for (s = 0; s < size; s++)
+    {
+        rollback(f);
+    }
+
+    for (s = 0; s < size; s++)
+    {
+        t = get_next_token(f);
+
+        if (strcmp(contents[s], t->content) != 0)
+        {
+            printf("Wrong content in rollback.\nExpected: %s\nResult: %s\n", contents[s], t->content);
+            release_token(&t);
+            return 0;
+        }
+
+        if (t->type != types[s])
+        {
+            printf("Wrong token type in rollback %i\n", s);
+            printf("Expected: %i\n", types[s]);
+            printf("Result: %i\n", t->type);
+            release_token(&t);
+            return 0;
+        }
+        release_token(&t);
+    }
+
+    fclose(f);
+
+    return 1;
+
+}
+
 
 unsigned int test_compparser(void)
 {
@@ -193,10 +249,11 @@ unsigned int test_compparser(void)
         test_new_token,
         test_release_token_compengine,
         test_parse_token_compengine,
-        test_get_next_token
+        test_get_next_token,
+        test_rollback
     };
 
-    size = 4;
+    size = 5;
 
     for (s = 0; s < size; s++)
     {
