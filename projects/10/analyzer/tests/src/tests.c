@@ -15,6 +15,7 @@
 #include <compengine/test_parser.h>
 #include <compengine/test_compile.h>
 #include <compengine/test_statements.h>
+#include <compengine/test_expressions.h>
 
 #define BASE_DIR ".."
 
@@ -35,10 +36,11 @@ int main(void)
         test_parser,
         test_compparser,
         test_compile,
-        test_statements
+        test_statements,
+        test_expressions
     };
 
-    test_num = 10;
+    test_num = 11;
 
     for (i = 0; i < test_num; i++)
     {
