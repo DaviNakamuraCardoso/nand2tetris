@@ -1,0 +1,8 @@
+<letStatement>
+	<keyword>let</keyword>
+	<identifier>bing</identifier>
+	<symbol>=</symbol>
+	<expression>
+	</expression>
+	<symbol>;</symbol>
+</letStatement>
