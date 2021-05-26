@@ -19,7 +19,6 @@ void close_statement(int* identation, char* keyword, FILE* target);
 void open_statements(CODE* c);
 unsigned int handle_statements(CODE* c, STATEMENT type);
 void close_statements(CODE* c);
-
 STATEMENT get_statement(TOKEN* t);
 
 void compile_statements(CODE* c)
@@ -42,17 +41,73 @@ void compile_statements(CODE* c)
         release_token(&next);
 
     } while (handle_statements(c, type));
-
     close_statements(c);
 
     return;
 
 }
 
+void compile_else(CODE* c)
+{
+    int status;
+    TOKEN* next;
+
+    /*
+    *   <else> ::= else { <statements> }
+    */
+
+    next = get_next_token(c->source);
+
+    if (next == NULL) return;
+
+    rollback(c->source);
+
+    assert_type(next->type, KEYWORD, &status);
+    assert_content(next->content, "else", &status);
+
+    release_token(&next);
+
+    if (!status) return;
+
+    compile_keyword(c, "else");
+
+    compile_symbol(c, "{");
+
+    compile_statements(c);
+
+    compile_symbol(c, "}");
+
+
+    return;
+}
+
+void compile_if(CODE* c)
+{
+    open_statement(c->identation, "if", c->target);
+
+    compile_keyword(c, "if");
+
+    compile_symbol(c, "(");
+
+    compile_expression(c);
+
+    compile_symbol(c, ")");
+
+    compile_symbol(c, "{");
+
+    compile_statements(c);
+
+    compile_symbol(c, "}");
+
+    compile_else(c);
+
+    close_statement(c->identation, "if", c->target);
+
+    return;
+}
 
 void compile_while(CODE* c)
 {
-    int i;
     /***
         <whileStatement> ::= while ( <expression> ) { <statements> }
     */
@@ -75,6 +130,33 @@ void compile_while(CODE* c)
     close_statement(c->identation, "while", c->target); // '</whileStatement>'
 
     return;
+}
+
+void compile_return(CODE* c)
+{
+    /**
+    *   <return> ::= return <expression>? ;
+    */
+
+    TOKEN* next;
+
+    open_statement(c->identation, "return", c->target);
+    compile_keyword(c, "return");
+
+    next = get_next_token(c->source);
+    rollback(c->source);
+
+    if (strcmp(next->content, ";") != 0)
+    {
+        compile_expression(c);
+    }
+
+    compile_symbol(c, ";");
+    close_statement(c->identation, "return", c->target);
+
+    release_token(&next);
+    return;
+
 }
 
 
@@ -117,7 +199,7 @@ unsigned int handle_statements(CODE* c, STATEMENT type)
     void (*handlers[]) (CODE*) = {
         pass,
         pass,
-        pass,
+        compile_if,
         compile_while,
         pass,
         pass

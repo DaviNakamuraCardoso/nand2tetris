@@ -11,3 +11,8 @@ typedef enum {
 void compile_while(CODE* c);
 
 void compile_statements(CODE* c);
+
+void compile_if(CODE* c);
+
+
+void compile_return(CODE* c); 

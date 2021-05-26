@@ -17,4 +17,8 @@ void dec(int* identation);
 // Compiles a symbol
 unsigned int compile_symbol(CODE* c, char* symbol);
 
-unsigned int compile_keyword(CODE* c, char* keyword); 
+unsigned int compile_keyword(CODE* c, char* keyword);
+
+void assert_type(TOKEN_TYPE a, TOKEN_TYPE b, int* status);
+
+void assert_content(char* a, char* b, int* status); 

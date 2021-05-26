@@ -74,6 +74,7 @@ TOKEN* parse_token(char* xml)
 
     t = new_token(content, type);
 
+    *last = '<';
     free(buffer);
 
     return t;
@@ -89,7 +90,14 @@ TOKEN* get_next_token(FILE* xml)
     len = getline(&buff, &size, xml);
 
     // Returns NULL if the EOF is reached
-    if (len == -1) return NULL;
+    if (len == -1)
+    {
+        /*  "The user should free the buffer even if the
+        *   allocation wasn't successfull" (see 'man getline')
+        */
+        free(buff);
+        return NULL;
+    }
 
     // Get the token
     token = parse_token(buff);
@@ -108,7 +116,11 @@ void rollback(FILE* f)
 
     do {
         fseek(f, -2, SEEK_CUR);
+
+        // Current character
         c = fgetc(f);
+
+        // Position
         p = ftell(f);
 
     } while (c != '\n' && p != 1);
