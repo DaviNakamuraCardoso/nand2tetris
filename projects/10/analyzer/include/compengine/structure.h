@@ -15,3 +15,15 @@ typedef enum {
 
 
 void compile_type(CODE *c);
+
+void compile_vardec(CODE* c);
+
+void compile_subroutinebody(CODE* c);
+
+void compile_parameterlist(CODE* c);
+
+void compile_subroutinedec(CODE* c);
+
+void compile_classvardec(CODE* c);
+
+void compile_class(CODE* c); 
