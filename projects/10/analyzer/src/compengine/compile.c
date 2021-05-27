@@ -14,6 +14,7 @@
 
 // Private function putident
 void putident(int ident, FILE* f);
+void compile_variable(CODE* c, TOKEN* t);
 
 
 void compilef(int identation, char* text, FILE* target)
@@ -113,8 +114,60 @@ unsigned int compile_keyword(CODE* c, char* keyword)
     return compile_implemented(c, keyword, "keyword", KEYWORD);
 }
 
+unsigned int compile_identifier(CODE* c)
+{
+    int status = 1;
+    TOKEN* token;
+
+    token = get_next_token(c->source);
+
+    assert_type(token->type, VARIABLE, &status);
+
+    if (status)
+    {
+        compile_variable(c, token);
+    }
+
+    release_token(&token);
+    return status;
+}
+
 void compile_string(CODE* c)
 {
     TOKEN* token = get_next_token(c->source);
 
+}
+
+void compile_variable(CODE* c, TOKEN* t)
+{
+    char tag[500];
+
+    sprintf(tag, "<identifier>%s</identifier>", t->content);
+    compilef(*(c->identation), tag, c->target);
+
+    return;
+}
+
+void opentag(CODE* c, const char* tagname)
+{
+    char tag[500];
+    sprintf(tag, "<%s>", tagname);
+
+    compilef(*(c->identation), tag, c->target);
+
+    inc(c->identation);
+
+    return;
+}
+
+void closetag(CODE* c, const char* tagname)
+{
+    char tag[500];
+    sprintf(tag, "</%s>", tagname);
+
+    dec(c->identation);
+
+    compilef(*(c->identation), tag, c->target);
+
+    return;
 }

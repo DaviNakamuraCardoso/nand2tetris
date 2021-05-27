@@ -12,11 +12,17 @@
 #include <compengine/structure.h>
 #include <utils/tests.h>
 
+unsigned int test_compile_type(void)
+{
+    return generic_compare("type", compile_type, 3);
+}
+
 
 unsigned int test_structure(void)
 {
     unsigned int (*tests[]) (void) = {
+        test_compile_type
 
     };
-    return test(tests, 0);
+    return test(tests, 1);
 }

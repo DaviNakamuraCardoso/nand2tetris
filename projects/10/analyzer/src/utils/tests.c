@@ -36,9 +36,9 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
 
     for (s = 0; s < size; s++)
     {
-        sprintf(filename, "./files/compengine/%s/%s_%i.xml", expression, expression, s);
-        sprintf(filename2, "./files/compengine/%s/%s_out_%i.xml", expression, expression,s);
-        sprintf(filename3, "./files/compengine/%s/%s_cmp_%i.xml", expression, expression,s);
+        sprintf(filename, "./files/compengine/%s/%i.xml", expression, s);
+        sprintf(filename2, "./files/compengine/%s/out_%i.xml", expression,s);
+        sprintf(filename3, "./files/compengine/%s/cmp_%i.xml", expression,s);
 
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
@@ -66,5 +66,52 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
         free(expected);
 
     }
+    return 1;
+}
+
+
+unsigned int test_compile_implemented(const char* name, unsigned int (*function) (CODE*, char*), int size)
+{
+    unsigned short s;
+    int i = 0;
+    char* result, *expected, filename[300], filename2[300], filename3[300];
+    FILE* target, *source;
+
+
+    for (s = 0; s < size; s++)
+    {
+        sprintf(filename,  "./files/compengine/%s/%i.xml", name, s);
+        sprintf(filename2, "./files/compengine/%s/%i_out.xml", name, s);
+        sprintf(filename3, "./files/compengine/%s/%i_cmp.xml", name, s);
+
+        source = fopen(filename, "r");
+        target = fopen(filename2, "w");
+
+        CODE c = {.identation=&i, .target=target, .source=source};
+
+        function(&c, "bing");
+
+        fclose(target);
+        fclose(source);
+
+        result = get_file(filename2);
+        expected = get_file(filename3);
+
+        if (strcmp(result, expected) != 0)
+        {
+            printf("Error in compile_symbol %i\n", s);
+            printf("Expected: %s\n", expected);
+            printf("Result: %s\n", result);
+
+            free(expected);
+            free(result);
+            return 0;
+        }
+
+        free(expected);
+        free(result);
+
+    }
+
     return 1;
 }

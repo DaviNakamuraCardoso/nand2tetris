@@ -11,6 +11,7 @@
 #include <compengine/compile.h>
 #include <compengine/expressions.h>
 #include <compengine/statements.h>
+#include <compengine/structure.h>
 
 // Private functions
 void open_statement(int* identation, char* keyword, FILE* target);
@@ -159,6 +160,48 @@ void compile_return(CODE* c)
 
 }
 
+void compile_let(CODE* c)
+{
+    /**
+    *       <let> ::= let <identifier> = <expressions> ;
+    */
+    open_statement(c->identation, "let", c->target);
+    compile_keyword(c, "let");
+
+    // Check for an identifier
+    compile_identifier(c);
+
+    compile_symbol(c, "=");
+
+    compile_expression(c);
+
+    compile_symbol(c, ";");
+
+    close_statement(c->identation, "let", c->target);
+
+    return;
+}
+
+void compile_do(CODE* c)
+{
+
+    /**
+    *       <do> ::= do <subroutinecall> ;
+    */
+    open_statement(c->identation, "do", c->target);
+
+    compile_keyword(c, "do");
+
+    compile_subroutinecall(c);
+
+    compile_symbol(c, ";");
+
+    close_statement(c->identation, "do", c->target);
+
+    return;
+
+}
+
 
 void open_statement(int* identation, char* keyword, FILE* target)
 {
@@ -198,11 +241,11 @@ unsigned int handle_statements(CODE* c, STATEMENT type)
 
     void (*handlers[]) (CODE*) = {
         pass,
-        pass,
+        compile_let,
         compile_if,
         compile_while,
-        pass,
-        pass
+        compile_do,
+        compile_return
     };
 
     handlers[type](c);
