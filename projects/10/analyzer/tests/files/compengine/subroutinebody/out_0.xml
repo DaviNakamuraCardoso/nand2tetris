@@ -1,12 +1,12 @@
 <subroutineBody>
-	<symbol>{</symbol>
+	<symbol> { </symbol>
 	<varDec>
-		<keyword>var</keyword>
-		<keyword>int</keyword>
-		<identifier>i</identifier>
-		<symbol>;</symbol>
+		<keyword> var </keyword>
+		<keyword> int </keyword>
+		<identifier> i </identifier>
+		<symbol> ; </symbol>
 	</varDec>
 	<statements>
 	</statements>
-	<symbol>}</symbol>
+	<symbol> } </symbol>
 </subroutineBody>

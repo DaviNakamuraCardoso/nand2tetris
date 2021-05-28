@@ -1,69 +1,75 @@
 <class>
-	<keyword>class</keyword>
-	<identifier>Hello</identifier>
-	<symbol>{</symbol>
+	<keyword> class </keyword>
+	<identifier> Hello </identifier>
+	<symbol> { </symbol>
 	<classVarDec>
-		<keyword>field</keyword>
-		<keyword>int</keyword>
-		<identifier>a</identifier>
-		<symbol>,</symbol>
-		<identifier>b</identifier>
-		<symbol>;</symbol>
+		<keyword> field </keyword>
+		<keyword> int </keyword>
+		<identifier> a </identifier>
+		<symbol> , </symbol>
+		<identifier> b </identifier>
+		<symbol> ; </symbol>
 	</classVarDec>
 	<subroutineDec>
-		<keyword>function</keyword>
-		<keyword>void</keyword>
-		<identifier>hello</identifier>
-		<symbol>(</symbol>
+		<keyword> function </keyword>
+		<keyword> void </keyword>
+		<identifier> hello </identifier>
+		<symbol> ( </symbol>
 		<parameterList>
 		</parameterList>
-		<symbol>)</symbol>
+		<symbol> ) </symbol>
 		<subroutineBody>
-			<symbol>{</symbol>
+			<symbol> { </symbol>
 			<statements>
 				<whileStatement>
-					<keyword>while</keyword>
-					<symbol>(</symbol>
+					<keyword> while </keyword>
+					<symbol> ( </symbol>
 					<expression>
+						<term>
+						</term>
 					</expression>
-					<symbol>)</symbol>
-					<symbol>{</symbol>
+					<symbol> ) </symbol>
+					<symbol> { </symbol>
 					<statements>
 						<ifStatement>
-							<keyword>if</keyword>
-							<symbol>(</symbol>
+							<keyword> if </keyword>
+							<symbol> ( </symbol>
 							<expression>
+								<term>
+								</term>
 							</expression>
-							<symbol>)</symbol>
-							<symbol>{</symbol>
+							<symbol> ) </symbol>
+							<symbol> { </symbol>
 							<statements>
 								<doStatement>
-									<keyword>do</keyword>
+									<keyword> do </keyword>
 									<subroutineCall>
 									</subroutineCall>
-									<symbol>;</symbol>
+									<symbol> ; </symbol>
 								</doStatement>
 								<letStatement>
-									<keyword>let</keyword>
-									<identifier>a</identifier>
-									<symbol>=</symbol>
+									<keyword> let </keyword>
+									<identifier> a </identifier>
+									<symbol> = </symbol>
 									<expression>
+										<term>
+										</term>
 									</expression>
-									<symbol>;</symbol>
+									<symbol> ; </symbol>
 								</letStatement>
 							</statements>
-							<symbol>}</symbol>
+							<symbol> } </symbol>
 						</ifStatement>
 					</statements>
-					<symbol>}</symbol>
+					<symbol> } </symbol>
 				</whileStatement>
 				<returnStatement>
-					<keyword>return</keyword>
-					<symbol>;</symbol>
+					<keyword> return </keyword>
+					<symbol> ; </symbol>
 				</returnStatement>
 			</statements>
-			<symbol>}</symbol>
+			<symbol> } </symbol>
 		</subroutineBody>
 	</subroutineDec>
-	<symbol>}</symbol>
+	<symbol> } </symbol>
 </class>

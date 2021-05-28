@@ -1,20 +1,20 @@
 <class>
-	<keyword>class</keyword>
-	<identifier>Hello</identifier>
-	<symbol>{</symbol>
+	<keyword> class </keyword>
+	<identifier> Hello </identifier>
+	<symbol> { </symbol>
 	<classVarDec>
-		<keyword>field</keyword>
-		<keyword>int</keyword>
-		<identifier>a</identifier>
-		<symbol>,</symbol>
-		<identifier>b</identifier>
-		<symbol>;</symbol>
+		<keyword> field </keyword>
+		<keyword> int </keyword>
+		<identifier> a </identifier>
+		<symbol> , </symbol>
+		<identifier> b </identifier>
+		<symbol> ; </symbol>
 	</classVarDec>
 	<classVarDec>
-		<keyword>static</keyword>
-		<keyword>char</keyword>
-		<identifier>a</identifier>
-		<symbol>;</symbol>
+		<keyword> static </keyword>
+		<keyword> char </keyword>
+		<identifier> a </identifier>
+		<symbol> ; </symbol>
 	</classVarDec>
-	<symbol>}</symbol>
+	<symbol> } </symbol>
 </class>

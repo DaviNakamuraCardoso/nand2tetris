@@ -1,27 +1,31 @@
 <ifStatement>
-	<keyword>if</keyword>
-	<symbol>(</symbol>
+	<keyword> if </keyword>
+	<symbol> ( </symbol>
 	<expression>
+		<term>
+		</term>
 	</expression>
-	<symbol>)</symbol>
-	<symbol>{</symbol>
+	<symbol> ) </symbol>
+	<symbol> { </symbol>
 	<statements>
 	</statements>
-	<symbol>}</symbol>
-	<keyword>else</keyword>
-	<symbol>{</symbol>
+	<symbol> } </symbol>
+	<keyword> else </keyword>
+	<symbol> { </symbol>
 	<statements>
 		<ifStatement>
-			<keyword>if</keyword>
-			<symbol>(</symbol>
+			<keyword> if </keyword>
+			<symbol> ( </symbol>
 			<expression>
+				<term>
+				</term>
 			</expression>
-			<symbol>)</symbol>
-			<symbol>{</symbol>
+			<symbol> ) </symbol>
+			<symbol> { </symbol>
 			<statements>
 			</statements>
-			<symbol>}</symbol>
+			<symbol> } </symbol>
 		</ifStatement>
 	</statements>
-	<symbol>}</symbol>
+	<symbol> } </symbol>
 </ifStatement>

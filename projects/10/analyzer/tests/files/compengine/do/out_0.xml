@@ -1,6 +1,6 @@
 <doStatement>
-	<keyword>do</keyword>
+	<keyword> do </keyword>
 	<subroutineCall>
 	</subroutineCall>
-	<symbol>;</symbol>
+	<symbol> ; </symbol>
 </doStatement>
