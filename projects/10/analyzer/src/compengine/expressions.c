@@ -22,22 +22,58 @@ void close_expression(CODE* c);
 
 void compile_expression(CODE* c)
 {
-    open_expression(c);
-    close_expression(c);
+    /**
+    *   <expression> ::= <term> (<op> <term>)*
+    */
+    opentag(c, "expression");
+    // compile_term(c);
+
+    /*
+    while (compile_op(c))
+    {
+        compile_term(c);
+    }
+    */
+
+    closetag(c, "expression");
     return;
 }
 
-
-void open_expression(CODE* c)
+unsigned int compile_expressionlist(CODE* c)
 {
-   compilef(*(c->identation), "<expression>", c->target);
-   inc(c->identation);
-   return;
+    /**
+    *       <expressionlist> ::= (<expression> (, <expression>)*)?
+    */
+
+
+    return 1;
 }
 
-void close_expression(CODE* c)
+unsigned int compile_term(CODE* c)
 {
-    dec(c->identation);
-    compilef(*(c->identation), "</expression>", c->target);
-    return;
+    opentag(c, "term");
+
+    closetag(c, "term");
+}
+
+
+unsigned int compile_keywordconstant(CODE* c)
+{
+    char* list[] = { "true", "false", "this", "null", NULL };
+
+    return compile_keylist(c, list, compile_keyword);
+}
+
+
+unsigned int compile_unaryop(CODE* c)
+{
+    char* list[] = {"~", "-", NULL};
+    return compile_keylist(c, list, compile_symbol);
+}
+
+unsigned int compile_op(CODE* c)
+{
+
+    char* list[] = {"+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "="};
+    return compile_keylist(c, list, compile_symbol);
 }

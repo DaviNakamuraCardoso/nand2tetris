@@ -14,6 +14,7 @@
 #include <tokenizer/cleaner.h>
 #include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <compengine/statements.h>
 #include <compengine/structure.h>
 
 void handle_type(TYPE type, CODE* c, TOKEN* token);
@@ -32,7 +33,6 @@ void compile_type(CODE *c)
     TYPE t;
 
     rollback(c->source);
-
 
     t = get_content_type(next->content);
     handle_type(t, c, next);
@@ -64,18 +64,9 @@ unsigned int compile_comma(CODE* c)
 
 }
 
-void compile_class(CODE* c)
+void compile_classheader(CODE* c)
 {
-
-    /**
-    *       <class> ::= class <className> { <classvardec>* <subroutinedec>* }
-    */
     TOKEN* next;
-
-    opentag(c, "class");
-    compile_keyword(c, "class");
-    compile_identifier(c);
-    compile_symbol(c, "{");
 
     next = get_next_token(c->source);
     rollback(c->source);
@@ -89,6 +80,13 @@ void compile_class(CODE* c)
     }
 
     release_token(&next);
+}
+
+void compile_classbody(CODE* c)
+{
+
+    TOKEN* next;
+
     next = get_next_token(c->source);
     rollback(c->source);
 
@@ -100,6 +98,24 @@ void compile_class(CODE* c)
         rollback(c->source);
     }
     release_token(&next);
+    return;
+}
+
+void compile_class(CODE* c)
+{
+
+    /**
+    *       <class> ::= class <className> { <classvardec>* <subroutinedec>* }
+    */
+    TOKEN* next;
+
+    opentag(c, "class");
+    compile_keyword(c, "class");
+    compile_identifier(c);
+    compile_symbol(c, "{");
+
+    compile_classheader(c);
+    compile_classbody(c);
 
     compile_symbol(c, "}");
 

@@ -15,6 +15,7 @@
 // Private function putident
 void putident(int ident, FILE* f);
 void compile_variable(CODE* c, TOKEN* t);
+unsigned int compile_value(CODE* c, TOKEN_TYPE type);
 
 
 void compilef(int identation, char* text, FILE* target)
@@ -114,22 +115,45 @@ unsigned int compile_keyword(CODE* c, char* keyword)
     return compile_implemented(c, keyword, "keyword", KEYWORD);
 }
 
-unsigned int compile_identifier(CODE* c)
+unsigned int compile_value(CODE* c, TOKEN_TYPE type)
 {
     int status = 1;
     TOKEN* token;
 
+
     token = get_next_token(c->source);
 
-    assert_type(token->type, VARIABLE, &status);
+    assert_type(token->type, type, &status);
 
     if (status)
     {
         compile_variable(c, token);
     }
+    else
+    {
+        rollback(c->source);
+    }
 
     release_token(&token);
     return status;
+}
+
+
+unsigned int compile_identifier(CODE* c)
+{
+    return compile_value(c, VARIABLE);
+}
+
+
+unsigned int compile_stringconstant(CODE* c)
+{
+    return compile_value(c, STRING_LITERAL);
+}
+
+
+unsigned int compile_integerconstant(CODE* c)
+{
+    return compile_value(c, NUMBER_CONSTANT);
 }
 
 void compile_string(CODE* c)
@@ -142,7 +166,11 @@ void compile_variable(CODE* c, TOKEN* t)
 {
     char tag[500];
 
-    sprintf(tag, "<identifier>%s</identifier>", t->content);
+    char* tagnames[] = {
+        "symbol", "keyword", "stringConstant", "integerConstant", "identifier"
+    };
+    
+    sprintf(tag, "<%s>%s</%s>", tagnames[t->type], t->content, tagnames[t->type]);
     compilef(*(c->identation), tag, c->target);
 
     return;
@@ -170,4 +198,25 @@ void closetag(CODE* c, const char* tagname)
     compilef(*(c->identation), tag, c->target);
 
     return;
+}
+
+unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, char*))
+{
+    int i, status = 0;
+    TOKEN* token;
+
+    token = get_next_token(c->source);
+    rollback(c->source);
+
+    for (i = 0; keylist[i] != NULL; i++)
+    {
+        if (strcmp(keylist[i], token->content) == 0)
+        {
+            handler(c, keylist[i]);
+            status = 1;
+            break;
+        }
+    }
+    release_token(&token);
+    return status;
 }
