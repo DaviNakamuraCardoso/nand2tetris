@@ -22,6 +22,7 @@ unsigned int compile_keyword(CODE* c, char* keyword);
 
 unsigned int compile_identifier(CODE* c);
 unsigned int compile_stringconstant(CODE* c);
+unsigned int compile_integerconstant(CODE* c);
 
 
 /**
