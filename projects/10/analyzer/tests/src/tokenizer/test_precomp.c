@@ -162,7 +162,7 @@ unsigned int can_clean_string_literals(void)
             return 0;
         }
 
-        
+
         free(source);
         free(output);
     }
@@ -180,7 +180,6 @@ unsigned int can_precompile(void)
     for (s = 0; s < size; s++)
     {
         sprintf(filename, "files/tokenizer/precompile_%i.jack", s);
-
         result = precompile(filename);
 
         if (strcmp(result, expected) != 0)
@@ -190,9 +189,7 @@ unsigned int can_precompile(void)
             free(result);
             return 0;
         }
-
         free(result);
-
     }
 
     return 1;

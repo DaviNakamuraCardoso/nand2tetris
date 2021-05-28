@@ -79,7 +79,7 @@ unsigned int test_memory_leaks(void)
     char buff[200], *program_name;
     program_name = "./dcc";
 
-    sprintf(buff, "cd .. && valgrind \"%s\"", program_name);
+    sprintf(buff, "cd .. && valgrind \"%s\" Main.jack", program_name);
 
     status = system(buff);
 

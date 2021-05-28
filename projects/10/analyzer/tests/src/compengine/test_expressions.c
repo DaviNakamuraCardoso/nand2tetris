@@ -14,7 +14,7 @@
 
 unsigned int test_compile_expressions(void)
 {
-    return generic_compare("expression", compile_expression, 1);
+    return generic_compare("expression", compile_expression, 4);
 }
 
 unsigned int test_compile_keywordconstant(void)
@@ -24,7 +24,7 @@ unsigned int test_compile_keywordconstant(void)
 
 unsigned int test_compile_unaryop(void)
 {
-    return generic_compare("unaryop", compile_unaryop, 2);
+    return generic_compare("unaryop", compile_unaryop, 3);
 }
 
 unsigned int test_compile_op(void)
