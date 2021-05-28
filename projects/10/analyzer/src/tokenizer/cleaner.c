@@ -20,7 +20,7 @@ unsigned long long escape_string_literals(char* source, FILE* f)
             fputc(source[l], f);
         } while (source[++l] != '"');
 
-        fputc('"', f); 
+        fputc('"', f);
 
     }
 

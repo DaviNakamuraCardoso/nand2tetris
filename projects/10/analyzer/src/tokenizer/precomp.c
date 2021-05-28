@@ -20,6 +20,7 @@ unsigned int is_whitespace(char* ptr)
         case ' ':
         case '\n':
         case '\t':
+        case '\r': 
         {
             return 1;
         }
@@ -29,7 +30,7 @@ unsigned int is_whitespace(char* ptr)
 
 unsigned int is_not_endofline(char* c)
 {
-    return (*(c) != '\n');
+    return (*(c) != '\n' && *(c) != '\r');
 }
 
 unsigned int is_not_endof_comment(char* c)
@@ -83,6 +84,7 @@ char* handle_multiple_line_comments(char* text)
 
 unsigned int is_code(char current, char next)
 {
+
     switch (current) {
         case '/':
         {
@@ -96,6 +98,7 @@ unsigned int is_code(char current, char next)
         }
         case ' ':
         case '\n':
+        case '\r':
         case '"':
         case '\0':
         {
@@ -108,7 +111,11 @@ unsigned int is_code(char current, char next)
 
 char* next_code(char* source)
 {
-    return handle_whitespaces(handle_inline_comments(handle_multiple_line_comments(source)));
+    char* clean = handle_whitespaces(handle_inline_comments(handle_multiple_line_comments(source)));
+    clean = handle_inline_comments(handle_whitespaces(handle_multiple_line_comments(clean)));
+    clean = handle_whitespaces(handle_multiple_line_comments(handle_inline_comments(clean)));
+    clean = handle_inline_comments(handle_multiple_line_comments(handle_whitespaces(clean)));
+    return handle_multiple_line_comments(handle_inline_comments(handle_whitespaces(clean)));
 }
 
 char* get_string_literals(char* source, FILE* f)

@@ -5,9 +5,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <compengine/analyzer.h>
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    printf("Hello, compiler!\n");
+    compile(argv[1]);
     return 0;
 }

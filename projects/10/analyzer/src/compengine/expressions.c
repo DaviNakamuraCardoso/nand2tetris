@@ -18,6 +18,7 @@
 */
 void open_expression(CODE* c);
 void close_expression(CODE* c);
+unsigned int compile_termlist(CODE* c);
 
 
 void compile_expression(CODE* c)
@@ -26,14 +27,10 @@ void compile_expression(CODE* c)
     *   <expression> ::= <term> (<op> <term>)*
     */
     opentag(c, "expression");
-    // compile_term(c);
 
-    /*
-    while (compile_op(c))
-    {
+    do {
         compile_term(c);
-    }
-    */
+    } while (compile_op(c));
 
     closetag(c, "expression");
     return;
@@ -53,6 +50,7 @@ unsigned int compile_term(CODE* c)
 {
     opentag(c, "term");
 
+    compile_termlist(c);
     closetag(c, "term");
 }
 
@@ -74,6 +72,24 @@ unsigned int compile_unaryop(CODE* c)
 unsigned int compile_op(CODE* c)
 {
 
-    char* list[] = {"+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "="};
+    char* list[] = {"+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "=", NULL};
     return compile_keylist(c, list, compile_symbol);
+}
+
+unsigned int compile_termlist(CODE* c)
+{
+    unsigned int i;
+    unsigned int (*functions[]) (CODE*) = {
+        compile_identifier,
+        compile_integerconstant,
+        compile_keywordconstant,
+        compile_stringconstant
+    };
+
+    for (i = 0; i < 4; i++)
+    {
+        if (functions[i](c)) return 1;
+    }
+
+    return 0;
 }

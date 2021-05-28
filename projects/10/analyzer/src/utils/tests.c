@@ -32,7 +32,7 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
     unsigned short s;
     int i = 0;
     char filename[200], filename2[200], filename3[200], *result, *expected;
-    FILE *source, *target;
+    FILE *source, *target, *cmp;
 
     for (s = 0; s < size; s++)
     {
@@ -42,6 +42,7 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
 
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
+        // cmp = fopen(filename3, "w");
         i = 0;
         CODE c = {.identation=&i, .target=target, .source=source};
 
@@ -53,9 +54,13 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
         result = get_file(filename2);
         expected = get_file(filename3);
 
+        // fprintf(cmp, "%s", result);
+
+        // fclose(cmp);
+
         if (strcmp(result, expected) != 0)
         {
-            printf("Error in compile_while number %i\n", s);
+            printf("Error in %s number %i\n", expression, s);
             printf("Expected: %s\n", expected);
             printf("Result: %s\n", result);
             free(result);
@@ -75,7 +80,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
     unsigned short s;
     int i = 0;
     char* result, *expected, filename[300], filename2[300], filename3[300];
-    FILE* target, *source;
+    FILE* target, *source, *cmp;
 
 
     for (s = 0; s < size; s++)
@@ -86,6 +91,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
 
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
+        // cmp = fopen(filename3, "w");
 
         CODE c = {.identation=&i, .target=target, .source=source};
 
@@ -97,6 +103,9 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
         result = get_file(filename2);
         expected = get_file(filename3);
 
+        // fprintf(cmp, "%s", result);
+
+        // fclose(cmp);
         if (strcmp(result, expected) != 0)
         {
             printf("Error in compile_symbol %i\n", s);
@@ -108,7 +117,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
             return 0;
         }
 
-        free(expected);
+        // free(expected);
         free(result);
 
     }

@@ -77,7 +77,7 @@ void compile_tag(CODE* c, char* content, char* tagname)
 {
     char tag[1000];
 
-    sprintf(tag, "<%s>%s</%s>", tagname, content, tagname);
+    sprintf(tag, "<%s> %s </%s>", tagname, content, tagname);
     compilef(*(c->identation), tag, c->target);
     return;
 
@@ -169,8 +169,8 @@ void compile_variable(CODE* c, TOKEN* t)
     char* tagnames[] = {
         "symbol", "keyword", "stringConstant", "integerConstant", "identifier"
     };
-    
-    sprintf(tag, "<%s>%s</%s>", tagnames[t->type], t->content, tagnames[t->type]);
+
+    sprintf(tag, "<%s> %s </%s>", tagnames[t->type], t->content, tagnames[t->type]);
     compilef(*(c->identation), tag, c->target);
 
     return;
@@ -206,7 +206,11 @@ unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, c
     TOKEN* token;
 
     token = get_next_token(c->source);
+
+    if (token == NULL) return 0;
+
     rollback(c->source);
+
 
     for (i = 0; keylist[i] != NULL; i++)
     {

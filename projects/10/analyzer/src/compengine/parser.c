@@ -3,7 +3,6 @@
 *       XML Parser source code for the Davi Compiler Collection (DCC)
 *       (c) 2021 Davi Nakamura Cardoso
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,6 +58,7 @@ TOKEN* parse_token(char* xml)
     content = strchr(buffer, '>') + 1;
     last = strchr(content, '<');
     *last = '\0';
+
 
     /*
                  content

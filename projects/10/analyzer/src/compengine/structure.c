@@ -366,5 +366,5 @@ TYPE get_content_type(char* content)
         return CLASSNAME;
     }
 
-    return INVALID_TYPE;
+    return CLASSNAME;
 }
