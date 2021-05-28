@@ -21,6 +21,9 @@ unsigned int compile_symbol(CODE* c, char* symbol);
 unsigned int compile_keyword(CODE* c, char* keyword);
 
 unsigned int compile_identifier(CODE* c);
+unsigned int compile_stringconstant(CODE* c);
+
+
 /**
 *       Assertions
 */
@@ -31,5 +34,7 @@ void assert_content(char* a, char* b, int* status);
 /**
 *   Useful XML functions
 */
-void opentag(CODE* c, const char* tagname); 
+void opentag(CODE* c, const char* tagname);
 void closetag(CODE* c, const char* tagname);
+
+unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, char*));

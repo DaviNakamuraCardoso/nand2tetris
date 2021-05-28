@@ -26,4 +26,6 @@ void compile_subroutinedec(CODE* c);
 
 void compile_classvardec(CODE* c);
 
-void compile_class(CODE* c); 
+void compile_class(CODE* c);
+
+unsigned int compile_comma(CODE* c); 
