@@ -9,6 +9,7 @@
 
 int main(int argc, char* argv[])
 {
-    compile(argv[1]);
+    if (argc != 2) return 1;
+    analyze(argv[1]);
     return 0;
 }

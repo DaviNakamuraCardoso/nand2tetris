@@ -224,3 +224,27 @@ unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, c
     release_token(&token);
     return status;
 }
+
+
+short is_next(CODE* c, char* content, TOKEN_TYPE type)
+{
+    unsigned int status = 1;
+    TOKEN* next = NULL;
+
+    next = get_next_token(c->source);
+
+    if (next == NULL)
+    {
+        return -1;
+    }
+
+    rollback(c->source);
+
+    assert_type(type, next->type, &status);
+    assert_content(content, next->content, &status);
+
+    release_token(&next);
+
+    return status;
+
+}

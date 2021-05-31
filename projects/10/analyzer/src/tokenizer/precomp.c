@@ -14,23 +14,21 @@
 
 unsigned int is_whitespace(char* ptr)
 {
-    switch (*ptr) {
-        case 0:
-            return 0;
-        case ' ':
-        case '\n':
-        case '\t':
-        case '\r': 
-        {
-            return 1;
-        }
-    }
-    return 0;
+    return (*ptr <= 32 || *ptr == 127);
 }
 
 unsigned int is_not_endofline(char* c)
 {
-    return (*(c) != '\n' && *(c) != '\r');
+    switch (*c)
+    {
+        case 0:
+        case '\n':
+        case '\r':
+        case '\v':
+            return 0;
+
+    }
+    return 1;
 }
 
 unsigned int is_not_endof_comment(char* c)
@@ -59,6 +57,7 @@ char* handle_inline_comments(char* text)
     char* ret;
 
     if (text[0] != '/' || text[1] != '/') return text;
+
     // Gets a pointer to the first endofline
     ret = cycle_text(text, is_not_endofline);
 
@@ -93,6 +92,10 @@ unsigned int is_code(char current, char next)
                 case '/':
                 {
                     return 0;
+                }
+                default:
+                {
+                    return 1;
                 }
             }
         }

@@ -11,6 +11,7 @@
 #include <compengine/parser.h>
 #include <compengine/compile.h>
 #include <compengine/expressions.h>
+#include <compengine/structure.h>
 
 
 /*
@@ -36,28 +37,7 @@ void compile_expression(CODE* c)
     return;
 }
 
-static short is_next(CODE* c, char* content, TOKEN_TYPE type)
-{
-    unsigned int status = 1;
-    TOKEN* next = NULL;
 
-    next = get_next_token(c->source);
-    rollback(c->source);
-
-
-    if (next == NULL)
-    {
-        return -1;
-    }
-
-    assert_type(type, next->type, &status);
-    assert_content(content, next->content, &status);
-
-    release_token(&next);
-
-    return status;
-
-}
 
 unsigned int compile_inbraces(CODE* c)
 {
@@ -96,6 +76,7 @@ unsigned int compile_expressionlist(CODE* c)
 
 unsigned int compile_term(CODE* c)
 {
+    compile_unaryop(c);
     opentag(c, "term");
     compile_termlist(c);
     closetag(c, "term");
@@ -123,23 +104,45 @@ unsigned int compile_op(CODE* c)
     return compile_keylist(c, list, compile_symbol);
 }
 
-unsigned int compile_subroutinecall(CODE* c)
+static unsigned int check_subroutine(CODE* c, short* is_class, short* is_function)
 {
-    short is_class, is_function = 0;
+    unsigned int status = 1;
     TOKEN* t = NULL;
 
     t = get_next_token(c->source);
 
-    is_class = is_next(c, ".", IMPLEMENTED_SYMBOL);
-    is_function = is_next(c, "(", IMPLEMENTED_SYMBOL);
+    *is_class = is_next(c, ".", IMPLEMENTED_SYMBOL);
+    *is_function = is_next(c, "(", IMPLEMENTED_SYMBOL);
 
-    if (is_class != 1 && is_function != 1)
-    {
-        if (t != NULL) release_token(&t);
-        return 0;
-    }
+    if (t == NULL) return 0;
+
     rollback(c->source);
 
+    assert_type(t->type, VARIABLE, &status);
+    release_token(&t);
+
+    if (!status)
+    {
+        return 0;
+    }
+
+    if ((*is_class) != 1 && (*is_function) != 1)
+    {
+        return 0;
+    }
+
+    return 1;
+
+}
+
+unsigned int compile_subroutinecall(CODE* c)
+{
+    short is_class, is_function = 0;
+
+    if (!check_subroutine(c, &is_class, &is_function))
+    {
+        return 0;
+    }
 
     opentag(c, "subroutineCall");
 
@@ -161,18 +164,58 @@ unsigned int compile_subroutinecall(CODE* c)
 
     return 1;
 }
+
+static unsigned int check_arrayaccess(CODE* c)
+{
+    short status;
+    TOKEN* t = NULL;
+
+    t = get_next_token(c->source);
+
+    status = is_next(c, "[", IMPLEMENTED_SYMBOL);
+
+    if (t == NULL) return 0;
+
+    release_token(&t);
+    rollback(c->source);
+
+    if (status != 1)
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+unsigned int compile_arrayaccess(CODE* c)
+{
+    /**
+    *       <arrayaccess> ::= <identifier>[<expression>]
+    */
+    if (!check_arrayaccess(c)) return 0;
+
+    compile_identifier(c);
+    compile_symbol(c, "[");
+    compile_expression(c);
+    compile_symbol(c, "]");
+
+    return 1;
+}
 unsigned int compile_termlist(CODE* c)
 {
     unsigned int i;
     unsigned int (*functions[]) (CODE*) = {
+        compile_subroutinecall,
+        compile_arrayaccess,
         compile_identifier,
         compile_integerconstant,
         compile_keywordconstant,
         compile_stringconstant,
         compile_inbraces
+
     };
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 7; i++)
     {
         if (functions[i](c)) return 1;
     }

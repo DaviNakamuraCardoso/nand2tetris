@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <tokenizer/tokens.h>
 #include <compengine/parser.h>
 #include <compengine/compile.h>
@@ -160,6 +161,18 @@ void compile_return(CODE* c)
 
 }
 
+static void compile_access(CODE* c)
+{
+    if (is_next(c, "[", IMPLEMENTED_SYMBOL) != 1) return;
+
+    compile_symbol(c, "[");
+    compile_expression(c);
+    compile_symbol(c, "]");
+
+    return;
+
+}
+
 void compile_let(CODE* c)
 {
     /**
@@ -170,6 +183,8 @@ void compile_let(CODE* c)
 
     // Check for an identifier
     compile_identifier(c);
+
+    compile_access(c);
 
     compile_symbol(c, "=");
 

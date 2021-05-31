@@ -124,3 +124,34 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
 
     return 1;
 }
+
+unsigned int analyzer_test(const char* name, void (*function) (char*), unsigned int size)
+{
+    char filename[300], filename2[300], filename3[300], *result, *expected;
+
+    for (short i = 0; i < size; i++)
+    {
+        sprintf(filename,  "./files/compengine/%s/%i.jack", name, i);
+        sprintf(filename2, "./files/compengine/%s/%i.xml", name, i);
+        sprintf(filename3, "./files/compengine/%s/%i.cmp", name, i);
+
+        function(filename);
+
+
+        result = get_file(filename2);
+        expected = get_file(filename3);
+
+        if (strcmp(result, expected) != 0)
+        {
+            printf("Result: %s\n", result);
+            printf("Expected: %s\n", expected);
+            return 0;
+        }
+
+        free(result);
+        free(expected);
+
+
+    }
+    return 1;
+}
