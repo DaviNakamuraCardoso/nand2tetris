@@ -54,9 +54,15 @@ TOKEN* parse_token(char* xml)
 
     type = get_token_type_from_tag(xml+1);
 
+
     buffer = strdup(xml);
     content = strchr(buffer, '>') + 1;
+
+    if (content == NULL) return NULL;
+
     last = strchr(content, '<');
+
+    if (last == NULL) return NULL;
     *last = '\0';
 
 
@@ -99,6 +105,8 @@ TOKEN* get_next_token(FILE* xml)
         return NULL;
     }
 
+    buff[len] = '\0';
+
     // Get the token
     token = parse_token(buff);
     free(buff);
@@ -123,10 +131,10 @@ void rollback(FILE* f)
         // Position
         p = ftell(f);
 
-    } while (c != '\n' && p != 1);
+    } while (c != '\n' && p > 1);
 
     // In case of the first element, completely resets the file pointer
-    if (p == 1) rewind(f);
+    if (p <= 1) rewind(f);
 
     return;
 }

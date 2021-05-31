@@ -20,12 +20,6 @@
 void handle_type(TYPE type, CODE* c, TOKEN* token);
 TYPE get_content_type(char* content);
 
-void compile_subroutinecall(CODE* c)
-{
-    opentag(c, "subroutineCall");
-
-    closetag(c, "subroutineCall");
-}
 
 void compile_type(CODE *c)
 {
@@ -44,11 +38,13 @@ void compile_type(CODE *c)
 
 unsigned int compile_comma(CODE* c)
 {
-    TOKEN* t;
+    TOKEN* t = NULL;
     char character;
 
     t = get_next_token(c->source);
     rollback(c->source);
+
+    if (t == NULL) return 0;
 
     if (t->type != IMPLEMENTED_SYMBOL)
     {
@@ -57,7 +53,10 @@ unsigned int compile_comma(CODE* c)
     }
 
     character = *(t->content);
-    if (character != ')') compile_symbol(c, t->content);
+
+    if (character == ',') {
+        compile_symbol(c, ",");
+    }
     release_token(&t);
 
     return (character == ',');
@@ -133,12 +132,10 @@ void compile_vardec(CODE* c)
     compile_type(c);
 
     do {
-        next = get_next_token(c->source);
-        rollback(c->source);
         compile_identifier(c);
-        release_token(&next);
-
     } while (compile_comma(c));
+
+    compile_symbol(c, ";");
 
     closetag(c, "varDec");
 }
@@ -244,6 +241,8 @@ void compile_classvardec(CODE* c)
         compile_identifier(c);
 
     } while (compile_comma(c));
+
+    compile_symbol(c, ";");
 
     closetag(c, "classVarDec");
 
