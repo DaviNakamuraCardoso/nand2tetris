@@ -38,6 +38,18 @@
 						<doStatement>
 							<keyword> do </keyword>
 							<subroutineCall>
+								<identifier> Vera </identifier>
+								<symbol> . </symbol>
+								<identifier> sing </identifier>
+								<symbol> ( </symbol>
+								<expressionList>
+									<expression>
+										<term>
+											<stringConstant> Who's sorry now? </stringConstant>
+										</term>
+									</expression>
+								</expressionList>
+								<symbol> ) </symbol>
 							</subroutineCall>
 							<symbol> ; </symbol>
 						</doStatement>

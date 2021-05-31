@@ -17,8 +17,6 @@
 <symbol>(</symbol>
 <symbol>)</symbol>
 <symbol>{</symbol>
-<keyword>do</keyword>
-<symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>
 <symbol>=</symbol>
@@ -42,8 +40,6 @@
 <symbol>(</symbol>
 <symbol>)</symbol>
 <symbol>{</symbol>
-<keyword>do</keyword>
-<symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>
 <symbol>=</symbol>

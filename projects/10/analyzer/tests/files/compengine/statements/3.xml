@@ -9,6 +9,9 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>dean</identifier>
+<symbol>(</symbol>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

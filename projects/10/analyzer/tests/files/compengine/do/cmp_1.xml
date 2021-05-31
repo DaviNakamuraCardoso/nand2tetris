@@ -4,6 +4,11 @@
 		<identifier> print </identifier>
 		<symbol> ( </symbol>
 		<expressionList>
+			<expression>
+				<term>
+					<stringConstant> Hello, World! </stringConstant>
+				</term>
+			</expression>
 		</expressionList>
 		<symbol> ) </symbol>
 	</subroutineCall>

@@ -22,6 +22,9 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>nothing</identifier>
+<symbol>(</symbol>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

@@ -24,6 +24,11 @@
 					<doStatement>
 						<keyword> do </keyword>
 						<subroutineCall>
+							<identifier> dean </identifier>
+							<symbol> ( </symbol>
+							<expressionList>
+							</expressionList>
+							<symbol> ) </symbol>
 						</subroutineCall>
 						<symbol> ; </symbol>
 					</doStatement>

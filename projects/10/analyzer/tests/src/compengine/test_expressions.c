@@ -12,26 +12,40 @@
 #include <compengine/expressions.h>
 #include <utils/tests.h>
 
-unsigned int test_compile_expressions(void)
+static unsigned int test_compile_expressions(void)
 {
-    return generic_compare("expression", compile_expression, 4);
+    return generic_compare("expression", compile_expression, 5);
 }
 
-unsigned int test_compile_keywordconstant(void)
+static unsigned int test_compile_keywordconstant(void)
 {
     return generic_compare("keywordconstant", compile_keywordconstant, 3);
 }
 
-unsigned int test_compile_unaryop(void)
+static unsigned int test_compile_unaryop(void)
 {
     return generic_compare("unaryop", compile_unaryop, 3);
 }
 
-unsigned int test_compile_op(void)
+static unsigned int test_compile_op(void)
 {
     return generic_compare("op", compile_op, 3);
 }
 
+static unsigned int test_compile_expressionlist(void)
+{
+    return generic_compare("expressionlist", compile_expressionlist, 3);
+}
+
+static unsigned int test_compile_inbraces(void)
+{
+    return generic_compare("inbraces", compile_inbraces, 2);
+}
+
+static unsigned int test_compile_subroutinecall(void)
+{
+    return generic_compare("subroutinecall", compile_subroutinecall, 1);
+}
 
 unsigned int test_expressions(void)
 {
@@ -40,8 +54,10 @@ unsigned int test_expressions(void)
         test_compile_keywordconstant,
         test_compile_unaryop,
         test_compile_op,
+        test_compile_expressionlist,
+        test_compile_inbraces
 
     };
 
-    return test(tests, 4);
+    return test(tests, 6);
 }

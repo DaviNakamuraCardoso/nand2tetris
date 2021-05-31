@@ -2,8 +2,6 @@
 *       Headers for the program structure
 */
 
-void compile_subroutinecall(CODE* c);
-
 typedef enum {
     INT,
     CHAR,
@@ -28,4 +26,4 @@ void compile_classvardec(CODE* c);
 
 void compile_class(CODE* c);
 
-unsigned int compile_comma(CODE* c); 
+unsigned int compile_comma(CODE* c);

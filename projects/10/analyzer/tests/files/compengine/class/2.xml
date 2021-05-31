@@ -16,6 +16,11 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>Perry</identifier>
+<symbol>.</symbol>
+<identifier>sad</identifier>
+<symbol>(</symbol>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

@@ -18,6 +18,12 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>Vera</identifier>
+<symbol>.</symbol>
+<identifier>sing</identifier>
+<symbol>(</symbol>
+<stringConstant>Who's sorry now?</stringConstant>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

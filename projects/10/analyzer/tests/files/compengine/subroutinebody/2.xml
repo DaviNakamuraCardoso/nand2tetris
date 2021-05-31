@@ -8,6 +8,9 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>sing<identifier>
+<symbol>(</symbol>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

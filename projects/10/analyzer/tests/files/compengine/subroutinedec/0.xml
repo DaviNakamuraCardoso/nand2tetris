@@ -13,6 +13,12 @@
 <symbol>)</symbol>
 <symbol>{</symbol>
 <keyword>do</keyword>
+<identifier>error</identifier>
+<symbol>(</symbol>
+<stringConstant>Wrong song</stringConstant>
+<symbol>,</symbol>
+<integerConstant>2</integerConstant>
+<symbol>)</symbol>
 <symbol>;</symbol>
 <keyword>let</keyword>
 <identifier>a</identifier>

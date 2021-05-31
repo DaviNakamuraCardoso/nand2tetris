@@ -39,35 +39,29 @@
 				<doStatement>
 					<keyword> do </keyword>
 					<subroutineCall>
+						<identifier> game </identifier>
+						<symbol> . </symbol>
+						<identifier> run </identifier>
+						<symbol> ( </symbol>
+						<expressionList>
+						</expressionList>
+						<symbol> ) </symbol>
 					</subroutineCall>
+					<symbol> ; </symbol>
 				</doStatement>
-			</statements>
-		</subroutineBody>
-	</subroutineDec>
-	<subroutineDec>
-		<identifier> run </identifier>
-		<symbol> ( </symbol>
-		<parameterList>
-		</parameterList>
-		<symbol> ) </symbol>
-		<subroutineBody>
-			<statements>
 				<doStatement>
 					<keyword> do </keyword>
 					<subroutineCall>
+						<identifier> game </identifier>
+						<symbol> . </symbol>
+						<identifier> dispose </identifier>
+						<symbol> ( </symbol>
+						<expressionList>
+						</expressionList>
+						<symbol> ) </symbol>
 					</subroutineCall>
+					<symbol> ; </symbol>
 				</doStatement>
-			</statements>
-		</subroutineBody>
-	</subroutineDec>
-	<subroutineDec>
-		<identifier> dispose </identifier>
-		<symbol> ( </symbol>
-		<parameterList>
-		</parameterList>
-		<symbol> ) </symbol>
-		<subroutineBody>
-			<statements>
 				<returnStatement>
 					<keyword> return </keyword>
 					<symbol> ; </symbol>
@@ -112,12 +106,10 @@
 	</subroutineDec>
 	<subroutineDec>
 		<parameterList>
-			<symbol> } </symbol>
 		</parameterList>
 		<subroutineBody>
 			<statements>
 			</statements>
-			<symbol> } </symbol>
 		</subroutineBody>
 	</subroutineDec>
 	<symbol> } </symbol>

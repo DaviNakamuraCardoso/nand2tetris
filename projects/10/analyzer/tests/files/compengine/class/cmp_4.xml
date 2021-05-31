@@ -35,12 +35,6 @@
 							<symbol> ) </symbol>
 							<symbol> { </symbol>
 							<statements>
-								<doStatement>
-									<keyword> do </keyword>
-									<subroutineCall>
-									</subroutineCall>
-									<symbol> ; </symbol>
-								</doStatement>
 								<letStatement>
 									<keyword> let </keyword>
 									<identifier> a </identifier>
@@ -96,12 +90,6 @@
 							<symbol> ) </symbol>
 							<symbol> { </symbol>
 							<statements>
-								<doStatement>
-									<keyword> do </keyword>
-									<subroutineCall>
-									</subroutineCall>
-									<symbol> ; </symbol>
-								</doStatement>
 								<letStatement>
 									<keyword> let </keyword>
 									<identifier> a </identifier>

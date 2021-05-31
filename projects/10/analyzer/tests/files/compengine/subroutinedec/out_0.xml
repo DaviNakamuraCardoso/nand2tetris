@@ -32,6 +32,22 @@
 							<doStatement>
 								<keyword> do </keyword>
 								<subroutineCall>
+									<identifier> error </identifier>
+									<symbol> ( </symbol>
+									<expressionList>
+										<expression>
+											<term>
+												<stringConstant> Wrong song </stringConstant>
+											</term>
+										</expression>
+										<symbol> , </symbol>
+										<expression>
+											<term>
+												<integerConstant> 2 </integerConstant>
+											</term>
+										</expression>
+									</expressionList>
+									<symbol> ) </symbol>
 								</subroutineCall>
 								<symbol> ; </symbol>
 							</doStatement>

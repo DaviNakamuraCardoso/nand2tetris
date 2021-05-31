@@ -41,7 +41,7 @@ unsigned int test_let_statement(void)
 
 unsigned int test_do_statement(void)
 {
-    return generic_compare("do", compile_do, 1);
+    return generic_compare("do", compile_do, 2);
 }
 
 unsigned int test_statements(void)

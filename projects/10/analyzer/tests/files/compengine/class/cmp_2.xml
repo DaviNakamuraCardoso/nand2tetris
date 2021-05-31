@@ -36,6 +36,13 @@
 								<doStatement>
 									<keyword> do </keyword>
 									<subroutineCall>
+										<identifier> Perry </identifier>
+										<symbol> . </symbol>
+										<identifier> sad </identifier>
+										<symbol> ( </symbol>
+										<expressionList>
+										</expressionList>
+										<symbol> ) </symbol>
 									</subroutineCall>
 									<symbol> ; </symbol>
 								</doStatement>
