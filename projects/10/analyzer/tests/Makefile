@@ -103,6 +103,14 @@ $(O)$(C)test_structure.o: $(S)$(C)test_structure.c
 $(O)$(C)test_module_structure.o: $(CS)$(C)structure.c
 	gcc -I$(CH) -c $(CS)$(C)structure.c -o $(O)$(C)test_module_structure.o
 
+# Test the analyzer
+$(O)$(C)test_analyzer.o: $(S)$(C)test_analyzer.c
+	gcc -I$(CH) -c $(S)$(C)test_analyzer.c -o $(O)$(C)test_analyzer.o
+
+# Get the analyzer module
+$(O)$(C)test_module_analyzer.o: $(CS)$(C)analyzer.c
+	gcc -I$(CH) -c $(CS)$(C)analyzer.c -o $(O)$(C)test_module_analyzer.o
+
 
 $(O)$(U)tests.o: $(CS)$(U)tests.c
 	gcc -I$(CH) -c $(CS)$(U)tests.c -o $(O)$(U)tests.o
@@ -112,8 +120,8 @@ $(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test
 	ar -rcs $(L)libtesttokenizer.a $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test_precomp.o $(O)$(T)precomp_test.o $(O)$(T)test_cleaner.o $(O)$(T)cleaner_test.o $(O)$(T)test_reader.o $(O)$(T)test_module_reader.o $(O)$(T)test_parser.o $(O)$(T)test_module_parser.o
 
 # Compengine test
-$(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o
-	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o
+$(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
+	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
 
 
 $(L)libtestutils.a: $(O)$(U)tests.o

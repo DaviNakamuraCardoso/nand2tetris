@@ -1,1 +1,3 @@
-void compile(char* filename); 
+void compile(char* filename);
+
+void analyze(char* path);

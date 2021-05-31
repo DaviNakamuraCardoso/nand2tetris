@@ -39,3 +39,5 @@ void opentag(CODE* c, const char* tagname);
 void closetag(CODE* c, const char* tagname);
 
 unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, char*));
+
+short is_next(CODE* c, char* content, TOKEN_TYPE type); 

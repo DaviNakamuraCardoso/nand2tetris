@@ -14,8 +14,9 @@
 
 static unsigned int test_compile_expressions(void)
 {
-    return generic_compare("expression", compile_expression, 5);
+    return generic_compare("expression", compile_expression, 8);
 }
+
 
 static unsigned int test_compile_keywordconstant(void)
 {
@@ -47,6 +48,11 @@ static unsigned int test_compile_subroutinecall(void)
     return generic_compare("subroutinecall", compile_subroutinecall, 1);
 }
 
+static unsigned int test_compile_arrayaccess(void)
+{
+    return generic_compare("arrayaccess", compile_arrayaccess, 2);
+}
+
 unsigned int test_expressions(void)
 {
     unsigned int (*tests[]) (void) = {
@@ -55,9 +61,10 @@ unsigned int test_expressions(void)
         test_compile_unaryop,
         test_compile_op,
         test_compile_expressionlist,
-        test_compile_inbraces
+        test_compile_inbraces,
+        test_compile_arrayaccess
 
     };
 
-    return test(tests, 6);
+    return test(tests, 7);
 }

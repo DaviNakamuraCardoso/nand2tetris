@@ -4,6 +4,7 @@
 	<symbol> = </symbol>
 	<expression>
 		<term>
+			<identifier> bing </identifier>
 		</term>
 	</expression>
 	<symbol> ; </symbol>

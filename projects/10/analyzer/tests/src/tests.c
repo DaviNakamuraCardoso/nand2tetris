@@ -17,6 +17,7 @@
 #include <compengine/test_statements.h>
 #include <compengine/test_expressions.h>
 #include <compengine/test_structure.h>
+#include <compengine/test_analyzer.h>
 
 #define BASE_DIR ".."
 
@@ -39,10 +40,11 @@ int main(void)
         test_compile,
         test_statements,
         test_expressions,
-        test_structure
+        test_structure,
+        test_analyzer
     };
 
-    test_num = 12;
+    test_num = 13;
 
     for (i = 0; i < test_num; i++)
     {
@@ -79,7 +81,7 @@ unsigned int test_memory_leaks(void)
     char buff[200], *program_name;
     program_name = "./dcc";
 
-    sprintf(buff, "cd .. && valgrind \"%s\" Main.jack", program_name);
+    sprintf(buff, "cd .. && valgrind \"%s\" example", program_name);
 
     status = system(buff);
 
