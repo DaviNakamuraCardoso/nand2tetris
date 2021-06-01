@@ -127,10 +127,13 @@ $(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)
 $(L)libtestutils.a: $(O)$(U)tests.o
 	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o
 
+$(L)libtesttable.a:
+	ar -rcs $(L)libtesttable.a
+
 # Main test file
 $(O)tests.o: $(S)tests.c
 	gcc -I$(H) -c $(S)tests.c -o $(O)tests.o
 
 # Executable
 tests: $(O)tests.o $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a
-	gcc -I$(TH) -L$(L) $(O)tests.o  -ltesttokenizer -ltestcompengine -ltestutils -o tests
+	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttable -ltesttokenizer -ltestcompengine -ltestutils -o tests
