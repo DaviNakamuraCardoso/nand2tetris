@@ -11,6 +11,7 @@
 #include <compengine/compile.h>
 #include <compengine/structure.h>
 #include <utils/tests.h>
+#include <utils/comptests.h>
 
 unsigned int test_compile_type(void)
 {

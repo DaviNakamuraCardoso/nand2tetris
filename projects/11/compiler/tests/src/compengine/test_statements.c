@@ -10,6 +10,7 @@
 #include <compengine/compile.h>
 #include <compengine/statements.h>
 #include <utils/tests.h>
+#include <utils/comptests.h>
 
 
 unsigned int test_return(void)

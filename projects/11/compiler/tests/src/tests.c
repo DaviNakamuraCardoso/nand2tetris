@@ -18,6 +18,7 @@
 #include <compengine/test_expressions.h>
 #include <compengine/test_structure.h>
 #include <compengine/test_analyzer.h>
+#include <table/test_table.h>
 
 #define BASE_DIR ".."
 
@@ -41,10 +42,11 @@ int main(void)
         test_statements,
         test_expressions,
         test_structure,
-        test_analyzer
+        test_analyzer,
+        test_table
     };
 
-    test_num = 13;
+    test_num = 14;
 
     for (i = 0; i < test_num; i++)
     {

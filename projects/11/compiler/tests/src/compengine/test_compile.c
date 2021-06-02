@@ -12,6 +12,7 @@
 #include <compengine/parser.h>
 #include <compengine/compile.h>
 #include <utils/tests.h>
+#include <utils/comptests.h>
 
 unsigned int test_compilef(void)
 {

@@ -11,6 +11,7 @@
 #include <compengine/compile.h>
 #include <compengine/expressions.h>
 #include <utils/tests.h>
+#include <utils/comptests.h>
 
 static unsigned int test_compile_expressions(void)
 {

@@ -12,6 +12,7 @@
 #include <compengine/compile.h>
 #include <compengine/analyzer.h>
 #include <utils/tests.h>
+#include <utils/comptests.h>
 
 unsigned int test_compile_process(void)
 {

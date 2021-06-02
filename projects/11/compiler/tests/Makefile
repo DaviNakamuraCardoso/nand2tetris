@@ -11,6 +11,7 @@ H = ./includes/
 T = tokenizer/
 C = compengine/
 U = utils/
+B = table/
 
 # (TH) Test Header, ()
 TH = ./../include/
@@ -111,6 +112,16 @@ $(O)$(C)test_analyzer.o: $(S)$(C)test_analyzer.c
 $(O)$(C)test_module_analyzer.o: $(CS)$(C)analyzer.c
 	gcc -I$(CH) -c $(CS)$(C)analyzer.c -o $(O)$(C)test_module_analyzer.o
 
+# Test the table
+$(O)$(B)test_table.o: $(S)$(B)test_table.c
+	gcc -I$(TH) -c $(S)$(B)test_table.c -o $(O)$(B)test_table.o
+
+# Get the table module
+$(O)$(B)test_module_table.o: $(TS)$(B)table.c
+	gcc -I$(TH) -c $(TS)$(B)table.c -o $(O)$(B)test_module_table.o
+
+$(O)$(U)comptests.o: $(CS)$(U)comptests.c
+	gcc -I$(CH) -c $(CS)$(U)comptests.c -o $(O)$(U)comptests.o
 
 $(O)$(U)tests.o: $(CS)$(U)tests.c
 	gcc -I$(CH) -c $(CS)$(U)tests.c -o $(O)$(U)tests.o
@@ -124,16 +135,16 @@ $(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)
 	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
 
 
-$(L)libtestutils.a: $(O)$(U)tests.o
-	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o
+$(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o
+	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o
 
-$(L)libtesttable.a:
-	ar -rcs $(L)libtesttable.a
+$(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o
+	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c
 	gcc -I$(H) -c $(S)tests.c -o $(O)tests.o
 
 # Executable
-tests: $(O)tests.o $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a
+tests: $(O)tests.o $(L)libtesttable.a $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a
 	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttable -ltesttokenizer -ltestcompengine -ltestutils -o tests
