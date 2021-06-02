@@ -120,6 +120,14 @@ $(O)$(B)test_table.o: $(S)$(B)test_table.c
 $(O)$(B)test_module_table.o: $(TS)$(B)table.c
 	gcc -I$(TH) -c $(TS)$(B)table.c -o $(O)$(B)test_module_table.o
 
+# Test the parser
+$(O)$(B)test_parser.o: $(S)$(B)test_parser.c
+	gcc -I$(TH) -c $(S)$(B)test_parser.c -o $(O)$(B)test_parser.o
+
+# Get the parser module
+$(O)$(B)test_module_parser.o: $(TS)$(B)parser.c
+	gcc -I$(TH) -c $(TS)$(B)parser.c -o $(O)$(B)test_module_parser.o
+
 $(O)$(U)comptests.o: $(CS)$(U)comptests.c
 	gcc -I$(CH) -c $(CS)$(U)comptests.c -o $(O)$(U)comptests.o
 
@@ -138,8 +146,8 @@ $(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)
 $(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o
 	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o
 
-$(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o
-	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o
+$(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
+	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

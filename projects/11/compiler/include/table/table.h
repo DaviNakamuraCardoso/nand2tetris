@@ -29,4 +29,4 @@ typedef struct _table {
 
 
 TABLE* new_table(char* name, char* type_name, TYPE type, KIND kind, short index);
-void release_table(TABLE** table); 
+void release_table(TABLE** table);

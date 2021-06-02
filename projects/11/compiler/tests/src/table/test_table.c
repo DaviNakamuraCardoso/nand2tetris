@@ -35,6 +35,15 @@ static unsigned int test_segfault_intable(void)
     return 1;
 }
 
+static unsigned int test_get_hash(void)
+{
+    return 1;
+}
+
+static unsigned int test_get_vartype(void)
+{
+    return 1;
+}
 
 
 unsigned int test_table(void)

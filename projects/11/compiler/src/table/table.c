@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <table/table.h>
 
+#define HASH_SIZE 20
+
 TABLE* new_table(char* name, char* type_name, TYPE type, KIND kind, short index)
 {
     TABLE* t = NULL;
@@ -22,6 +24,7 @@ TABLE* new_table(char* name, char* type_name, TYPE type, KIND kind, short index)
     t->index = index;
     t->next = NULL;
 
+
     return t;
 }
 
@@ -34,4 +37,13 @@ void release_table(TABLE** table)
     *table = NULL;
 
     return;
+}
+
+
+TABLE** get_hash(char* filename)
+{
+    TABLE** hash;
+    hash = malloc(HASH_SIZE * sizeof(TABLE*));
+
+
 }
