@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tokenizer/tokens.h>
 #include <compengine/compile.h>
 #include <tokenizer/reader.h>
 
@@ -23,7 +22,7 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
         target = fopen(filename2, "w");
         // cmp = fopen(filename3, "w");
         i = 0;
-        CODE c = {.identation=&i, .target=target, .source=source};
+        CODE c = {.identation=&i, .target=target, .source=source, .table=NULL};
 
         tested(&c);
 

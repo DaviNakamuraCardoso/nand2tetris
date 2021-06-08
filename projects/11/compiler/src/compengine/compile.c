@@ -7,9 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tokenizer/tokens.h>
-#include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <compengine/parser.h>
 
 
 // Private function putident
@@ -255,16 +254,21 @@ short is_next(CODE* c, char* content, TOKEN_TYPE type)
  * @param c -> source code being analyzed
  * @return r -> content of the next token (the caller must free the value)
  */
-char* get_next_token_content(CODE* c)
+void get_next_token_content(CODE* c, char* buffer)
 {
-    char* r;
     TOKEN* t;
 
     t = get_next_token(c->source);
     rollback(c->source);
 
-    r = strdup(t->content);
+    buffer[0] = '\0';
+
+    if (t == NULL) return;
+    if (t->content == NULL) return;
+
+    strncpy(buffer, t->content, 300);
+
     release_token(&t);
 
-    return r;
+    return;
 }

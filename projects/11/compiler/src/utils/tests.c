@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tokenizer/reader.h>
-#include <tokenizer/tokens.h>
 #include <compengine/compile.h>
 
 unsigned int test(unsigned int (*tests[]) (void), unsigned short size)
@@ -27,3 +26,13 @@ unsigned int test(unsigned int (*tests[]) (void), unsigned short size)
     return 1;
     
 }
+
+
+void set_filenames(char* basename, char* f1, char* f2, char* f3, int index)
+{
+    sprintf(f1, "./files/%s/%i.xml", basename, index);
+    sprintf(f2, "./files/%s/%i.out", basename, index);
+    sprintf(f3, "./files/%s/%i.cmp", basename, index);
+}
+
+

@@ -7,9 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tokenizer/tokens.h>
-#include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <compengine/parser.h>
 #include <compengine/expressions.h>
 #include <compengine/statements.h>
 #include <compengine/structure.h>
@@ -51,25 +50,16 @@ void compile_statements(CODE* c)
 
 void compile_else(CODE* c)
 {
-    int status;
-    TOKEN* next;
 
     /*
     *   <else> ::= else { <statements> }
     */
 
-    next = get_next_token(c->source);
+    char content[300];
 
-    if (next == NULL) return;
+    get_next_token_content(c, content);
 
-    rollback(c->source);
-
-    assert_type(next->type, KEYWORD, &status);
-    assert_content(next->content, "else", &status);
-
-    release_token(&next);
-
-    if (!status) return;
+    if (strcmp(content, "else") != 0) return;
 
     compile_keyword(c, "else");
 

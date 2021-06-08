@@ -22,7 +22,7 @@ static __VARIABLE* varalloc(void)
     return (__VARIABLE*) malloc(sizeof(__VARIABLE));
 }
 
-TABLE* new_table(void)
+TABLE* new_table(char* classname)
 {
     TABLE* t = talloc();
 
@@ -33,12 +33,14 @@ TABLE* new_table(void)
         t->variables[i] = NULL;
     }
 
+    t->classname = classname;
     t->next = NULL;
 
     for (int j = 0; j < 4; j++)
     {
         t->kind_counter[j] = 0;
     }
+
 
     return t;
 }
@@ -52,6 +54,7 @@ __VARIABLE* new_variable(char* name, KIND k, TYPE t)
     v->type = t;
     v->index = 0;
     v->next = NULL;
+    v->classname = NULL; 
 
     return v;
 }
@@ -77,7 +80,7 @@ static void release_variable(__VARIABLE* v)
 
 /**
  *
- * @param t -> table
+ * @param t->table
  */
 void release_table(TABLE** t)
 {
@@ -86,6 +89,7 @@ void release_table(TABLE** t)
         release_variable((*t)->variables[i]);
     }
 
+    free((*t)->variables);
     free(*t);
 
     *t = NULL;
@@ -95,6 +99,10 @@ void release_table(TABLE** t)
 
 void add_hash(TABLE* root, __VARIABLE* variable)
 {
+    // Prevent segfaults
+    if (root == NULL) return;
+    if (variable == NULL) return;
+
     int index = hash(variable->name);
     variable->next = root->variables[index];
     root->variables[index] = variable;
@@ -128,6 +136,7 @@ void add_var(TABLE* root, char* varname, KIND k, TYPE t)
 {
     __VARIABLE* v = new_variable(varname, k, t);
     add_hash(root, v);
+
     return;
 }
 
@@ -147,4 +156,3 @@ static unsigned int hash(char* s)
 
     return (hash_val % HASHSIZE);
 }
-

@@ -37,11 +37,15 @@ char* get_vm_variable(__VARIABLE* v)
 
 void update_table(CODE* c, KIND k, TYPE t)
 {
-    char* varname = get_next_token_content(c);
+
+    char varname[400];
+
+    if (c == NULL) return;
+    if (c->table == NULL) return;
+
+    get_next_token_content(c, varname);
 
     add_var(c->table, varname, k, t);
-
-    free(varname);
 
     return;
 }

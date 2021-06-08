@@ -8,13 +8,12 @@
 #include <string.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <compengine/compile.h>
 #include <tokenizer/reader.h>
-#include <tokenizer/tokens.h>
 #include <tokenizer/cleaner.h>
 #include <tokenizer/parser.h>
 #include <tokenizer/precomp.h>
 #include <compengine/parser.h>
-#include <compengine/compile.h>
 #include <compengine/structure.h>
 
 
@@ -46,7 +45,7 @@ void compile(char* filename)
 
     object = fopen("object.xml", "r");
 
-    CODE c = {.source=object, .target=target, .identation=&i};
+    CODE c = {.source=object, .target=target, .identation=&i, .table=NULL};
 
     compile_class(&c);
 

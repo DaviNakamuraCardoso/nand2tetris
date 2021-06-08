@@ -28,6 +28,7 @@ TOKEN_TYPE get_token_type_from_tag(char* tagname)
             switch (tagname[1]) {
                 case 'y': return IMPLEMENTED_SYMBOL;
                 case 't': return STRING_LITERAL;
+                default: return INVALID;
             }
         case 'k':
             return KEYWORD;
