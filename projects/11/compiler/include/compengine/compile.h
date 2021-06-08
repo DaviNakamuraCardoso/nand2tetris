@@ -1,8 +1,12 @@
 
+#include <tokenizer/tokens.h>
+#include <table/table.h>
+
 typedef struct _code {
     int* identation;
     FILE* source;
     FILE* target;
+    TABLE* table;
 } CODE;
 
 // Print the tag to a file using the current identation
@@ -40,4 +44,6 @@ void closetag(CODE* c, const char* tagname);
 
 unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, char*));
 
-short is_next(CODE* c, char* content, TOKEN_TYPE type); 
+short is_next(CODE* c, char* content, TOKEN_TYPE type);
+
+char* get_next_token_content(CODE* c);

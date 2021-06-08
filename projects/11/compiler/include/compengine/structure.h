@@ -2,17 +2,20 @@
 *       Headers for the program structure
 */
 
-typedef enum {
-    INT,
-    CHAR,
-    BOOLEAN,
-    CLASSNAME,
-    INVALID_TYPE
-} TYPE;
 
+#ifndef __TYPE
+#include <table/types.h>
+#define __TYPE
+#endif
 
+#ifndef __KIND
+#include <table/kinds.h>
+#define __KIND
+#endif
 
-void compile_type(CODE *c);
+#include <table/parser.h>
+
+TYPE compile_type(CODE *c);
 
 void compile_vardec(CODE* c);
 
