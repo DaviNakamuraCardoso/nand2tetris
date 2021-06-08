@@ -29,7 +29,7 @@ unsigned int compare_results(char** input, char** expected,
     return 1;
 }
 
-unsigned int can_handle_whitespaces(void)
+static unsigned int can_handle_whitespaces(void)
 {
     int i;
     unsigned int result;

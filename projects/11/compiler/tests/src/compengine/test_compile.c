@@ -70,14 +70,34 @@ unsigned int test_compile_identifier(void)
     return generic_compare("identifier", compile_identifier, 1);
 }
 
+static unsigned int test_get_next_token_content(void)
+{
+    char* filename = "./files/compengine/tokencontent.xml";
+    CODE c = {.source=fopen(filename, "r"), .target=NULL, .identation=NULL};
+
+    for (int i = 0; i < 5; i++)
+    {
+        char* result = get_next_token_content(&c);
+        if (strcmp(result, "hello") != 0)
+        {
+            printf("Result should always be hello.\n");
+            free(result);
+            return 0;
+        }
+        free(result);
+    }
+    return 1;
+}
+
 unsigned int test_compile(void)
 {
     unsigned int (*tests[]) (void) = {
         test_compilef,
         test_compile_symbol,
         test_compile_keyword,
-        test_compile_identifier
+        test_compile_identifier,
+        test_get_next_token_content
     };
 
-    return test(tests, 4);
+    return test(tests, 5);
 }

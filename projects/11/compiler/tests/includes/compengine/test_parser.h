@@ -1,2 +1,2 @@
 
-unsigned int test_compparser(void); 
+unsigned int test_compparser(void);

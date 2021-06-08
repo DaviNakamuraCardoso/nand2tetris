@@ -45,7 +45,7 @@ int main(void)
         test_structure,
         test_analyzer,
         test_table,
-        test_xmlparser
+        test_tableparser
     };
 
     test_num = 15;

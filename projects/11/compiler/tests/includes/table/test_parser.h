@@ -1,2 +1,2 @@
 
-unsigned int test_xmlparser(void);
+unsigned int test_tableparser(void);

@@ -1,32 +1,39 @@
 /**
 *
 *       Test the parser module for tables
-*
+*       (c) 2021 Davi Nakamura Cardoso
 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <table/table.h>
 #include <table/parser.h>
 #include <utils/tests.h>
 
-static unsigned int test_xmlnode(void)
+static unsigned int test_vm_code(void)
 {
-    unsigned int status;
-    XML* xml = NULL;
+    TABLE* t = new_table();
+    __VARIABLE* v = new_variable("l", STATIC, INTEGER);
+    char* cmd = get_vm_variable(v);
+    int status = 1;
 
-    xml = new_xml();
-    status = xml != NULL;
-    free(xml);
+    add_hash(t, v);
+
+    if (strcmp(cmd, "static 0") != 0)
+    {
+        status = 0;
+    }
+    release_table(&t);
+    free(cmd);
 
     return status;
+
 }
 
-
-
-unsigned int test_xmlparser(void)
+unsigned int test_tableparser(void)
 {
     unsigned int (*tests[]) (void) = {
-        test_xmlnode
+        test_vm_code
     };
 
     return test(tests, 1);

@@ -111,7 +111,6 @@ $(O)$(C)test_analyzer.o: $(S)$(C)test_analyzer.c
 # Get the analyzer module
 $(O)$(C)test_module_analyzer.o: $(CS)$(C)analyzer.c
 	gcc -I$(CH) -c $(CS)$(C)analyzer.c -o $(O)$(C)test_module_analyzer.o
-
 # Test the table
 $(O)$(B)test_table.o: $(S)$(B)test_table.c
 	gcc -I$(TH) -c $(S)$(B)test_table.c -o $(O)$(B)test_table.o
@@ -155,4 +154,4 @@ $(O)tests.o: $(S)tests.c
 
 # Executable
 tests: $(O)tests.o $(L)libtesttable.a $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a
-	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttable -ltesttokenizer -ltestcompengine -ltestutils -o tests
+	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttokenizer -ltestcompengine -ltesttable -ltestutils -o tests
