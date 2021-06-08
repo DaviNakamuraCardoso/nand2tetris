@@ -63,40 +63,45 @@ unsigned int compile_comma(CODE* c)
 
 }
 
+static unsigned int is_class_header(char* content)
+{
+    if (content[0] == '\0') return 0;
+
+    return (strcmp(content, "static") == 0 ||
+            strcmp(content, "field") == 0);
+}
+
+
+
 void compile_classheader(CODE* c)
 {
-    TOKEN* next;
+    char content[400];
 
-    next = get_next_token(c->source);
-    rollback(c->source);
 
-    while (strcmp(next->content, "field") == 0 ||
-        strcmp(next->content, "static") == 0) {
+    get_next_token_content(c, content);
+    while (is_class_header(content))
+    {
         compile_classvardec(c);
-        release_token(&next);
-        next = get_next_token(c->source);
-        rollback(c->source);
+        get_next_token_content(c, content);
     }
-
-    release_token(&next);
 }
 
 void compile_classbody(CODE* c)
 {
 
-    TOKEN* next;
+    char content[400];
 
-    next = get_next_token(c->source);
-    rollback(c->source);
+    get_next_token_content(c, content);
 
-    while (strcmp(next->content, "}") != 0)
+    if (*content == '\0') return;
+
+    while (strcmp(content, "}") != 0)
     {
         compile_subroutinedec(c);
-        release_token(&next);
-        next = get_next_token(c->source);
-        rollback(c->source);
+        get_next_token_content(c, content);
+        if (*content == '\0') return;
     }
-    release_token(&next);
+
     return;
 }
 
@@ -107,6 +112,8 @@ void compile_class(CODE* c)
     *       <class> ::= class <className> { <classvardec>* <subroutinedec>* }
     */
     TOKEN* next;
+    TABLE* table = new_table("class");
+    c->table = table;
 
     opentag(c, "class");
     compile_keyword(c, "class");
@@ -119,19 +126,23 @@ void compile_class(CODE* c)
     compile_symbol(c, "}");
 
     closetag(c, "class");
+
+    release_table(&table);
+
 }
 
 
 void compile_vardec(CODE* c)
 {
-    TOKEN* next;
+    TYPE t;
     opentag(c, "varDec");
 
     compile_keyword(c, "var");
 
-    compile_type(c);
+    t = compile_type(c);
 
     do {
+        update_table(c, LOCAL, t);
         compile_identifier(c);
     } while (compile_comma(c));
 
@@ -140,28 +151,30 @@ void compile_vardec(CODE* c)
     closetag(c, "varDec");
 }
 
+static void compile_subroutine_vardec(CODE* c)
+{
+    char content[300];
+
+    get_next_token_content(c, content);
+    while (strcmp(content, "var") == 0)
+    {
+        compile_vardec(c);
+        get_next_token_content(c, content);
+    }
+
+
+}
+
 void compile_subroutinebody(CODE* c)
 {
     /*
     *     <subroutinebody> ::= {<vardec>* <statements> }
     */
 
-    TOKEN* next;
     opentag(c, "subroutineBody");
 
     compile_symbol(c, "{");
-
-    next = get_next_token(c->source);
-    while (strcmp(next->content, "var") == 0)
-    {
-        release_token(&next);
-        rollback(c->source);
-        compile_vardec(c);
-        next = get_next_token(c->source);
-    }
-
-    rollback(c->source);
-
+    compile_subroutine_vardec(c);
     compile_statements(c);
 
     compile_symbol(c, "}");
@@ -240,6 +253,7 @@ void compile_classvardec(CODE* c)
     t = compile_type(c);
 
     do {
+        update_table(c, k, t);
         compile_identifier(c);
 
     } while (compile_comma(c));
@@ -297,6 +311,7 @@ void compile_parameterlist(CODE* c)
     *   <parameterlist> ::= (<type> <varname> (, <type> <varname>)*)
     */
     TOKEN* t;
+    TYPE type;
 
     compile_symbol(c, "(");
     opentag(c, "parameterList");
@@ -310,7 +325,8 @@ void compile_parameterlist(CODE* c)
     }
 
     do {
-        compile_type(c);
+        type = compile_type(c);
+        update_table(c, ARGUMENT, type);
         compile_identifier(c);
 
     } while (compile_comma(c));
