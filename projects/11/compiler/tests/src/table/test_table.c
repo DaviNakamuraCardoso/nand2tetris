@@ -71,21 +71,21 @@ static unsigned int test_add_var(void)
     TABLE* t = new_table();
 
     char* names[] = {
-         "skeeter"
+         "skeeter", NULL
     };
-    KIND kinds[] = {
-            FIELD
+        KIND kinds[] = {
+            FIELD, STATIC
     };
     TYPE types[] = {
-            INT
+            INT, BOOLEAN
     };
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
     {
        add_var(t, names[i], kinds[i], types[i]);
     }
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
     {
        __VARIABLE* v = search_table(t, names[i]) ;
        if (v->type != types[i] || v->kind != kinds[i])
@@ -134,6 +134,7 @@ static unsigned int test_search_variable(void)
     }
     return 1;
 }
+
 
 unsigned int test_table(void)
 {

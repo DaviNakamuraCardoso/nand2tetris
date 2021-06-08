@@ -130,6 +130,9 @@ $(O)$(B)test_module_parser.o: $(TS)$(B)parser.c
 $(O)$(U)comptests.o: $(CS)$(U)comptests.c
 	gcc -I$(CH) -c $(CS)$(U)comptests.c -o $(O)$(U)comptests.o
 
+$(O)$(U)tabletests.o: $(CS)$(U)tabletests.c
+	gcc -I$(CH) -c $(CS)$(U)tabletests.c -o $(O)$(U)tabletests.o
+
 $(O)$(U)tests.o: $(CS)$(U)tests.c
 	gcc -I$(CH) -c $(CS)$(U)tests.c -o $(O)$(U)tests.o
 
@@ -142,8 +145,8 @@ $(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)
 	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
 
 
-$(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o
-	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o
+$(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o
+	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o
 
 $(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o

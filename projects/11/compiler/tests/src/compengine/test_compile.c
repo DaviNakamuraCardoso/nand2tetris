@@ -7,10 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tokenizer/reader.h>
-#include <tokenizer/tokens.h>
-#include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <tokenizer/reader.h>
+#include <compengine/parser.h>
 #include <utils/tests.h>
 #include <utils/comptests.h>
 
@@ -74,18 +73,19 @@ static unsigned int test_get_next_token_content(void)
 {
     char* filename = "./files/compengine/tokencontent.xml";
     CODE c = {.source=fopen(filename, "r"), .target=NULL, .identation=NULL};
+    char result[300];
 
     for (int i = 0; i < 5; i++)
     {
-        char* result = get_next_token_content(&c);
+        get_next_token_content(&c, result);
         if (strcmp(result, "hello") != 0)
         {
             printf("Result should always be hello.\n");
-            free(result);
+            printf("Result: %s\n", result);
             return 0;
         }
-        free(result);
     }
+    fclose(c.source);
     return 1;
 }
 
