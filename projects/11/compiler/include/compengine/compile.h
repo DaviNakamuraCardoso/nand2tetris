@@ -46,4 +46,4 @@ unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, c
 
 short is_next(CODE* c, char* content, TOKEN_TYPE type);
 
-char* get_next_token_content(CODE* c);
+void get_next_token_content(CODE* c, char* buffer);

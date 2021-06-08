@@ -22,6 +22,7 @@
 
 typedef struct _variable {
     char* name;
+    char* classname;
     KIND kind;
     TYPE type;
     unsigned int index;
@@ -33,11 +34,12 @@ typedef struct _table {
     __VARIABLE** variables;
     struct _table* next;
     int kind_counter[4];
+    char* classname;
 
 } TABLE;
 
 // Constructors
-TABLE* new_table(void);
+TABLE* new_table(char* classname);
 __VARIABLE* new_variable(char* name, KIND k, TYPE t);
 
 // Deallocators
