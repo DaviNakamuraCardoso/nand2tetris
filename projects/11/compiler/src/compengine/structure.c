@@ -10,18 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <utils/error.h>
-#include <tokenizer/tokens.h>
+#include <compengine/compile.h>
 #include <tokenizer/cleaner.h>
 #include <compengine/parser.h>
-#include <compengine/compile.h>
 #include <compengine/statements.h>
 #include <compengine/structure.h>
 
 void handle_type(TYPE type, CODE* c, TOKEN* token);
 TYPE get_content_type(char* content);
+static KIND get_kind(char* content);
 
 
-void compile_type(CODE *c)
+TYPE compile_type(CODE *c)
 {
     TOKEN* next = get_next_token(c->source);
     TYPE t;
@@ -32,7 +32,7 @@ void compile_type(CODE *c)
     handle_type(t, c, next);
 
     release_token(&next);
-    return;
+    return t;
 
 }
 
@@ -202,7 +202,7 @@ void compile_function_predec(CODE* c)
 }
 
 
-void compile_classfield(CODE* c)
+KIND compile_classfield(CODE* c)
 {
     char* fieldtypes[] = {
         "static",
@@ -219,11 +219,11 @@ void compile_classfield(CODE* c)
         {
             compile_keyword(c, fieldtypes[i]);
             release_token(&t);
-            return;
+            return get_kind(fieldtypes[i]);
         }
     }
 
-    return;
+    return -1;
 }
 
 void compile_classvardec(CODE* c)
@@ -231,11 +231,13 @@ void compile_classvardec(CODE* c)
     /**
     *      <classvardec> ::= (static | field) <type> <varname> (, <varname>)* ;
     */
+    TYPE t;
+    KIND k;
 
     opentag(c, "classVarDec");
 
-    compile_classfield(c);
-    compile_type(c);
+    k = compile_classfield(c);
+    t = compile_type(c);
 
     do {
         compile_identifier(c);
@@ -268,6 +270,7 @@ void compile_function_type(CODE* c)
     compile_type(c);
     release_token(&t);
 }
+
 void compile_subroutinedec(CODE* c)
 {
     /**
@@ -366,4 +369,20 @@ TYPE get_content_type(char* content)
     }
 
     return CLASSNAME;
+}
+
+
+
+static KIND get_kind(char* content)
+{
+    char* kinds[] = {
+        "static", "field"
+    };
+
+    for (int i = 0; i < 2; i++)
+    {
+        if (strcmp(kinds[i], content) == 0) return i;
+    }
+
+    return -1;
 }

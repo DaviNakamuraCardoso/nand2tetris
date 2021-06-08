@@ -9,7 +9,6 @@
 #include <tokenizer/tokens.h>
 #include <compengine/parser.h>
 
-
 TOKEN* new_token(char* content, TOKEN_TYPE type)
 {
     TOKEN* token;

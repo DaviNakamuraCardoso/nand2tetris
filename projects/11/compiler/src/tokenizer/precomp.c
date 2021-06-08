@@ -33,7 +33,7 @@ unsigned int is_not_endofline(char* c)
 
 unsigned int is_not_endof_comment(char* c)
 {
-    return !(*(c-1) == '*' && (*c) == '/');
+    return !((c[-1]) == '*' && (c[0]) == '/');
 }
 
 char* cycle_text(char* text, unsigned int (*validator) (char*))

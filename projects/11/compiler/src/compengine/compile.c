@@ -248,3 +248,23 @@ short is_next(CODE* c, char* content, TOKEN_TYPE type)
     return status;
 
 }
+
+
+/**
+ *
+ * @param c -> source code being analyzed
+ * @return r -> content of the next token (the caller must free the value)
+ */
+char* get_next_token_content(CODE* c)
+{
+    char* r;
+    TOKEN* t;
+
+    t = get_next_token(c->source);
+    rollback(c->source);
+
+    r = strdup(t->content);
+    release_token(&t);
+
+    return r;
+}

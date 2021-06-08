@@ -121,7 +121,7 @@ unsigned int search_one_char(SYMBOL* root, char* key)
 
 void add_symbols_from_file(SYMBOL* root, char* filename, TOKEN_TYPE type)
 {
-    char *buff, *whitespace = NULL;
+    char *buff = NULL, *whitespace = NULL;
     size_t size, len;
     FILE* f = fopen(filename, "r");
 

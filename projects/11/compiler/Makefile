@@ -10,6 +10,7 @@ I = ./include/
 T = tokenizer/
 C = compengine/
 U = utils/
+B = table/
 
 # Precompilation functions
 $(O)$(T)precomp.o: $(S)$(T)precomp.c
@@ -56,6 +57,14 @@ $(O)$(C)analyzer.o: $(S)$(C)analyzer.c
 	gcc -I$(I) -c $(S)$(C)analyzer.c -o $(O)$(C)analyzer.o
 
 
+# Table
+$(O)$(B)table.o: $(S)$(B)table.c
+	gcc -I$(I) -c $(S)$(B)table.c -o $(O)$(B)table.o
+
+$(O)$(B)parser.o: $(S)$(B)parser.c
+	gcc -I$(I) -c $(S)$(B)parser.c -o $(O)$(B)parser.o
+
+
 # Error handler
 $(O)$(U)error.o:
 	gcc -I$(I) -c $(S)$(U)error.c -o $(O)$(U)error.o
@@ -76,10 +85,13 @@ $(L)libtokenizer.a: $(O)$(T)tokens.o $(O)$(T)parser.o $(O)$(T)precomp.o $(O)$(T)
 $(L)libcompengine.a: $(O)$(C)parser.o $(O)$(C)compile.o $(O)$(C)statements.o $(O)$(C)expressions.o $(O)$(C)structure.o $(O)$(C)analyzer.o
 	ar -rcs $(L)libcompengine.a $(O)$(C)parser.o $(O)$(C)compile.o $(O)$(C)statements.o $(O)$(C)expressions.o $(O)$(C)structure.o $(O)$(C)analyzer.o
 
+$(L)libtable.a: $(O)$(B)parser.o $(O)$(B)table.o
+	ar -rcs $(L)libtable.a $(O)$(B)table.o $(O)$(B)parser.o
+
 # Main module
 $(O)dcc.o: $(S)dcc.c
 	gcc -I$(I) -c $(S)dcc.c -o $(O)dcc.o
 
 # Executable
-dcc: $(O)dcc.o $(L)libcompengine.a $(L)libtokenizer.a $(L)libdccutils.a
-	gcc -Ofast -I$(I) -L$(L) $(O)dcc.o  -lcompengine -ltokenizer -ldccutils -o dcc
+dcc: $(O)dcc.o $(L)libcompengine.a $(L)libtable.a $(L)libtokenizer.a $(L)libdccutils.a
+	gcc -Ofast -I$(I) -L$(L) $(O)dcc.o -lcompengine -ltable -ltokenizer -ldccutils -o dcc

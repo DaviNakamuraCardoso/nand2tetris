@@ -34,11 +34,12 @@ static void cleanup(void);
 
 void compile(char* filename)
 {
-    char* tokens, *content, *name;
+    char* tokens, *name;
     int i = 0;
     FILE* object, *target;
 
-    target = fopen(get_name(filename), "w");
+    name = get_name(filename);
+    target = fopen(name, "w");
 
     tokens = tokenize(filename);
     get_tokens(tokens);
@@ -51,6 +52,8 @@ void compile(char* filename)
 
     fclose(object);
     fclose(target);
+    free(name);
+    free(tokens);
     return;
 
 }
@@ -115,20 +118,20 @@ static void get_tokens(char* tokens)
 
 static char* get_name(char* filename)
 {
-    char* name, *end;
+    int i;
+    char* name, *current;
 
-    name = malloc(strlen(filename) * sizeof(char));
-    strcpy(name, filename);
+    name = calloc(sizeof(char), strlen(filename)-1);
 
-    end = strstr(name, ".jack");
+    for (i = 0, current = filename; strcmp(current, ".jack") != 0; i++, current++)
+    {
+        name[i] = filename[i];
+    }
+    name[i] = '\0';
 
-    end[1] = 'x';
-    end[2] = 'm';
-    end[3] = 'l';
-    end[4] = '\0';
+    strcat(name, ".xml");
 
     return name;
-
 }
 
 static unsigned int is_source(char* path)
