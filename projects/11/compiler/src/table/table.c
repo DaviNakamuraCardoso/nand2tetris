@@ -45,8 +45,20 @@ TABLE* new_table(char* classname)
     return t;
 }
 
+static void add_classname(__VARIABLE* v, char* classname, TYPE t)
+{
+    if (is_primitive(t))
+    {
+        v->classname = NULL;
+    }
+    else
+    {
+        v->classname = strdup(classname);
+    }
+    return;
+}
 
-__VARIABLE* new_variable(char* name, KIND k, TYPE t)
+__VARIABLE* new_variable(char* name, char* classname, KIND k, TYPE t)
 {
     __VARIABLE* v = varalloc();
     v->name = strdup(name);
@@ -54,13 +66,13 @@ __VARIABLE* new_variable(char* name, KIND k, TYPE t)
     v->type = t;
     v->index = 0;
     v->next = NULL;
-    v->classname = NULL; 
+    add_classname(v, classname, t);
 
     return v;
 }
 
 
-static void release_variable(__VARIABLE* v)
+void release_variable(__VARIABLE* v)
 {
 
     __VARIABLE* current, *next;
@@ -71,6 +83,7 @@ static void release_variable(__VARIABLE* v)
     {
         next = current->next;
         free(current->name);
+        if (current->classname != NULL) free(current->classname);
         free(current);
     }
 
@@ -132,9 +145,9 @@ __VARIABLE* search_table(TABLE* root, char* name)
 }
 
 
-void add_var(TABLE* root, char* varname, KIND k, TYPE t)
+void add_var(TABLE* root, char* varname, char* classname, KIND k, TYPE t)
 {
-    __VARIABLE* v = new_variable(varname, k, t);
+    __VARIABLE* v = new_variable(varname, classname, k, t);
     add_hash(root, v);
 
     return;
@@ -155,4 +168,42 @@ static unsigned int hash(char* s)
     }
 
     return (hash_val % HASHSIZE);
+}
+
+static void get_primitive(TYPE t, char* buffer)
+{
+    char* primitives[] = {
+        "int", "char", "boolean"
+    };
+
+    strcpy(buffer, primitives[t]);
+
+    return;
+}
+
+void get_typename(__VARIABLE* v, char* buffer)
+{
+    if (is_primitive(v->type))
+    {
+        get_primitive(v->type, buffer);
+        return;
+    }
+
+    strncpy(buffer, v->classname, 300);
+    return;
+}
+
+static unsigned int is_primitive(TYPE t)
+{
+    switch (t)
+    {
+        case INT:
+        case BOOLEAN:
+        case CHAR:
+        {
+            return 1;
+        }
+    }
+
+    return 0;
 }

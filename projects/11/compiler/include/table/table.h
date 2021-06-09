@@ -19,6 +19,10 @@
 #define __KIND
 #endif
 
+typedef enum {
+    METHOD, FUNCTION, CONSTRUCTOR
+} __F_TYPE;
+
 
 typedef struct _variable {
     char* name;
@@ -40,15 +44,20 @@ typedef struct _table {
 
 // Constructors
 TABLE* new_table(char* classname);
-__VARIABLE* new_variable(char* name, KIND k, TYPE t);
+__VARIABLE* new_variable(char* name, char* classname, KIND k, TYPE t);
 
 // Deallocators
 void release_table(TABLE** t);
-static void release_variable(__VARIABLE* v);
+void release_variable(__VARIABLE* v);
 
+
+// Adds and searches for variables in the symbol table
 static unsigned int hash(char* s);
 void add_hash(TABLE* root, __VARIABLE* variable);
+void add_var(TABLE* root, char* varname, char* classname, KIND k, TYPE t);
 __VARIABLE* search_table(TABLE* root, char* name);
 
 
-void add_var(TABLE* root, char* varname, KIND k, TYPE t);
+// Manipulation
+static unsigned int is_primitive(TYPE t);
+void get_typename(__VARIABLE* v, char* buffer);

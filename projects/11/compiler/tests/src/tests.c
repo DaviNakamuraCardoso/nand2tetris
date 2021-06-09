@@ -7,21 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tests.h>
-#include <tokenizer/test_tokens.h>
-#include <tokenizer/test_precomp.h>
-#include <tokenizer/test_reader.h>
-#include <tokenizer/test_cleaner.h>
-#include <tokenizer/test_parser.h>
-#include <compengine/test_parser.h>
-#include <compengine/test_compile.h>
-#include <compengine/test_statements.h>
-#include <compengine/test_expressions.h>
-#include <compengine/test_structure.h>
-#include <compengine/test_analyzer.h>
-#include <table/test_table.h>
-#include <table/test_parser.h>
 
-#define BASE_DIR ".."
 
 int main(void)
 {
@@ -45,13 +31,15 @@ int main(void)
         test_structure,
         test_analyzer,
         test_table,
-        test_tableparser
+        test_tableparser,
+        test_loops
     };
 
-    test_num = 15;
+    test_num = 16;
 
     for (i = 0; i < test_num; i++)
     {
+        printf("Testing %i..\n", i);
         if (!test_functions[i]())
         {
             printf("Fail on test %i\n", i);

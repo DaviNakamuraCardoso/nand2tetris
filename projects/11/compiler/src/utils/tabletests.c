@@ -49,7 +49,17 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
                 fprintf(stderr, "Wrong variable kind\n");
                 return 0;
             }
+
+            release_variable(variables[i][j]);
         }
+
+        if (c.table->next != NULL)
+        {
+            exit_scope(&c);
+        }
+
+        fclose(input);
+        fclose(output);
 
         release_table(&c.table);
 

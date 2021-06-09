@@ -1,5 +1,5 @@
 // Compare
-unsigned int generic_compare(const char* expression, void (*tested) (CODE*), unsigned short size);
+unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...), unsigned short size);
 
 // Test
 unsigned int test_compile_implemented(const char* name, unsigned int (*function) (CODE*, char*), int size);

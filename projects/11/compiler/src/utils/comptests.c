@@ -5,7 +5,7 @@
 #include <tokenizer/reader.h>
 
 
-unsigned int generic_compare(const char* expression, void (*tested) (CODE*), unsigned short size)
+unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...), unsigned short size)
 {
     unsigned short s;
     int i = 0;
@@ -24,7 +24,7 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*), uns
         i = 0;
         CODE c = {.identation=&i, .target=target, .source=source, .table=NULL};
 
-        tested(&c);
+        tested(&c, NULL, NULL);
 
         fclose(source);
         fclose(target);
@@ -68,7 +68,6 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
 
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
-        // cmp = fopen(filename3, "w");
 
         CODE c = {.identation=&i, .target=target, .source=source};
 
@@ -80,9 +79,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
         result = get_file(filename2);
         expected = get_file(filename3);
 
-        // fprintf(cmp, "%s", result);
 
-        // fclose(cmp);
         if (strcmp(result, expected) != 0)
         {
             printf("Error in compile_symbol %i\n", s);
@@ -94,7 +91,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
             return 0;
         }
 
-        // free(expected);
+        free(expected);
         free(result);
 
     }

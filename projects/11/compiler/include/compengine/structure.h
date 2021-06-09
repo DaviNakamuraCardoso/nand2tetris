@@ -3,6 +3,7 @@
 */
 
 
+
 #ifndef __TYPE
 #include <table/types.h>
 #define __TYPE
@@ -15,13 +16,15 @@
 
 #include <table/parser.h>
 
-TYPE compile_type(CODE *c);
+TYPE compile_type(CODE *c, char* buffer);
 
 void compile_vardec(CODE* c);
 
 void compile_subroutinebody(CODE* c);
 
 void compile_parameterlist(CODE* c);
+
+void compile_function_predec(CODE* c);
 
 void compile_subroutinedec(CODE* c);
 

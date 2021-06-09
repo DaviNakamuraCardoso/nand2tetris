@@ -7,17 +7,16 @@ L = ./lib/
 O = ./obj/
 H = ./includes/
 
-# (T)okenizer and (C)ompilation engine
+# (T)okenizer, (C)ompilation engine, (U)tils, ta(B)le, (W)riter
 T = tokenizer/
 C = compengine/
 U = utils/
 B = table/
+W = writer/
 
-# (TH) Test Header, ()
+# (TH) Tested Header, (TS) Tested Source
 TH = ./../include/
 TS = ./../src/
-TL = ./../lib/
-TO = ./../obj/
 
 CH = ./../include/
 CS = ./../src/
@@ -130,8 +129,20 @@ $(O)$(B)test_module_parser.o: $(TS)$(B)parser.c
 $(O)$(U)comptests.o: $(CS)$(U)comptests.c
 	gcc -I$(CH) -c $(CS)$(U)comptests.c -o $(O)$(U)comptests.o
 
+# Test the loops
+$(O)$(W)test_loops.o: $(S)$(W)test_loops.c
+	gcc -I$(TH) -c $(S)$(W)test_loops.c -o $(O)$(W)test_loops.o
+
+# Get the loops module
+$(O)$(W)test_module_loops.o: $(TS)$(W)loops.c
+	gcc -I$(TH) -c $(TS)$(W)loops.c -o $(O)$(W)test_module_loops.o
+
+
 $(O)$(U)tabletests.o: $(CS)$(U)tabletests.c
 	gcc -I$(CH) -c $(CS)$(U)tabletests.c -o $(O)$(U)tabletests.o
+
+$(O)$(U)writertests.o: $(CS)$(U)writertests.c
+	gcc -I$(CH) -c $(CS)$(U)writertests.c -o $(O)$(U)writertests.o
 
 $(O)$(U)tests.o: $(CS)$(U)tests.c
 	gcc -I$(CH) -c $(CS)$(U)tests.c -o $(O)$(U)tests.o
@@ -144,17 +155,22 @@ $(L)libtesttokenizer.a: $(O)$(T)test_tokens.o $(O)$(T)tokens_test.o $(O)$(T)test
 $(L)libtestcompengine.a: $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
 	ar -rcs $(L)libtestcompengine.a $(O)$(C)test_parser.o $(O)$(C)test_module_parser.o $(O)$(C)test_statements.o $(O)$(C)test_module_statements.o $(O)$(C)test_compile.o $(O)$(C)test_module_compile.o $(O)$(C)test_expressions.o $(O)$(C)test_module_expressions.o $(O)$(C)test_structure.o $(O)$(C)test_module_structure.o $(O)$(C)test_analyzer.o $(O)$(C)test_module_analyzer.o
 
+# Utils
+$(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o $(O)$(U)writertests.o
+	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o $(O)$(U)writertests.o
 
-$(L)libtestutils.a: $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o
-	ar -rcs $(L)libtestutils.a $(O)$(U)tests.o $(O)$(U)comptests.o $(O)$(U)tabletests.o
-
+# Table test
 $(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
+
+# Writer test
+$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o
+	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c
 	gcc -I$(H) -c $(S)tests.c -o $(O)tests.o
 
 # Executable
-tests: $(O)tests.o $(L)libtesttable.a $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a
-	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttokenizer -ltestcompengine -ltesttable -ltestutils -o tests
+tests: $(O)tests.o $(L)libtesttable.a $(L)libtesttokenizer.a $(L)libtestcompengine.a $(L)libtestutils.a $(L)libtestwriter.a
+	gcc -I$(TH) -L$(L) $(O)tests.o -ltesttokenizer -ltestcompengine -ltestwriter -ltesttable -ltestutils -o tests
