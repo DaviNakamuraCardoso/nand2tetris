@@ -7,9 +7,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <tokenizer/tokens.h>
-#include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <compengine/parser.h>
 #include <compengine/analyzer.h>
 #include <utils/tests.h>
 #include <utils/comptests.h>
