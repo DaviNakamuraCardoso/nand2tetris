@@ -21,7 +21,7 @@ TYPE get_content_type(char* content);
 static KIND get_kind(char* content);
 
 
-TYPE compile_type(CODE *c)
+TYPE compile_type(CODE *c, char* buffer)
 {
     TOKEN* next = get_next_token(c->source);
     TYPE t;
@@ -30,6 +30,8 @@ TYPE compile_type(CODE *c)
 
     t = get_content_type(next->content);
     handle_type(t, c, next);
+
+    if (buffer != NULL) strncpy(buffer, next->content, 300);
 
     release_token(&next);
     return t;
@@ -135,14 +137,15 @@ void compile_class(CODE* c)
 void compile_vardec(CODE* c)
 {
     TYPE t;
+    char buffer[300];
     opentag(c, "varDec");
 
     compile_keyword(c, "var");
 
-    t = compile_type(c);
+    t = compile_type(c, buffer);
 
     do {
-        update_table(c, LOCAL, t);
+        update_table(c, buffer, LOCAL, t);
         compile_identifier(c);
     } while (compile_comma(c));
 
@@ -179,6 +182,9 @@ void compile_subroutinebody(CODE* c)
 
     compile_symbol(c, "}");
     closetag(c, "subroutineBody");
+
+    // Exits the local scope by freeing the topmost symbol table
+    exit_scope(c);
 }
 
 void compile_function_predec(CODE* c)
@@ -197,7 +203,7 @@ void compile_function_predec(CODE* c)
     if (t->type != KEYWORD)
     {
         release_token(&t);
-        return;
+        return ;
     }
 
     for (int i = 0; predecs[i] != NULL; i++)
@@ -205,6 +211,7 @@ void compile_function_predec(CODE* c)
         if (strcmp(predecs[i], t->content) == 0)
         {
             compile_keyword(c, predecs[i]);
+            init_scope(c, i);
             release_token(&t);
             return;
         }
@@ -246,14 +253,15 @@ void compile_classvardec(CODE* c)
     */
     TYPE t;
     KIND k;
+    char typename[300];
 
     opentag(c, "classVarDec");
 
     k = compile_classfield(c);
-    t = compile_type(c);
+    t = compile_type(c, typename);
 
     do {
-        update_table(c, k, t);
+        update_table(c, typename, k, t);
         compile_identifier(c);
 
     } while (compile_comma(c));
@@ -267,22 +275,18 @@ void compile_classvardec(CODE* c)
 
 void compile_function_type(CODE* c)
 {
-    TOKEN* t;
 
-    t = get_next_token(c->source);
+    char content[300];
 
-    rollback(c->source);
+    get_next_token_content(c, content);
 
-
-    if (strcmp(t->content, "void") == 0)
+    if (strcmp(content, "void") == 0)
     {
         compile_keyword(c, "void");
-        release_token(&t);
         return;
     }
 
-    compile_type(c);
-    release_token(&t);
+    compile_type(c, NULL);
 }
 
 void compile_subroutinedec(CODE* c)
@@ -312,6 +316,7 @@ void compile_parameterlist(CODE* c)
     */
     TOKEN* t;
     TYPE type;
+    char typename[300];
 
     compile_symbol(c, "(");
     opentag(c, "parameterList");
@@ -325,8 +330,8 @@ void compile_parameterlist(CODE* c)
     }
 
     do {
-        type = compile_type(c);
-        update_table(c, ARGUMENT, type);
+        type = compile_type(c, typename);
+        update_table(c, typename, ARGUMENT, type);
         compile_identifier(c);
 
     } while (compile_comma(c));
