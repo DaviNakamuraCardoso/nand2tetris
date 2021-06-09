@@ -16,7 +16,7 @@
 static unsigned int test_vm_code(void)
 {
     TABLE* t = new_table("Main");
-    __VARIABLE* v = new_variable("l", STATIC, INT);
+    __VARIABLE* v = new_variable("l", NULL, STATIC, INT);
     char* cmd = get_vm_variable(v);
     int status = 1;
 
@@ -36,16 +36,16 @@ static unsigned int test_vm_code(void)
 static unsigned int test_symbol_table(void)
 {
     __VARIABLE* variable1[] = {
-            new_variable("high", FIELD, INT),
-            new_variable("on", FIELD, INT),
-            new_variable("the", FIELD, INT),
-            new_variable("list", FIELD, INT),
+            new_variable("high", NULL,FIELD, INT),
+            new_variable("on", NULL, FIELD, INT),
+            new_variable("the", NULL, FIELD, INT),
+            new_variable("list", NULL, FIELD, INT),
             NULL
     };
 
     __VARIABLE* variable2[] = {
-            new_variable("carolina", STATIC, CLASSNAME),
-            new_variable("four", STATIC, CLASSNAME),
+            new_variable("carolina", "Queen", STATIC, CLASSNAME),
+            new_variable("four", "Queen", STATIC, CLASSNAME),
             NULL
     };
 
@@ -59,7 +59,7 @@ static unsigned int test_symbol_table(void)
 static unsigned int test_local_sytable(void)
 {
    __VARIABLE* vars1[] = {
-           new_variable("fine", LOCAL, BOOLEAN),
+           new_variable("fine", NULL, LOCAL, BOOLEAN),
            NULL
    };
 
@@ -73,7 +73,7 @@ static unsigned int test_local_sytable(void)
 static unsigned int test_parameter_stable(void)
 {
     __VARIABLE* vars1[] = {
-        new_variable("a", ARGUMENT, INT),
+        new_variable("a", NULL, ARGUMENT, INT),
         NULL
     };
 
@@ -85,13 +85,57 @@ static unsigned int test_parameter_stable(void)
 
 }
 
+static unsigned int test_scope_creation(void)
+{
+    __VARIABLE* vars1[] = {
+        new_variable("this", "Keyboard", ARGUMENT, CLASSNAME),
+        NULL
+    };
+
+    __VARIABLE* vars2[] = {
+        NULL
+    };
+
+    __VARIABLE** variables[] = {
+        vars1, vars2
+    };
+
+
+
+    return test_symbols("table/scopes", variables, 2, compile_function_predec);
+}
+
+static unsigned int test_parameterlist_scopes(void)
+{
+    __VARIABLE* vars1[] = {
+        new_variable("a", "XSquarePlus7XPlus2MinusElevenThirds", ARGUMENT, INT),
+        NULL
+    };
+
+    __VARIABLE* vars2[] = {
+        new_variable("a", NULL, ARGUMENT, INT),
+        new_variable("b", NULL, ARGUMENT, INT),
+        new_variable("c", NULL, ARGUMENT, INT),
+        NULL
+    };
+
+    __VARIABLE** vars[] = {
+        vars1, vars2
+    };
+
+    return test_symbols("table/parameterlist", vars, 2, compile_parameterlist);
+}
+
+
 unsigned int test_tableparser(void)
 {
     unsigned int (*tests[]) (void) = {
         test_vm_code,
         test_symbol_table,
-        test_local_sytable
+        test_local_sytable,
+        test_scope_creation,
+        test_parameterlist_scopes
     };
 
-    return test(tests, 3);
+    return test(tests, 5);
 }

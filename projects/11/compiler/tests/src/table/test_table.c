@@ -7,16 +7,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <table/table.h>
 #include <utils/tests.h>
+
 
 static unsigned int test_new_table(void)
 {
     unsigned int status;
     TABLE* t;
 
-    t = new_table();
+    t = new_table("Main");
     status = t != NULL;
+    free(t->variables);
     free(t);
     return status;
 }
@@ -26,7 +29,7 @@ static unsigned int test_new_variable(void)
     unsigned int status;
     __VARIABLE* v;
 
-    v = new_variable("Hi", STATIC, INT);
+    v = new_variable("Hi", "Brown", STATIC, INT);
     status = v != NULL;
 
     free(v->name);
@@ -37,11 +40,11 @@ static unsigned int test_new_variable(void)
 
 static unsigned int test_release_table(void)
 {
-    TABLE* t = new_table();
+    TABLE* t = new_table("Sing");
 
-    t->variables[0] = new_variable("dbrey", FIELD, CLASSNAME);
-    t->variables[0]->next = new_variable("gkel", FIELD, CLASSNAME);
-    t->variables[1] = new_variable("fsin", STATIC, INT);
+    t->variables[0] = new_variable("dbrey", "Hello", FIELD, CLASSNAME);
+    t->variables[0]->next = new_variable("gkel", "Rain", FIELD, CLASSNAME);
+    t->variables[1] = new_variable("fsin", NULL, STATIC, INT);
 
     release_table(&t);
     return t == NULL;
@@ -52,8 +55,8 @@ static unsigned int test_add_hash(void)
     unsigned int status;
 
     //  Declares a variable and a table
-    __VARIABLE* v = new_variable("", FIELD, INT);
-    TABLE* t = new_table();
+    __VARIABLE* v = new_variable("", NULL, FIELD, INT);
+    TABLE* t = new_table("Hi");
 
     /*
     *  According to the hash function, an empty string variable must be
@@ -68,7 +71,7 @@ static unsigned int test_add_hash(void)
 
 static unsigned int test_add_var(void)
 {
-    TABLE* t = new_table();
+    TABLE* t = new_table("HI");
 
     char* names[] = {
          "skeeter", NULL
@@ -80,9 +83,13 @@ static unsigned int test_add_var(void)
             INT, BOOLEAN
     };
 
+    char* typenames[] = {
+        NULL, NULL
+    };
+
     for (int i = 0; i < 2; i++)
     {
-       add_var(t, names[i], kinds[i], types[i]);
+       add_var(t, names[i], typenames[i],  kinds[i], types[i]);
     }
 
     for (int i = 0; i < 2; i++)
@@ -106,9 +113,9 @@ static unsigned int test_add_var(void)
 static unsigned int test_search_variable(void)
 {
     __VARIABLE* vars[] = {
-            new_variable("steam", STATIC, INT),
-            new_variable("heat", STATIC, INT),
-            new_variable("radiator", STATIC, INT)
+            new_variable("steam", NULL, STATIC, INT),
+            new_variable("heat", NULL, STATIC, INT),
+            new_variable("radiator", NULL, STATIC, INT)
     };
 
     char* names[] = {
@@ -117,7 +124,7 @@ static unsigned int test_search_variable(void)
             "radiator"
     };
 
-    TABLE* table = new_table();
+    TABLE* table = new_table("Heat");
 
     for (int i = 0; i < 3; i++)
     {
@@ -132,6 +139,40 @@ static unsigned int test_search_variable(void)
             return 0;
         }
     }
+
+    release_table(&table);
+    return 1;
+}
+
+static unsigned int test_get_typename(void)
+{
+    __VARIABLE* vars[] = {
+        new_variable("a", NULL, LOCAL, INT),
+        new_variable("tea", "Tea", STATIC, CLASSNAME),
+        new_variable("has_alcohol", NULL, ARGUMENT, BOOLEAN),
+        new_variable("initial", NULL, FIELD, CHAR)
+    };
+
+    char* expected[]  = {
+        "int", "Tea", "boolean", "char"
+    };
+
+    char result[300];
+
+    for (int i = 0; i < 4; i++)
+    {
+        get_typename(vars[i], result);
+
+        if (strcmp(result, expected[i]) != 0)
+        {
+            printf("Expected: %s\n", expected[i]);
+            printf("Result: %s\n", result);
+            return 0;
+        }
+
+        release_variable(vars[i]);
+    }
+
     return 1;
 }
 
@@ -143,8 +184,9 @@ unsigned int test_table(void)
         test_new_variable,
         test_release_table,
         test_add_hash,
-        test_search_variable
+        test_search_variable,
+        test_get_typename
     };
 
-    return test(tests, 5);
+    return test(tests, 6);
 }
