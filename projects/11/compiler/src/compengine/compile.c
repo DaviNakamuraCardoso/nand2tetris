@@ -9,6 +9,7 @@
 #include <string.h>
 #include <compengine/compile.h>
 #include <compengine/parser.h>
+#include <utils/error.h>
 
 
 // Private function putident
@@ -43,6 +44,13 @@ void putident(int ident, FILE* f)
 {
     for (int i = 0; i < ident; i++) { fputc('\t', f); }
     return;
+}
+
+unsigned long get_counter(CODE* c)
+{
+    if (c->tracker == NULL) error("Could't access counter: tracker is NULL");
+    return (c->tracker->counter++);
+
 }
 
 void assert_type(TOKEN_TYPE a, TOKEN_TYPE b, int* status)
@@ -285,16 +293,16 @@ static int* intalloc(void)
     return r;
 }
 
-CODE* new_code(FILE* source, FILE* target)
+CODE* new_code(FILE* source, FILE* target, FILE* vm)
 {
     CODE* c = codealloc();
 
     c->source = source;
     c->target = target;
+    c->vm = vm;
     c->identation = intalloc();
     c->table = NULL;
-    c->vm = NULL;
-    c->labels = NULL;
+    c->tracker = NULL;
 
     return c;
 }
@@ -305,7 +313,7 @@ void release_code(CODE* c)
     if (c->target != NULL) fclose(c->target);
     if (c->vm != NULL)     fclose(c->vm);
     if (c->table != NULL)  release_table(&(c->table));
-    if (c->identation != NULL) free(c->identation); 
+    if (c->identation != NULL) free(c->identation);
 
 
     free(c);

@@ -1,8 +1,8 @@
 /**
 *
- *      Parse variable names
+*       Parse variable names
 *       (c) 2021 Davi Nakamura Cardoso
- *
+*
 */
 
 #include <stdio.h>
@@ -104,10 +104,11 @@ void exit_scope(CODE* c)
     // Prevent the code from exiting the global scope
     if (c->table->next == NULL) error("Trying to exit global scope");
 
-
     c->table = t->next;
+
+    // Prevent the release_table function from destroying the outer scope
     t->next = NULL;
-    
+
     release_table(&t);
 
     return;

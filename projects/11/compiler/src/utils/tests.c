@@ -36,3 +36,18 @@ void set_filenames(char* basename, char* f1, char* f2, char* f3, int index)
 
     return;
 }
+
+void release_results(char* r1, char* r2)
+{
+    free(r1);
+    free(r2);
+}
+
+void display_results(char* expected, char* result, unsigned int test)
+{
+    printf("Error in test number %i\n", test);
+    printf("Expected: %s\n", expected);
+    printf("Result: %s\n", result);
+
+    release_results(expected, result); 
+}

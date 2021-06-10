@@ -24,7 +24,7 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
         input = fopen(filename, "r");
         output = fopen(filename2, "w");
 
-        c = new_code(input, output);
+        c = new_code(input, output, NULL);
         c->table = new_table("Main");
 
         tested(c);

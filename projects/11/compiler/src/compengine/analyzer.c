@@ -26,15 +26,16 @@ static void get_tokens(char* tokens);
 static void get_name(char* filename, char* buffer);
 static unsigned int is_file(char* path);
 static unsigned int is_source(char* path);
-static void analyze_file(char* file);
-static void analyze_directory(char* directory);
+static void analyze_file(char* file, TRACKER* t);
+static void analyze_directory(char* directory, TRACKER* t);
 static void cleanup(void);
-static CODE* get_code(char* filename);
+static CODE* get_code(char* filename, TRACKER* t);
 
 
-void compile(char* filename)
+void compile(char* filename, TRACKER* t)
 {
-    CODE* c = get_code(filename);
+    CODE* c = get_code(filename, t);
+
     compile_class(c);
     release_code(c);
 
@@ -44,22 +45,25 @@ void compile(char* filename)
 
 void analyze(char* path)
 {
-    if (is_source(path)) analyze_file(path);
-    else analyze_directory(path);
+    TRACKER* t = new_tracker();
 
+    if (is_source(path)) analyze_file(path, t);
+    else analyze_directory(path, t);
+
+    release_tracker(t);
     cleanup();
 
     return;
 }
 
 
-static void analyze_file(char* file)
+static void analyze_file(char* file, TRACKER* t)
 {
-    if (is_source(file)) compile(file);
+    if (is_source(file)) compile(file, t);
     return;
 }
 
-static void analyze_directory(char* directory)
+static void analyze_directory(char* directory, TRACKER* t)
 {
     DIR* dir;
     char path[400];
@@ -70,7 +74,7 @@ static void analyze_directory(char* directory)
     while ((de = readdir(dir)) != NULL)
     {
         sprintf(path, "%s/%s", directory, de->d_name);
-        analyze_file(path);
+        analyze_file(path, t);
     }
 
     closedir(dir);
@@ -128,7 +132,7 @@ static void cleanup(void)
     remove("tokens.xml");
 }
 
-CODE* get_code(char* filename)
+CODE* get_code(char* filename, TRACKER* t)
 {
     char* tokens, name[300];
     FILE* source, *target;
@@ -142,7 +146,8 @@ CODE* get_code(char* filename)
 
     source = fopen("object.xml", "r");
 
-    c = new_code(source, target);
+    c = new_code(source, target, NULL);
+    c->tracker = t;
 
     free(tokens);
 

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <compengine/compile.h>
 #include <tokenizer/reader.h>
+#include <utils/tests.h>
 
 
 unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...), unsigned short size)
@@ -22,7 +23,7 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
         target = fopen(filename2, "w");
         // cmp = fopen(filename3, "w");
 
-        c = new_code(source, target);
+        c = new_code(source, target, NULL);
 
         tested(c, NULL, NULL);
 
@@ -37,16 +38,11 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
 
         if (strcmp(result, expected) != 0)
         {
-            printf("Error in %s number %i\n", expression, s);
-            printf("Expected: %s\n", expected);
-            printf("Result: %s\n", result);
-            free(result);
-            free(expected);
+            display_results(expected, result, s);
             return 0;
         }
 
-        free(result);
-        free(expected);
+        release_results(result, expected);
 
 
     }
@@ -70,7 +66,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
 
-        c = new_code(source, target);
+        c = new_code(source, target, NULL);
 
         function(c, "bing");
 
@@ -82,19 +78,11 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
 
         if (strcmp(result, expected) != 0)
         {
-            printf("Error in compile_symbol %i\n", s);
-            printf("Expected: %s\n", expected);
-            printf("Result: %s\n", result);
-
-            free(expected);
-            free(result);
+            display_results(expected, result, s);
             return 0;
         }
 
-        free(expected);
-        free(result);
-
-
+        release_results(expected, result);
     }
 
     return 1;
@@ -118,15 +106,11 @@ unsigned int analyzer_test(const char* name, void (*function) (char*), unsigned 
 
         if (strcmp(result, expected) != 0)
         {
-            printf("Result: %s\n", result);
-            printf("Expected: %s\n", expected);
+            display_results(expected, result, i);
             return 0;
         }
 
-        free(result);
-        free(expected);
-
-
+        release_results(expected, result);
     }
     return 1;
 }
