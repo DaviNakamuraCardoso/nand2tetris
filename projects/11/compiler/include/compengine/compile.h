@@ -1,7 +1,7 @@
 
 #include <tokenizer/tokens.h>
 #include <table/table.h>
-#include <writer/labels.h>
+#include <writer/tracker.h>
 
 typedef struct _code {
     int* identation;
@@ -9,7 +9,7 @@ typedef struct _code {
     FILE* target;
     FILE* vm;
     TABLE* table;
-    LABELS* labels;
+    TRACKER* tracker;
 } CODE;
 
 // Print the tag to a file using the current identation
@@ -20,6 +20,12 @@ void inc(int* identation);
 
 // Decrease the current identation by 1
 void dec(int* identation);
+
+
+/**
+*   Manipulating the tracker
+*/
+unsigned long get_counter(CODE* c);
 
 /**
 *       Handling implemented elements
@@ -52,5 +58,5 @@ short is_next(CODE* c, char* content, TOKEN_TYPE type);
 void get_next_token_content(CODE* c, char* buffer);
 
 
-CODE* new_code(FILE* source, FILE* target);
+CODE* new_code(FILE* source, FILE* target, FILE* vm);
 void release_code(CODE* c);

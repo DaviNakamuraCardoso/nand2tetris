@@ -67,10 +67,15 @@ $(O)$(B)parser.o: $(S)$(B)parser.c
 
 # -- Writer
 $(O)$(W)loops.o: $(S)$(W)loops.c
-	gcc -I$(I) -c $(S)$(B)loops.c -o $(O)$(W)loops.o
+	gcc -I$(I) -c $(S)$(W)loops.c -o $(O)$(W)loops.o
 
-$(O)$(W)labels.o: $(S)$(W)labels.c
-	gcc -I$(I) -c $(S)$(W)labels.c -o $(O)$(W)labels.o
+# Tracker
+$(O)$(W)tracker.o: $(S)$(W)tracker.c
+	gcc -I$(I) -c $(S)$(W)tracker.c -o $(O)$(W)tracker.o
+
+# Writer functions
+$(O)$(W)writer.o: $(S)$(W)writer.c
+	gcc -I$(I) -c $(S)$(W)writer.c -o $(O)$(W)writer.o
 
 # Error handler
 $(O)$(U)error.o:
@@ -97,13 +102,13 @@ $(L)libtable.a: $(O)$(B)parser.o $(O)$(B)table.o
 	ar -rcs $(L)libtable.a $(O)$(B)table.o $(O)$(B)parser.o
 
 # Code Writer Library
-$(L)libwriter.a: $(O)$(W)loops.o $(O)$(W)labels.o
-	ar -rcs $(L)libwriter.a $(O)$(W)loops.o $(O)$(W)labels.o
+$(L)libwriter.a: $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o
+	ar -rcs $(L)libwriter.a $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o
 
 # Main module
 $(O)dcc.o: $(S)dcc.c
 	gcc -I$(I) -c $(S)dcc.c -o $(O)dcc.o
 
 # Executable
-dcc: $(O)dcc.o $(L)libcompengine.a $(L)libtable.a $(L)libtokenizer.a $(L)libdccutils.a
-	gcc -Ofast -I$(I) -L$(L) $(O)dcc.o -lcompengine -ltable -ltokenizer -ldccutils -o dcc
+dcc: $(O)dcc.o $(L)libcompengine.a $(L)libtable.a $(L)libtokenizer.a $(L)libdccutils.a $(L)libwriter.a
+	gcc -Ofast -I$(I) -L$(L) $(O)dcc.o -lcompengine -lwriter -ltable -ltokenizer -ldccutils -o dcc

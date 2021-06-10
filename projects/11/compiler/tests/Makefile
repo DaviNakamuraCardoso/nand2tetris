@@ -137,13 +137,21 @@ $(O)$(W)test_loops.o: $(S)$(W)test_loops.c
 $(O)$(W)test_module_loops.o: $(TS)$(W)loops.c
 	gcc -I$(TH) -c $(TS)$(W)loops.c -o $(O)$(W)test_module_loops.o
 
-# Test the labels
-$(O)$(W)test_labels.o: $(S)$(W)test_labels.c
-	gcc -I$(TH) -c $(S)$(W)test_labels.c -o $(O)$(W)test_labels.o
+# Test the tracker
+$(O)$(W)test_tracker.o: $(S)$(W)test_tracker.c
+	gcc -I$(TH) -c $(S)$(W)test_tracker.c -o $(O)$(W)test_tracker.o
 
-# Get the labels module
-$(O)$(W)test_module_labels.o: $(TS)$(W)labels.c
-	gcc -I$(TH) -c $(TS)$(W)labels.c -o $(O)$(W)test_module_labels.o
+# Get the tracker module
+$(O)$(W)test_module_tracker.o: $(TS)$(W)tracker.c
+	gcc -I$(TH) -c $(TS)$(W)tracker.c -o $(O)$(W)test_module_tracker.o
+
+# Test the writer
+$(O)$(W)test_writer.o: $(S)$(W)test_writer.c
+	gcc -I$(TH) -c $(S)$(W)test_writer.c -o $(O)$(W)test_writer.o
+
+# Get the writer module
+$(O)$(W)test_module_writer.o: $(TS)$(W)writer.c
+	gcc -I$(TH) -c $(TS)$(W)writer.c -o $(O)$(W)test_module_writer.o
 
 
 $(O)$(U)tabletests.o: $(CS)$(U)tabletests.c
@@ -172,8 +180,8 @@ $(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)tes
 	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 
 # Writer test
-$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_labels.o $(O)$(W)test_module_labels.o
-	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_labels.o $(O)$(W)test_module_labels.o
+$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o
+	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

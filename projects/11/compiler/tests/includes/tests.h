@@ -16,6 +16,8 @@
 #include <table/test_table.h>
 #include <table/test_parser.h>
 #include <writer/test_loops.h>
+#include <writer/test_tracker.h>
+#include <writer/test_writer.h>
 
 unsigned int test_compilation(void);
 unsigned int test_memory_leaks(void);

@@ -32,10 +32,12 @@ int main(void)
         test_analyzer,
         test_table,
         test_tableparser,
-        test_loops
+        test_loops,
+        test_tracker,
+        test_writer
     };
 
-    test_num = 16;
+    test_num = 18;
 
     for (i = 0; i < test_num; i++)
     {

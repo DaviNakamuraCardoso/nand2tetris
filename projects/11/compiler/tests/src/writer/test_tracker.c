@@ -8,19 +8,26 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <writer/labels.h>
+#include <writer/tracker.h>
 #include <utils/tests.h>
 
 
-static unsigned int test_label_creation(void)
+static unsigned int test_tracker_creation(void)
 {
-    return 1;
+    unsigned int status;
+    TRACKER* t = new_tracker();
+
+    status = t != NULL;
+    free(t);
+
+    return status;
+
 }
 
-unsigned int test_labels(void)
+unsigned int test_tracker(void)
 {
     unsigned int (*tests[]) (void) = {
-        test_label_creation
+        test_tracker_creation
     };
 
     return test(tests, 1);
