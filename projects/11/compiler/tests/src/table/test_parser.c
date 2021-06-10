@@ -53,6 +53,7 @@ static unsigned int test_symbol_table(void)
             variable1, variable2
     };
 
+
     return test_symbols("table/tabletests", variables, 2, compile_classvardec);
 }
 

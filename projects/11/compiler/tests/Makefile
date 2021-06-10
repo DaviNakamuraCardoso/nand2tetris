@@ -137,6 +137,14 @@ $(O)$(W)test_loops.o: $(S)$(W)test_loops.c
 $(O)$(W)test_module_loops.o: $(TS)$(W)loops.c
 	gcc -I$(TH) -c $(TS)$(W)loops.c -o $(O)$(W)test_module_loops.o
 
+# Test the labels
+$(O)$(W)test_labels.o: $(S)$(W)test_labels.c
+	gcc -I$(TH) -c $(S)$(W)test_labels.c -o $(O)$(W)test_labels.o
+
+# Get the labels module
+$(O)$(W)test_module_labels.o: $(TS)$(W)labels.c
+	gcc -I$(TH) -c $(TS)$(W)labels.c -o $(O)$(W)test_module_labels.o
+
 
 $(O)$(U)tabletests.o: $(CS)$(U)tabletests.c
 	gcc -I$(CH) -c $(CS)$(U)tabletests.c -o $(O)$(U)tabletests.o
@@ -164,8 +172,8 @@ $(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)tes
 	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 
 # Writer test
-$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o
-	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o
+$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_labels.o $(O)$(W)test_module_labels.o
+	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_labels.o $(O)$(W)test_module_labels.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

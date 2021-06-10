@@ -1,12 +1,15 @@
 
 #include <tokenizer/tokens.h>
 #include <table/table.h>
+#include <writer/labels.h>
 
 typedef struct _code {
     int* identation;
     FILE* source;
     FILE* target;
+    FILE* vm;
     TABLE* table;
+    LABELS* labels;
 } CODE;
 
 // Print the tag to a file using the current identation
@@ -47,3 +50,7 @@ unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, c
 short is_next(CODE* c, char* content, TOKEN_TYPE type);
 
 void get_next_token_content(CODE* c, char* buffer);
+
+
+CODE* new_code(FILE* source, FILE* target);
+void release_code(CODE* c);
