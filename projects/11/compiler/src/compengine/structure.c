@@ -129,8 +129,6 @@ void compile_class(CODE* c)
 
     closetag(c, "class");
 
-    release_table(&table);
-
 }
 
 

@@ -16,7 +16,7 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
 {
     char filename[200], filename2[200], filename3[200];
     FILE* input, *output;
-    int ident = 0;
+    CODE* c;
 
     for (int i = 0; i < size; i++)
     {
@@ -24,12 +24,14 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
         input = fopen(filename, "r");
         output = fopen(filename2, "w");
 
-        CODE c = {.source=input, .target=output, .identation=&ident, .table=new_table("Main")};
-        tested(&c);
+        c = new_code(input, output);
+        c->table = new_table("Main");
+
+        tested(c);
 
         for (int j = 0; variables[i][j] != NULL; j++)
         {
-            __VARIABLE* found = search_table(c.table, variables[i][j]->name);
+            __VARIABLE* found = search_table(c->table, variables[i][j]->name);
 
 
             if (found == NULL)
@@ -53,15 +55,7 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
             release_variable(variables[i][j]);
         }
 
-        if (c.table->next != NULL)
-        {
-            exit_scope(&c);
-        }
-
-        fclose(input);
-        fclose(output);
-
-        release_table(&c.table);
+        release_code(c);
 
     }
 

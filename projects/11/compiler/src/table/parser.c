@@ -41,8 +41,14 @@ void update_table(CODE* c, char* classname, KIND k, TYPE t)
 
     char varname[400];
 
-    if (c == NULL) return;
-    if (c->table == NULL) return;
+    if (c == NULL)
+    {
+        return;
+    }
+    if (c->table == NULL)
+    {
+        return;
+    }
 
     get_next_token_content(c, varname);
 
@@ -99,7 +105,9 @@ void exit_scope(CODE* c)
     if (c->table->next == NULL) error("Trying to exit global scope");
 
 
-    c->table = c->table->next;
+    c->table = t->next;
+    t->next = NULL;
+    
     release_table(&t);
 
     return;

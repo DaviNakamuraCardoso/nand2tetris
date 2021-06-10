@@ -97,6 +97,10 @@ void release_variable(__VARIABLE* v)
  */
 void release_table(TABLE** t)
 {
+    if (*t == NULL) return;
+
+    release_table(&(*t)->next);
+
     for (int i = 0; i < HASHSIZE; i++)
     {
         release_variable((*t)->variables[i]);
@@ -128,6 +132,9 @@ void add_hash(TABLE* root, __VARIABLE* variable)
 
 __VARIABLE* search_table(TABLE* root, char* name)
 {
+    // If the root is NULL, then the variable wasn't declared in any scope
+    if (root == NULL) return NULL;
+
     int index = hash(name);
     __VARIABLE* current, *next;
 
@@ -141,7 +148,8 @@ __VARIABLE* search_table(TABLE* root, char* name)
         }
     }
 
-    return NULL;
+    // Search in the outer scope
+    return search_table(root->next, name);
 }
 
 

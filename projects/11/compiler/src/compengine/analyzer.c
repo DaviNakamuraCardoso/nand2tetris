@@ -23,36 +23,21 @@
 *
 */
 static void get_tokens(char* tokens);
-static char* get_name(char* filename);
+static void get_name(char* filename, char* buffer);
 static unsigned int is_file(char* path);
 static unsigned int is_source(char* path);
 static void analyze_file(char* file);
 static void analyze_directory(char* directory);
 static void cleanup(void);
+static CODE* get_code(char* filename);
 
 
 void compile(char* filename)
 {
-    char* tokens, *name;
-    int i = 0;
-    FILE* object, *target;
+    CODE* c = get_code(filename);
+    compile_class(c);
+    release_code(c);
 
-    name = get_name(filename);
-    target = fopen(name, "w");
-
-    tokens = tokenize(filename);
-    get_tokens(tokens);
-
-    object = fopen("object.xml", "r");
-
-    CODE c = {.source=object, .target=target, .identation=&i, .table=NULL};
-
-    compile_class(&c);
-
-    fclose(object);
-    fclose(target);
-    free(name);
-    free(tokens);
     return;
 
 }
@@ -115,22 +100,20 @@ static void get_tokens(char* tokens)
     return;
 }
 
-static char* get_name(char* filename)
+static void get_name(char* filename, char* buffer)
 {
     int i;
-    char* name, *current;
-
-    name = calloc(sizeof(char), strlen(filename)-1);
+    char *current;
 
     for (i = 0, current = filename; strcmp(current, ".jack") != 0; i++, current++)
     {
-        name[i] = filename[i];
+        buffer[i] = filename[i];
     }
-    name[i] = '\0';
+    buffer[i] = '\0';
 
-    strcat(name, ".xml");
+    strcat(buffer, ".xml");
 
-    return name;
+    return;
 }
 
 static unsigned int is_source(char* path)
@@ -143,4 +126,25 @@ static void cleanup(void)
     remove("tokens.out");
     remove("object.xml");
     remove("tokens.xml");
+}
+
+CODE* get_code(char* filename)
+{
+    char* tokens, name[300];
+    FILE* source, *target;
+    CODE* c;
+
+    get_name(filename, name);
+    target = fopen(name, "w");
+
+    tokens = tokenize(filename);
+    get_tokens(tokens);
+
+    source = fopen("object.xml", "r");
+
+    c = new_code(source, target);
+
+    free(tokens);
+
+    return c;
 }

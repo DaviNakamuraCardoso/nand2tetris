@@ -8,9 +8,9 @@
 unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...), unsigned short size)
 {
     unsigned short s;
-    int i = 0;
     char filename[200], filename2[200], filename3[200], *result, *expected;
     FILE *source, *target, *cmp;
+    CODE* c;
 
     for (s = 0; s < size; s++)
     {
@@ -21,13 +21,12 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
         // cmp = fopen(filename3, "w");
-        i = 0;
-        CODE c = {.identation=&i, .target=target, .source=source, .table=NULL};
 
-        tested(&c, NULL, NULL);
+        c = new_code(source, target);
 
-        fclose(source);
-        fclose(target);
+        tested(c, NULL, NULL);
+
+        release_code(c);
 
         result = get_file(filename2);
         expected = get_file(filename3);
@@ -45,8 +44,10 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
             free(expected);
             return 0;
         }
+
         free(result);
         free(expected);
+
 
     }
     return 1;
@@ -55,9 +56,9 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
 unsigned int test_compile_implemented(const char* name, unsigned int (*function) (CODE*, char*), int size)
 {
     unsigned short s;
-    int i = 0;
     char* result, *expected, filename[300], filename2[300], filename3[300];
     FILE* target, *source, *cmp;
+    CODE* c;
 
 
     for (s = 0; s < size; s++)
@@ -69,12 +70,11 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
         source = fopen(filename, "r");
         target = fopen(filename2, "w");
 
-        CODE c = {.identation=&i, .target=target, .source=source};
+        c = new_code(source, target);
 
-        function(&c, "bing");
+        function(c, "bing");
 
-        fclose(target);
-        fclose(source);
+        release_code(c);
 
         result = get_file(filename2);
         expected = get_file(filename3);
@@ -93,6 +93,7 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
 
         free(expected);
         free(result);
+
 
     }
 

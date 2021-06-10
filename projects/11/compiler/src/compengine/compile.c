@@ -272,3 +272,41 @@ void get_next_token_content(CODE* c, char* buffer)
 
     return;
 }
+
+static CODE* codealloc(void)
+{
+    return (CODE*) malloc(sizeof(CODE));
+}
+
+static int* intalloc(void)
+{
+    int* r = (int*) malloc(sizeof(int));
+    *r = 0;
+    return r;
+}
+
+CODE* new_code(FILE* source, FILE* target)
+{
+    CODE* c = codealloc();
+
+    c->source = source;
+    c->target = target;
+    c->identation = intalloc();
+    c->table = NULL;
+    c->vm = NULL;
+    c->labels = NULL;
+
+    return c;
+}
+void release_code(CODE* c)
+{
+
+    if (c->source != NULL) fclose(c->source);
+    if (c->target != NULL) fclose(c->target);
+    if (c->vm != NULL)     fclose(c->vm);
+    if (c->table != NULL)  release_table(&(c->table));
+    if (c->identation != NULL) free(c->identation); 
+
+
+    free(c);
+}
