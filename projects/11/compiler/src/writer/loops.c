@@ -14,7 +14,7 @@
 #include <writer/loops.h>
 
 
-void writelabel(CODE* c, char* buffer)
+void write_label(CODE* c, char* buffer)
 {
     sprintf(buffer, "label LABEL_%li", get_counter(c));
     writevm(c, buffer);
@@ -28,7 +28,6 @@ static void write_flow(CODE* c, char* label, const char* instruction)
     sprintf(buffer, "%s %s", instruction, label);
     writevm(c, buffer);
     return;
-
 }
 
 void write_ifgoto(CODE* c, char* label)
