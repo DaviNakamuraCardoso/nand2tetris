@@ -20,6 +20,8 @@ unsigned int compile_value(CODE* c, TOKEN_TYPE type);
 
 void compilef(int identation, char* text, FILE* target)
 {
+    if (target == NULL) return;
+    
     putident(identation, target);
     fprintf(target, "%s\n", text);
     return;

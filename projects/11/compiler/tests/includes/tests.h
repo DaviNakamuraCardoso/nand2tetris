@@ -18,6 +18,7 @@
 #include <writer/test_loops.h>
 #include <writer/test_tracker.h>
 #include <writer/test_writer.h>
+#include <writer/test_assignments.h>
 
 unsigned int test_compilation(void);
 unsigned int test_memory_leaks(void);

@@ -34,10 +34,11 @@ int main(void)
         test_tableparser,
         test_loops,
         test_tracker,
-        test_writer
+        test_writer,
+        test_assignments
     };
 
-    test_num = 18;
+    test_num = 19;
 
     for (i = 0; i < test_num; i++)
     {

@@ -77,6 +77,10 @@ $(O)$(W)tracker.o: $(S)$(W)tracker.c
 $(O)$(W)writer.o: $(S)$(W)writer.c
 	gcc -I$(I) -c $(S)$(W)writer.c -o $(O)$(W)writer.o
 
+# Assignments
+$(O)$(W)assignments.o: $(S)$(W)assignments.c
+	gcc -I$(I) -c $(S)$(W)assignments.c -o $(O)$(W)assignments.o
+
 # Error handler
 $(O)$(U)error.o:
 	gcc -I$(I) -c $(S)$(U)error.c -o $(O)$(U)error.o
@@ -102,8 +106,8 @@ $(L)libtable.a: $(O)$(B)parser.o $(O)$(B)table.o
 	ar -rcs $(L)libtable.a $(O)$(B)table.o $(O)$(B)parser.o
 
 # Code Writer Library
-$(L)libwriter.a: $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o
-	ar -rcs $(L)libwriter.a $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o
+$(L)libwriter.a: $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o $(O)$(W)assignments.o
+	ar -rcs $(L)libwriter.a $(O)$(W)loops.o $(O)$(W)tracker.o $(O)$(W)writer.o $(O)$(W)assignments.o
 
 # Main module
 $(O)dcc.o: $(S)dcc.c

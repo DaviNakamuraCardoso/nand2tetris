@@ -24,16 +24,22 @@ static char* get_vm_name(KIND kind)
     return kinds[kind];
 }
 
-char* get_vm_variable(__VARIABLE* v)
+
+static void get_vm_variable(__VARIABLE* v, char* buffer)
 {
-    char* r, *name;
-
+    char *name;
     name = get_vm_name(v->kind);
-    r = calloc(sizeof(char), 100);
 
-    sprintf(r, "%s %i", name, v->index);
+    sprintf(buffer, "%s %i", name, v->index);
 
-    return r;
+    return;
+}
+
+void get_variable(CODE* c, char* varname, char* buffer)
+{
+    __VARIABLE* v = search_table(c->table, varname);
+    get_vm_variable(v, buffer);
+    return;
 }
 
 void update_table(CODE* c, char* classname, KIND k, TYPE t)
