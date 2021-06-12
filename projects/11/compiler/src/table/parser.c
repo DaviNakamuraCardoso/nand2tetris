@@ -27,7 +27,11 @@ static char* get_vm_name(KIND kind)
 
 static void get_vm_variable(__VARIABLE* v, char* buffer)
 {
-    char *name;
+    const char *name;
+    buffer[0] = '\0';
+
+    if (v == NULL) return;
+
     name = get_vm_name(v->kind);
 
     sprintf(buffer, "%s %i", name, v->index);

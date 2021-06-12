@@ -86,6 +86,7 @@ unsigned int writer_test(char* path, char*** words, void (*tested) (CODE*, char*
         {
             tested(c, words[i][j]);
         }
+
         release_code(c);
         release_tracker(t);
 

@@ -18,7 +18,7 @@ static unsigned int test_write_stack_cmd(char* cmd, void (*tested) (CODE*, char*
     char path[200];
 
     char* vars[] = {
-        "hello", "f", NULL
+        "hello", "f","bing", "crosby", NULL
     };
 
     char** words[] = {
@@ -29,6 +29,9 @@ static unsigned int test_write_stack_cmd(char* cmd, void (*tested) (CODE*, char*
 
     add_var(t, "hello", NULL, STATIC, INT);
     add_var(t, "f", NULL, LOCAL, CHAR);
+    add_var(t, "bing", NULL, FIELD, INT);
+    add_var(t, "crosby", NULL, ARGUMENT, CHAR);
+
 
     sprintf(path, "writer/%s", cmd);
 

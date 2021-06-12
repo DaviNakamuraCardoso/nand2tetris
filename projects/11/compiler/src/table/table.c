@@ -47,7 +47,7 @@ TABLE* new_table(char* classname)
 
 static void add_classname(__VARIABLE* v, char* classname, TYPE t)
 {
-    if (is_primitive(t))
+    if (is_primitive(t) || classname == NULL)
     {
         v->classname = NULL;
     }
