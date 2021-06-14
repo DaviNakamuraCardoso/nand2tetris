@@ -9,6 +9,7 @@
 #include <string.h>
 #include <compengine/compile.h>
 #include <compengine/parser.h>
+#include <writer/assignments.h>
 #include <utils/error.h>
 
 
@@ -21,7 +22,7 @@ unsigned int compile_value(CODE* c, TOKEN_TYPE type);
 void compilef(int identation, char* text, FILE* target)
 {
     if (target == NULL) return;
-    
+
     putident(identation, target);
     fprintf(target, "%s\n", text);
     return;
@@ -134,8 +135,20 @@ unsigned int compile_value(CODE* c, TOKEN_TYPE type)
 
     assert_type(token->type, type, &status);
 
+    // "symbol", "keyword", "stringConstant", "integerConstant", "identifier"
+
+    void (*writers[]) (CODE*, char*) = {
+        NULL,
+        write_keyconstant,
+        write_stringliteral,
+        write_intconstant,
+        write_push
+
+    };
+
     if (status)
     {
+        if (writers[token->type] != NULL) writers[token->type](c, token->content);
         compile_variable(c, token);
     }
     else
@@ -149,6 +162,28 @@ unsigned int compile_value(CODE* c, TOKEN_TYPE type)
 
 
 unsigned int compile_identifier(CODE* c)
+{
+    int status = 1;
+    TOKEN* token;
+    TOKEN_TYPE type = VARIABLE;
+    token = get_next_token(c->source);
+
+    assert_type(token->type, type, &status);
+
+    // "symbol", "keyword", "stringConstant", "integerConstant", "identifier"
+    if (status)
+    {
+        compile_variable(c, token);
+    }
+    else
+    {
+        rollback(c->source);
+    }
+    release_token(&token);
+    return status;
+}
+
+unsigned int compile_varname(CODE* c)
 {
     return compile_value(c, VARIABLE);
 }
@@ -209,7 +244,7 @@ void closetag(CODE* c, const char* tagname)
     return;
 }
 
-unsigned int compile_keylist(CODE* c, char* keylist[], void (*handler) (CODE*, char*))
+unsigned int compile_keylist(CODE* c, char* keylist[], unsigned int (*handler) (CODE*, char*))
 {
     int i, status = 0;
     TOKEN* token;

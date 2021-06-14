@@ -12,6 +12,7 @@
 #include <compengine/expressions.h>
 #include <compengine/statements.h>
 #include <compengine/structure.h>
+#include <writer/assignments.h>
 
 // Private functions
 void open_statement(int* identation, char* keyword, FILE* target);
@@ -187,6 +188,11 @@ void compile_let(CODE* c)
     return;
 }
 
+static void dump_return(CODE* c)
+{
+    write_poptemp(c, 0);
+}
+
 void compile_do(CODE* c)
 {
 
@@ -200,6 +206,8 @@ void compile_do(CODE* c)
     compile_subroutinecall(c);
 
     compile_symbol(c, ";");
+
+    dump_return(c);
 
     close_statement(c->identation, "do", c->target);
 

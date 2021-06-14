@@ -65,7 +65,7 @@ void write_pushtemp(CODE* c, int n)
 static void fill_new_string(CODE* c, char* str)
 {
     char append[300];
-    
+
     for (int i = 0; str[i] != 0; i++)
     {
         // Calling the string.appendChar method

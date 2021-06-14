@@ -58,19 +58,22 @@ unsigned int compile_expressionlist(CODE* c)
     *       <expressionlist> ::= (<expression> (, <expression>)*)?
     */
 
+    int i = 0;
+
     opentag(c, "expressionList");
 
     if (is_next(c, ")", IMPLEMENTED_SYMBOL) == 0)
     {
         do {
             compile_expression(c);
+            i++;
         } while (compile_comma(c));
 
     }
 
     closetag(c, "expressionList");
 
-    return 1;
+    return i;
 }
 
 
@@ -154,6 +157,11 @@ unsigned int compile_subroutinecall(CODE* c)
         compile_identifier(c);
         compile_symbol(c, ".");
     }
+    else
+    {
+        // Push this argument before
+        write_push(c, "this");
+    }
 
     get_next_token_content(c, fname);
 
@@ -161,7 +169,7 @@ unsigned int compile_subroutinecall(CODE* c)
 
     compile_symbol(c, "(");
 
-    compile_expressionlist(c);
+    nargs += compile_expressionlist(c);
 
     compile_symbol(c, ")");
 
@@ -221,7 +229,7 @@ unsigned int compile_termlist(CODE* c)
     unsigned int (*functions[]) (CODE*) = {
         compile_subroutinecall,
         compile_arrayaccess,
-        compile_identifier,
+        compile_varname, 
         compile_integerconstant,
         compile_keywordconstant,
         compile_stringconstant,

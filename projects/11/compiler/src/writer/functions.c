@@ -68,8 +68,6 @@ void write_privatecall(CODE* c, char* fname, unsigned int nargs)
 {
     char classtype[300];
 
-    // Push the argument before
-    write_push(c, "this");
 
     get_classname(c, "this", classtype);
 
