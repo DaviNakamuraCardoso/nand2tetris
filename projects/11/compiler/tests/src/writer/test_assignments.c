@@ -48,12 +48,58 @@ static unsigned int test_write_push(void)
     return test_write_stack_cmd("push", write_push);
 }
 
+static unsigned int test_write_intconstant(void)
+{
+    char* words1[] = {"1917", "2020", "103", NULL};
+    char* words2[] = {"1903", "2003", "100", NULL};
+    char** words[] = {
+        words1,
+        words2,
+        NULL
+    };
+
+    return writer_test("writer/intconstant", words, write_intconstant, NULL);
+}
+
+static unsigned int test_write_keyconstant(void)
+{
+    char* words1[] = {
+        "null",
+        "true",
+        "false",
+        NULL
+    };
+
+    char** words[] = {
+        words1, NULL
+    };
+
+    return writer_test("writer/keyconstant", words, write_keyconstant, NULL);
+}
+
+static unsigned int test_write_stringliteral(void)
+{
+    char* words1[] = {
+        "HI",
+        NULL
+    };
+    char** words[] = {
+        words1,
+        NULL
+    };
+
+    return writer_test("writer/stringliterals", words, write_stringliteral, NULL);
+}
+
 unsigned int test_assignments(void)
 {
     unsigned int (*tests[]) (void) = {
         test_write_pop,
-        test_write_push
+        test_write_push,
+        test_write_intconstant,
+        test_write_keyconstant,
+        test_write_stringliteral
     };
 
-    return test(tests, 2);
+    return test(tests, 5);
 }

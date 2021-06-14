@@ -16,7 +16,7 @@ int main(void)
 
     printf("Starting tests...\n");
 
-    unsigned int (*test_functions[]) (void) = {
+    unsigned int (*tests[]) (void) = {
         test_compilation,
         test_precomp,
         test_reader,
@@ -35,15 +35,16 @@ int main(void)
         test_loops,
         test_tracker,
         test_writer,
-        test_assignments
+        test_assignments,
+        test_functions
     };
 
-    test_num = 19;
+    test_num = 20;
 
     for (i = 0; i < test_num; i++)
     {
         printf("Testing %i..\n", i);
-        if (!test_functions[i]())
+        if (!tests[i]())
         {
             printf("Fail on test %i\n", i);
             return 1;

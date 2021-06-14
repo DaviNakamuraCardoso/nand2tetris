@@ -60,4 +60,5 @@ __VARIABLE* search_table(TABLE* root, char* name);
 
 // Manipulation
 static unsigned int is_primitive(TYPE t);
+
 void get_typename(__VARIABLE* v, char* buffer);

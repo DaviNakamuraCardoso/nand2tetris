@@ -123,3 +123,24 @@ void exit_scope(CODE* c)
 
     return;
 }
+
+unsigned int get_classname(CODE* c, char* varname, char* buffer)
+{
+    __VARIABLE* v = search_table(c->table, varname);
+    char* content;
+    unsigned int status = v != NULL;
+
+    if (status)
+    {
+        content = v->classname;
+    }
+    // If no variable is found, the identifier is the classname
+    else
+    {
+        content = varname;
+    }
+
+    sprintf(buffer, "%s", content);
+    return status;
+
+}

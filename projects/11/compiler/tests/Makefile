@@ -161,6 +161,14 @@ $(O)$(W)test_assignments.o: $(S)$(W)test_assignments.c
 $(O)$(W)test_module_assignments.o: $(TS)$(W)assignments.c
 	gcc -I$(TH) -c $(TS)$(W)assignments.c -o $(O)$(W)test_module_assignments.o
 
+# Test the functions
+$(O)$(W)test_functions.o: $(S)$(W)test_functions.c
+	gcc -I$(TH) -c $(S)$(W)test_functions.c -o $(O)$(W)test_functions.o
+
+# Get the functions module
+$(O)$(W)test_module_functions.o: $(TS)$(W)functions.c
+	gcc -I$(TH) -c $(TS)$(W)functions.c -o $(O)$(W)test_module_functions.o
+
 
 $(O)$(U)tabletests.o: $(CS)$(U)tabletests.c
 	gcc -I$(CH) -c $(CS)$(U)tabletests.c -o $(O)$(U)tabletests.o
@@ -188,8 +196,8 @@ $(L)libtesttable.a: $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)tes
 	ar -rcs $(L)libtesttable.a $(O)$(B)test_table.o $(O)$(B)test_module_table.o $(O)$(B)test_parser.o $(O)$(B)test_module_parser.o
 
 # Writer test
-$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o $(O)$(W)test_assignments.o $(O)$(W)test_module_assignments.o
-	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o $(O)$(W)test_assignments.o $(O)$(W)test_module_assignments.o
+$(L)libtestwriter.a: $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o $(O)$(W)test_assignments.o $(O)$(W)test_module_assignments.o $(O)$(W)test_functions.o $(O)$(W)test_module_functions.o
+	ar -rcs $(L)libtestwriter.a $(O)$(W)test_loops.o $(O)$(W)test_module_loops.o $(O)$(W)test_tracker.o $(O)$(W)test_module_tracker.o $(O)$(W)test_writer.o $(O)$(W)test_module_writer.o $(O)$(W)test_assignments.o $(O)$(W)test_module_assignments.o $(O)$(W)test_functions.o $(O)$(W)test_module_functions.o
 
 # Main test file
 $(O)tests.o: $(S)tests.c

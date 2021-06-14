@@ -1,0 +1,2 @@
+push argument 0
+call Ball.draw 1

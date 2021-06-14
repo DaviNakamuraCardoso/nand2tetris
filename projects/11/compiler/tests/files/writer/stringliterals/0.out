@@ -1,0 +1,11 @@
+push constant 2
+call String.new 1
+pop temp 1
+push temp 1
+push constant 72
+call String.appendChar 2
+pop temp 0
+push temp 1
+push constant 73
+call String.appendChar 2
+pop temp 0

@@ -7,11 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <tokenizer/tokens.h>
-#include <compengine/parser.h>
 #include <compengine/compile.h>
+#include <compengine/parser.h>
 #include <compengine/expressions.h>
 #include <compengine/structure.h>
+#include <writer/functions.h>
 
 
 /*
@@ -137,7 +137,8 @@ static unsigned int check_subroutine(CODE* c, short* is_class, short* is_functio
 
 unsigned int compile_subroutinecall(CODE* c)
 {
-    short is_class, is_function = 0;
+    short is_class = 0, is_function = 0, nargs = 0;
+    char classname[300], fname[300];
 
     if (!check_subroutine(c, &is_class, &is_function))
     {
@@ -146,19 +147,32 @@ unsigned int compile_subroutinecall(CODE* c)
 
     opentag(c, "subroutineCall");
 
-    compile_identifier(c);
-
     if (is_class)
     {
-        compile_symbol(c, ".");
+
+        nargs += push_methodarg(c, classname);
         compile_identifier(c);
+        compile_symbol(c, ".");
     }
+
+    get_next_token_content(c, fname);
+
+    compile_identifier(c);
 
     compile_symbol(c, "(");
 
     compile_expressionlist(c);
 
     compile_symbol(c, ")");
+
+    if (!is_class)
+    {
+        write_privatecall(c, fname, nargs);
+    }
+    else
+    {
+        write_functioncall(c, classname, fname, nargs);
+    }
 
     closetag(c, "subroutineCall");
 

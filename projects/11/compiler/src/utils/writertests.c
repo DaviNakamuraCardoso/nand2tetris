@@ -14,14 +14,18 @@
 #include <utils/tests.h>
 
 
-unsigned int writer_compare(char* path, unsigned int (*tested) (CODE*), unsigned int size)
+unsigned int writer_compare(char* path, unsigned int (*tested) (CODE*), unsigned int size, ...)
 {
 
     char input[200], output[200], compare[200], buffer[2000], *result, *expected;
-    va_list list;
+    va_list va;
     FILE *source, *vm;
     CODE* c;
     TRACKER* t;
+
+    va_start(va, size);
+    TABLE* table = va_arg(va, TABLE*);
+    va_end(va);
 
     for (int i = 0; i < size; i++)
     {
@@ -34,9 +38,11 @@ unsigned int writer_compare(char* path, unsigned int (*tested) (CODE*), unsigned
         t = new_tracker();
 
         c->tracker = t;
+        c->table = table;
 
         tested(c);
 
+        c->table = NULL;
         release_code(c);
         release_tracker(t);
 
@@ -48,14 +54,10 @@ unsigned int writer_compare(char* path, unsigned int (*tested) (CODE*), unsigned
             display_results(expected, result, i);
             return 0;
         }
-
         release_results(expected, result);
-
     }
 
     return 1;
-
-
 }
 
 
