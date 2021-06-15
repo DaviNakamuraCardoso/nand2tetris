@@ -114,6 +114,13 @@ void release_table(TABLE** t)
     return;
 }
 
+unsigned int get_object_size(TABLE* root)
+{
+    TABLE* head = root;
+    while (head->next != NULL) head = head->next;
+    return head->kind_counter[FIELD];
+}
+
 void add_hash(TABLE* root, __VARIABLE* variable)
 {
     // Prevent segfaults

@@ -36,6 +36,7 @@ unsigned int test_symbols(char* name, __VARIABLE** variables[], int size, void (
 
             if (found == NULL)
             {
+                printf("%s\n", variables[i][j]->name); 
                 fprintf(stderr, "Variable wasn't added to table.\n");
                 return 0;
             }

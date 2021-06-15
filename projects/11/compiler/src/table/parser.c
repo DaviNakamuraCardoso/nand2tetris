@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <compengine/compile.h>
+#include <writer/functions.h>
 #include <table/parser.h>
 #include <utils/error.h>
 
@@ -67,20 +68,20 @@ void update_table(CODE* c, char* classname, KIND k, TYPE t)
     return;
 }
 
-static void init_method_arguments(CODE* c)
-{
-    add_var(c->table, "this", c->table->classname, ARGUMENT, CLASSNAME);
-    return;
 
-}
-
-static void init_scope_specifics(CODE* c, __F_TYPE type)
+void init_subroutine_specifics(CODE* c, __F_TYPE t)
 {
-    switch (type)
+    switch (t)
     {
         case METHOD:
         {
             init_method_arguments(c);
+            return;
+        }
+        case CONSTRUCTOR:
+        {
+            init_constructor_segment(c);
+            return;
         }
     }
 
@@ -89,7 +90,7 @@ static void init_scope_specifics(CODE* c, __F_TYPE type)
 
 
 
-void init_scope(CODE* c, __F_TYPE type)
+void init_scope(CODE* c)
 {
     if (c->table == NULL) return;
 
@@ -98,7 +99,6 @@ void init_scope(CODE* c, __F_TYPE type)
     table->next = c->table;
     c->table = table;
 
-    init_scope_specifics(c, type);
 
     return;
 }

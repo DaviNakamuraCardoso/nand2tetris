@@ -62,3 +62,4 @@ __VARIABLE* search_table(TABLE* root, char* name);
 static unsigned int is_primitive(TYPE t);
 
 void get_typename(__VARIABLE* v, char* buffer);
+unsigned int get_object_size(TABLE* root); 

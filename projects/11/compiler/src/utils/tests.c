@@ -49,5 +49,5 @@ void display_results(char* expected, char* result, unsigned int test)
     printf("Expected: %s\n", expected);
     printf("Result: %s\n", result);
 
-    release_results(expected, result); 
+    release_results(expected, result);
 }

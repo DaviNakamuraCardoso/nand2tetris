@@ -11,13 +11,14 @@ void get_variable(CODE* c, char* varname, char* buffer);
 
 //
 
-unsigned int get_classname(CODE* c, char* varname, char* buffer); 
+unsigned int get_classname(CODE* c, char* varname, char* buffer);
 
 
 
 
 
 // Starts and finishes a scope
-void init_scope(CODE* c, __F_TYPE type);
+void init_subroutine_specifics(CODE* c, __F_TYPE t);
+void init_scope(CODE* c);
 void update_table(CODE* c, char* classname, KIND k, TYPE t);
 void exit_scope(CODE* c);

@@ -212,6 +212,7 @@ static void get_keysegment(char* key, char* buffer)
                     ret = "constant"; break;
                 }
             }
+            break;
         }
         default:
         {

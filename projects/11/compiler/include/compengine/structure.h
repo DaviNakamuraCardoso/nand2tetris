@@ -24,7 +24,7 @@ void compile_subroutinebody(CODE* c);
 
 void compile_parameterlist(CODE* c);
 
-void compile_function_predec(CODE* c);
+signed int compile_function_predec(CODE* c);
 
 void compile_subroutinedec(CODE* c);
 

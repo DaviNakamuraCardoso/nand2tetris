@@ -181,12 +181,11 @@ void compile_subroutinebody(CODE* c)
     compile_symbol(c, "}");
     closetag(c, "subroutineBody");
 
-    // Exits the local scope by freeing the topmost symbol table
 }
 
-void compile_function_predec(CODE* c)
+signed int compile_function_predec(CODE* c)
 {
-    TOKEN* t;
+    char content[300];
     char* predecs[] = {
         "method",
         "function",
@@ -194,28 +193,20 @@ void compile_function_predec(CODE* c)
         NULL
     };
 
-    t = get_next_token(c->source);
-    rollback(c->source);
-
-    if (t->type != KEYWORD)
-    {
-        release_token(&t);
-        return ;
-    }
+    get_next_token_content(c, content);
 
     for (int i = 0; predecs[i] != NULL; i++)
     {
-        if (strcmp(predecs[i], t->content) == 0)
+        if (strcmp(predecs[i], content) == 0)
         {
             compile_keyword(c, predecs[i]);
-            init_scope(c, i);
-            release_token(&t);
-            return;
+            init_scope(c);
+            return i;
         }
     }
 
 
-    return;
+    return -1;
 }
 
 
@@ -292,13 +283,32 @@ void compile_subroutinedec(CODE* c)
     *   <subroutinedec> ::= (constructor | function | method) (void | <type>) <subroutineName>
     *   <parameterList> <subroutineBody>
     */
+    char fname[300];
+    signed int ftype;
     opentag(c, "subroutineDec");
 
-    compile_function_predec(c);
+
+    ftype = compile_function_predec(c);
     compile_function_type(c);
+
+    get_next_token_content(c, fname);
     compile_identifier(c);
+
     compile_parameterlist(c);
-    compile_subroutinebody(c);
+
+
+    opentag(c, "subroutineBody");
+
+    compile_symbol(c, "{");
+    compile_subroutine_vardec(c);
+    write_functiondec(c, fname);
+    init_subroutine_specifics(c, ftype);
+
+    
+    compile_statements(c);
+
+    compile_symbol(c, "}");
+    closetag(c, "subroutineBody");
 
     closetag(c, "subroutineDec");
     exit_scope(c);

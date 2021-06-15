@@ -24,11 +24,6 @@ static void write_function_call(CODE* c, char* function_name, unsigned int nargs
     return;
 }
 
-static void write_push_pointer0(CODE* c)
-{
-    return;
-}
-
 
 // For method calls, is necessary to push the object as the first argument
 unsigned int push_methodarg(CODE* c, char* classname)
@@ -63,6 +58,41 @@ void write_functioncall(CODE* c, char* classname, char* fname, unsigned int narg
 
 }
 
+
+void init_constructor_segment(CODE* c)
+{
+    // Get the current object size
+    unsigned int obj_size = get_object_size(c->table);
+
+    // Set up the current object construction
+    write_push_constant(c, obj_size);
+    writevm(c, "call Memory.alloc 1");
+    write_pop_pointer(c, 0);
+
+    return;
+
+}
+
+void init_method_arguments(CODE* c)
+{
+    // Set the method "this" segment
+    write_push(c, "this");
+    write_pop_pointer(c, 0);
+    return;
+
+}
+
+void write_functiondec(CODE* c, char* fname)
+{
+    char name[300];
+
+    if (c->table == NULL) return;
+    if (c->table->next == NULL) return;
+
+    sprintf(name, "function %s.%s %i", c->table->next->classname, fname, c->table->kind_counter[LOCAL]);
+    writevm(c, name);
+
+}
 
 void write_privatecall(CODE* c, char* fname, unsigned int nargs)
 {

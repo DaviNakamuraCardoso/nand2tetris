@@ -16,7 +16,7 @@
 static unsigned int test_vm_code(void)
 {
 
-    return 1; 
+    return 1;
 }
 
 static unsigned int test_symbol_table(void)
@@ -75,7 +75,6 @@ static unsigned int test_parameter_stable(void)
 static unsigned int test_scope_creation(void)
 {
     __VARIABLE* vars1[] = {
-        new_variable("this", "Keyboard", ARGUMENT, CLASSNAME),
         NULL
     };
 

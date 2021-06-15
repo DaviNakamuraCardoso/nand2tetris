@@ -58,5 +58,10 @@ void write_pop_temp(CODE* c, unsigned int i)
 
 void write_push_temp(CODE* c, unsigned int i)
 {
-    writevmf(c, "push", "temp", i); 
+    writevmf(c, "push", "temp", i);
+}
+
+void write_push_constant(CODE* c, unsigned int value)
+{
+    writevmf(c, "push", "constant", value);
 }

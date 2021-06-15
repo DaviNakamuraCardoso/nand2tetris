@@ -144,9 +144,15 @@ void compile_return(CODE* c)
     {
         compile_expression(c);
     }
+    else
+    {
+        write_push_constant(c, 0);
+    }
 
     compile_symbol(c, ";");
     close_statement(c->identation, "return", c->target);
+
+    writevm(c, "return"); 
 
     release_token(&next);
     return;
