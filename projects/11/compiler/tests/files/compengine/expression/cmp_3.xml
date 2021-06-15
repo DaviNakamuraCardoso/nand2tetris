@@ -1,9 +1,5 @@
 <expression>
 	<term>
-		<keyword> this </keyword>
-	</term>
-	<symbol> - </symbol>
-	<term>
 		<integerConstant> 9 </integerConstant>
 	</term>
 	<symbol> * </symbol>

@@ -106,7 +106,18 @@ static void get_keyvalue(char* key, char* buffer)
     {
         case 't':
         {
-            val = 1; break;
+            switch (1[key])
+            {
+                case 'r':
+                {
+                    val = 1; break;
+
+                }
+                default:
+                {
+                    val = 0; break;
+                }
+            }
         }
     }
 
@@ -123,19 +134,112 @@ static void write_post_op(CODE* c, char* key)
         // true
         case 't':
         {
-            writevm(c, "neg");
-            return;
+            switch (1[key])
+            {
+                case 'r':
+                {
+                    writevm(c, "neg"); return;
+                }
+                default:
+                {
+                    return;
+                }
+            }
         }
     }
     return;
 }
 
+void write_op(CODE* c, int* operators, int sp)
+{
+
+    if (sp <= 0) return;
+
+    char* vm[] = {
+        NULL,
+        "add",
+        "sub",
+        "call Math.mult 2",
+        "call Math.div 2",
+        "and",
+        "or",
+        "lt",
+        "gt",
+        "eq"
+    };
+
+
+    while (operators[--sp] != 0)
+    {
+        writevm(c, vm[operators[sp]]);
+        if (sp <= 0) return;
+    }
+
+    return;
+}
+
+void write_unaryop(CODE* c, int uop)
+{
+    char* ops[] = {
+        NULL,
+        "not",
+        "neg"
+
+    };
+
+    if (uop <= 0) return;
+
+    writevm(c, ops[uop]);
+    return;
+}
+
+static void get_keysegment(char* key, char* buffer)
+{
+    char* ret;
+    switch (*key)
+    {
+        case 't':
+        {
+            switch (*(key+1))
+            {
+                case 'h':
+                {
+                    ret = "pointer"; break;
+                }
+
+                default:
+                {
+                    ret = "constant"; break;
+                }
+            }
+        }
+        default:
+        {
+            ret = "constant";
+        }
+    }
+
+    strcpy(buffer, ret);
+}
+
+static void write_constant_value(CODE* c, char* segment, char* value)
+{
+    char cmd[300];
+    sprintf(cmd, "push %s %s", segment, value);
+    writevm(c, cmd);
+    return;
+
+}
 
 void write_keyconstant(CODE* c, char* key)
 {
-    char cmd[300], value[20];
+    char segment[300], value[20];
+
+    get_keysegment(key, segment);
     get_keyvalue(key, value);
-    write_intconstant(c, value);
+
+
+    write_constant_value(c, segment, value);
     write_post_op(c, key);
 
     return;

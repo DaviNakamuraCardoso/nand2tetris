@@ -39,7 +39,8 @@ unsigned int compile_identifier(CODE* c);
 /**
 *       Terms
 */
-unsigned int compile_varname(CODE* c); 
+unsigned int compile_const(CODE* c, char* keyword); 
+unsigned int compile_varname(CODE* c);
 unsigned int compile_stringconstant(CODE* c);
 unsigned int compile_integerconstant(CODE* c);
 
@@ -56,8 +57,6 @@ void assert_content(char* a, char* b, int* status);
 */
 void opentag(CODE* c, const char* tagname);
 void closetag(CODE* c, const char* tagname);
-
-unsigned int compile_keylist(CODE* c, char* keylist[], unsigned int (*handler) (CODE*, char*));
 
 short is_next(CODE* c, char* content, TOKEN_TYPE type);
 

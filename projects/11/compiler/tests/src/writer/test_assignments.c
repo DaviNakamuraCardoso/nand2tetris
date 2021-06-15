@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <compengine/compile.h>
+#include <compengine/expressions.h>
 #include <writer/assignments.h>
 #include <utils/tests.h>
 #include <utils/writertests.h>
@@ -91,6 +92,13 @@ static unsigned int test_write_stringliteral(void)
     return writer_test("writer/stringliterals", words, write_stringliteral, NULL);
 }
 
+static unsigned int test_write_expressions(void)
+{
+    TABLE* t = new_table("Writer");
+    add_var(t, "k", NULL, ARGUMENT, INT);
+    return writer_compare("writer/expressions", compile_expression, 3, t);
+}
+
 unsigned int test_assignments(void)
 {
     unsigned int (*tests[]) (void) = {
@@ -98,8 +106,9 @@ unsigned int test_assignments(void)
         test_write_push,
         test_write_intconstant,
         test_write_keyconstant,
-        test_write_stringliteral
+        test_write_stringliteral,
+        test_write_expressions
     };
 
-    return test(tests, 5);
+    return test(tests, 6);
 }

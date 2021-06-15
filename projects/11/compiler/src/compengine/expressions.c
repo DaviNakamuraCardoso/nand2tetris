@@ -7,10 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <compengine/compile.h>
 #include <compengine/parser.h>
 #include <compengine/expressions.h>
 #include <compengine/structure.h>
+#include <writer/assignments.h>
 #include <writer/functions.h>
 
 
@@ -20,18 +22,50 @@
 void open_expression(CODE* c);
 void close_expression(CODE* c);
 unsigned int compile_termlist(CODE* c);
+signed int compile_unaryop(CODE* c);
+signed int compile_op(CODE* c);
 
+
+static int compile_keylist(CODE* c, char* keylist[], unsigned int (*handler) (CODE*, char*))
+{
+    int i;
+    TOKEN* token;
+    unsigned int status = 0;
+
+    token = get_next_token(c->source);
+
+    if (token == NULL) return status;
+
+    rollback(c->source);
+
+    for (i = 1; keylist[i] != NULL; i++)
+    {
+        if (strcmp(keylist[i], token->content) == 0)
+        {
+            handler(c, keylist[i]);
+            status = i;
+            break;
+        }
+    }
+    release_token(&token);
+    return status;
+}
 
 void compile_expression(CODE* c)
 {
     /**
     *   <expression> ::= <term> (<op> <term>)*
     */
+
+    OPERATOR operators[100] = {0};
+    int sp = 0;
     opentag(c, "expression");
 
     do {
         compile_term(c);
-    } while (compile_op(c));
+    } while ((operators[sp++] = compile_op(c)) != 0);
+
+    write_op(c, operators, --sp);
 
     closetag(c, "expression");
     return;
@@ -79,31 +113,33 @@ unsigned int compile_expressionlist(CODE* c)
 
 unsigned int compile_term(CODE* c)
 {
-    compile_unaryop(c);
+    UNARYOP u = compile_unaryop(c);
     opentag(c, "term");
     compile_termlist(c);
+
+    write_unaryop(c, u);
     closetag(c, "term");
 }
 
 
 unsigned int compile_keywordconstant(CODE* c)
 {
-    char* list[] = { "true", "false", "this", "null", NULL };
+    char* list[] = {NULL, "true", "false", "this", "null", NULL };
 
-    return compile_keylist(c, list, compile_keyword);
+    return compile_keylist(c, list, compile_const) != 0;
 }
 
 
-unsigned int compile_unaryop(CODE* c)
+signed int compile_unaryop(CODE* c)
 {
-    char* list[] = {"~", "-", NULL};
+    char* list[] = {NULL, "~", "-", NULL};
     return compile_keylist(c, list, compile_symbol);
 }
 
-unsigned int compile_op(CODE* c)
+signed int compile_op(CODE* c)
 {
 
-    char* list[] = {"+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "=", NULL};
+    char* list[] = {NULL, "+", "-", "*", "/", "&amp;", "|", "&lt;", "&gt;", "=", NULL};
     return compile_keylist(c, list, compile_symbol);
 }
 
@@ -229,7 +265,7 @@ unsigned int compile_termlist(CODE* c)
     unsigned int (*functions[]) (CODE*) = {
         compile_subroutinecall,
         compile_arrayaccess,
-        compile_varname, 
+        compile_varname,
         compile_integerconstant,
         compile_keywordconstant,
         compile_stringconstant,

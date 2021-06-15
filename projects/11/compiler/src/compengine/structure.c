@@ -182,7 +182,6 @@ void compile_subroutinebody(CODE* c)
     closetag(c, "subroutineBody");
 
     // Exits the local scope by freeing the topmost symbol table
-    exit_scope(c);
 }
 
 void compile_function_predec(CODE* c)
@@ -302,6 +301,7 @@ void compile_subroutinedec(CODE* c)
     compile_subroutinebody(c);
 
     closetag(c, "subroutineDec");
+    exit_scope(c);
     return;
 
 }

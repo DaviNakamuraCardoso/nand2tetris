@@ -32,6 +32,7 @@ static unsigned int test_do_calls(void)
     return writer_compare("writer/do", compile_do, 2, t);
 }
 
+
 unsigned int test_functions(void)
 {
     unsigned int (*tests[]) (void) = {

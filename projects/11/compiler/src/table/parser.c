@@ -112,7 +112,7 @@ void exit_scope(CODE* c)
     TABLE* t = c->table;
 
     // Prevent the code from exiting the global scope
-    if (c->table->next == NULL) error("Trying to exit global scope");
+    if (t->next == NULL) error("Trying to exit global scope");
 
     c->table = t->next;
 

@@ -125,6 +125,11 @@ unsigned int compile_keyword(CODE* c, char* keyword)
     return compile_implemented(c, keyword, "keyword", KEYWORD);
 }
 
+unsigned int compile_const(CODE* c, char* keyword)
+{
+    return compile_value(c, KEYWORD);
+}
+
 unsigned int compile_value(CODE* c, TOKEN_TYPE type)
 {
     int status = 1;
@@ -244,30 +249,7 @@ void closetag(CODE* c, const char* tagname)
     return;
 }
 
-unsigned int compile_keylist(CODE* c, char* keylist[], unsigned int (*handler) (CODE*, char*))
-{
-    int i, status = 0;
-    TOKEN* token;
 
-    token = get_next_token(c->source);
-
-    if (token == NULL) return 0;
-
-    rollback(c->source);
-
-
-    for (i = 0; keylist[i] != NULL; i++)
-    {
-        if (strcmp(keylist[i], token->content) == 0)
-        {
-            handler(c, keylist[i]);
-            status = 1;
-            break;
-        }
-    }
-    release_token(&token);
-    return status;
-}
 
 
 short is_next(CODE* c, char* content, TOKEN_TYPE type)
