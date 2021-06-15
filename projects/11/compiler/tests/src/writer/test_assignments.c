@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <compengine/compile.h>
 #include <compengine/expressions.h>
+#include <compengine/statements.h>
 #include <writer/assignments.h>
 #include <utils/tests.h>
 #include <utils/writertests.h>
@@ -96,8 +97,19 @@ static unsigned int test_write_expressions(void)
 {
     TABLE* t = new_table("Writer");
     add_var(t, "k", NULL, ARGUMENT, INT);
-    return writer_compare("writer/expressions", compile_expression, 3, t);
+    return writer_compare("writer/expressions", compile_expression, 5, t);
 }
+
+static unsigned int test_write_let(void)
+{
+    TABLE* t = new_table("Carry");
+    add_var(t, "a", NULL, FIELD, INT);
+    add_var(t, "b", "Array", ARGUMENT, CLASSNAME);
+    add_var(t, "c", "Array", ARGUMENT, CLASSNAME);
+    add_var(t, "d", "Array", ARGUMENT, CLASSNAME);
+    return writer_compare("writer/let", compile_let, 5, t);
+}
+
 
 unsigned int test_assignments(void)
 {
@@ -107,8 +119,9 @@ unsigned int test_assignments(void)
         test_write_intconstant,
         test_write_keyconstant,
         test_write_stringliteral,
-        test_write_expressions
+        test_write_expressions,
+        test_write_let
     };
 
-    return test(tests, 6);
+    return test(tests, 7);
 }

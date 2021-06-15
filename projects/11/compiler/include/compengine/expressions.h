@@ -1,6 +1,6 @@
 
 typedef enum operator {
-    __INVALID, 
+    __INVALID,
     __ADD,
     __SUB,
     __MUL,
@@ -13,6 +13,7 @@ typedef enum operator {
 } OPERATOR;
 
 typedef enum unaryop {
+    __INVALID_U, 
     __NOT,
     __NEG
 } UNARYOP;

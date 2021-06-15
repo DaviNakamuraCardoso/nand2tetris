@@ -12,6 +12,7 @@
 #include <compengine/expressions.h>
 #include <compengine/statements.h>
 #include <compengine/structure.h>
+#include <writer/writer.h>
 #include <writer/assignments.h>
 
 // Private functions
@@ -152,15 +153,15 @@ void compile_return(CODE* c)
 
 }
 
-static void compile_access(CODE* c)
+static unsigned int compile_access(CODE* c)
 {
-    if (is_next(c, "[", IMPLEMENTED_SYMBOL) != 1) return;
+    if (is_next(c, "[", IMPLEMENTED_SYMBOL) != 1) return 0;
 
     compile_symbol(c, "[");
     compile_expression(c);
     compile_symbol(c, "]");
 
-    return;
+    return 1;
 
 }
 
@@ -169,19 +170,43 @@ void compile_let(CODE* c)
     /**
     *       <let> ::= let <identifier> = <expressions> ;
     */
+    char var[300];
+    unsigned int is_array_access;
     open_statement(c->identation, "let", c->target);
     compile_keyword(c, "let");
 
     // Check for an identifier
+
+    get_next_token_content(c, var);
+
+
     compile_identifier(c);
 
-    compile_access(c);
+    is_array_access = compile_access(c);
+    if (is_array_access)
+    {
+        write_push(c, var);
+        write_add(c);
+    }
+
 
     compile_symbol(c, "=");
 
     compile_expression(c);
 
     compile_symbol(c, ";");
+
+    if (is_array_access)
+    {
+        write_pop_temp(c, 0);
+        write_pop_pointer(c, 1);
+        write_push_temp(c, 0);
+        write_pop_that(c, 0);
+    }
+    else
+    {
+        write_pop(c, var);
+    }
 
     close_statement(c->identation, "let", c->target);
 
@@ -190,7 +215,7 @@ void compile_let(CODE* c)
 
 static void dump_return(CODE* c)
 {
-    write_poptemp(c, 0);
+    write_pop_temp(c, 0);
 }
 
 void compile_do(CODE* c)

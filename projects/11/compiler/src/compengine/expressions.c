@@ -12,6 +12,7 @@
 #include <compengine/parser.h>
 #include <compengine/expressions.h>
 #include <compengine/structure.h>
+#include <writer/writer.h>
 #include <writer/assignments.h>
 #include <writer/functions.h>
 
@@ -250,12 +251,19 @@ unsigned int compile_arrayaccess(CODE* c)
     /**
     *       <arrayaccess> ::= <identifier>[<expression>]
     */
+    char base_pointer[300];
     if (!check_arrayaccess(c)) return 0;
 
+
+    get_next_token_content(c, base_pointer);
+    write_push(c, base_pointer);
     compile_identifier(c);
     compile_symbol(c, "[");
     compile_expression(c);
     compile_symbol(c, "]");
+    write_add(c);
+    write_pop_pointer(c, 1);
+    write_push_that(c, 0);
 
     return 1;
 }
