@@ -75,8 +75,10 @@ static void fill_new_string(CODE* c, char* str)
         writevm(c, "call String.appendChar 2");
 
         // Dump the return value
-        writevm(c, "pop temp 0");
+        writevm(c, "pop temp 1");
     }
+
+    writevm(c, "push temp 1");
 }
 
 static void start_new_string(CODE* c, char* str)
@@ -159,8 +161,8 @@ void write_op(CODE* c, int* operators, int sp)
         NULL,
         "add",
         "sub",
-        "call Math.mult 2",
-        "call Math.div 2",
+        "call Math.multiply 2",
+        "call Math.divide 2",
         "and",
         "or",
         "lt",

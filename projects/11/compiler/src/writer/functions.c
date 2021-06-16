@@ -76,7 +76,7 @@ void init_constructor_segment(CODE* c)
 void init_method_arguments(CODE* c)
 {
     // Set the method "this" segment
-    write_push(c, "this");
+    writevm(c, "push argument 0");
     write_pop_pointer(c, 0);
     return;
 
@@ -98,9 +98,7 @@ void write_privatecall(CODE* c, char* fname, unsigned int nargs)
 {
     char classtype[300];
 
-
-    get_classname(c, "this", classtype);
-
-    write_functioncall(c, classtype, fname, ++nargs);
+    write_push_pointer(c, 0);
+    write_functioncall(c, c->table->classname, fname, ++nargs);
     return;
 }

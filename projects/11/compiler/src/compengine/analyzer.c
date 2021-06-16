@@ -115,8 +115,8 @@ static void get_name(char* filename, char* buffer)
     }
     buffer[i] = '\0';
 
-    strcat(buffer, ".xml");
-
+    strcat(buffer, ".vm");
+    buffer[i+3] = '\0';
     return;
 }
 
@@ -135,18 +135,18 @@ static void cleanup(void)
 CODE* get_code(char* filename, TRACKER* t)
 {
     char* tokens, name[300];
-    FILE* source, *target;
+    FILE* source, *vm;
     CODE* c;
 
     get_name(filename, name);
-    target = fopen(name, "w");
+    vm = fopen(name, "w");
 
     tokens = tokenize(filename);
     get_tokens(tokens);
 
     source = fopen("object.xml", "r");
 
-    c = new_code(source, target, NULL);
+    c = new_code(source, NULL, vm);
     c->tracker = t;
 
     free(tokens);

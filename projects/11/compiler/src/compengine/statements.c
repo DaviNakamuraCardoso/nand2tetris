@@ -105,6 +105,7 @@ void compile_while(CODE* c)
     /***
         <whileStatement> ::= while ( <expression> ) { <statements> }
     */
+    char label[300];
     open_statement(c->identation, "while", c->target);  // '<whileStatement>'
 
     compile_keyword(c, "while");
@@ -152,7 +153,7 @@ void compile_return(CODE* c)
     compile_symbol(c, ";");
     close_statement(c->identation, "return", c->target);
 
-    writevm(c, "return"); 
+    writevm(c, "return");
 
     release_token(&next);
     return;

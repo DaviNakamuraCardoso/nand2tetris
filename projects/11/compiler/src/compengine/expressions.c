@@ -194,11 +194,7 @@ unsigned int compile_subroutinecall(CODE* c)
         compile_identifier(c);
         compile_symbol(c, ".");
     }
-    else
-    {
-        // Push this argument before
-        write_push(c, "this");
-    }
+
 
     get_next_token_content(c, fname);
 

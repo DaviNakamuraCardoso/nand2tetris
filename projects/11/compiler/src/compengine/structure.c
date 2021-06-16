@@ -113,12 +113,18 @@ void compile_class(CODE* c)
     /**
     *       <class> ::= class <className> { <classvardec>* <subroutinedec>* }
     */
-    TOKEN* next;
-    TABLE* table = new_table("class");
-    c->table = table;
+
+    char classname[300];
+    TABLE* table;
+
 
     opentag(c, "class");
     compile_keyword(c, "class");
+
+    get_next_token_content(c, classname);
+    table = new_table(classname);
+    c->table = table;
+
     compile_identifier(c);
     compile_symbol(c, "{");
 
@@ -304,7 +310,7 @@ void compile_subroutinedec(CODE* c)
     write_functiondec(c, fname);
     init_subroutine_specifics(c, ftype);
 
-    
+
     compile_statements(c);
 
     compile_symbol(c, "}");
