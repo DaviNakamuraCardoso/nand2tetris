@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <compengine/compile.h>
+#include <compengine/statements.h>
 #include <utils/tests.h>
 #include <utils/writertests.h>
 #include <writer/loops.h>
@@ -69,6 +70,11 @@ static unsigned int test_write_goto(void)
     };
 
     return writer_test("writer/goto", words, write_goto, NULL);
+}
+
+static unsigned int test_if_branch(void)
+{
+    return writer_compare("writer/if", compile_if, 1, NULL);
 }
 
 

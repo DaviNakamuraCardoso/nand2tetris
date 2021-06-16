@@ -21,27 +21,6 @@
 				<symbol> ) </symbol>
 				<symbol> { </symbol>
 				<statements>
-					<doStatement>
-						<keyword> do </keyword>
-						<subroutineCall>
-							<identifier> dean </identifier>
-							<symbol> ( </symbol>
-							<expressionList>
-							</expressionList>
-							<symbol> ) </symbol>
-						</subroutineCall>
-						<symbol> ; </symbol>
-					</doStatement>
-					<letStatement>
-						<keyword> let </keyword>
-						<identifier> a </identifier>
-						<symbol> = </symbol>
-						<expression>
-							<term>
-							</term>
-						</expression>
-						<symbol> ; </symbol>
-					</letStatement>
 				</statements>
 				<symbol> } </symbol>
 			</ifStatement>

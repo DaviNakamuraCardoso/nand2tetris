@@ -98,6 +98,8 @@ void write_privatecall(CODE* c, char* fname, unsigned int nargs)
 {
     char classtype[300];
 
+    if (c->table == NULL) return;
+
     write_push_pointer(c, 0);
     write_functioncall(c, c->table->classname, fname, ++nargs);
     return;
