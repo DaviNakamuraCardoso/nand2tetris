@@ -26,6 +26,7 @@ void dec(int* identation);
 *   Manipulating the tracker
 */
 unsigned long get_counter(CODE* c);
+unsigned long see_counter(CODE* c); 
 
 /**
 *       Handling implemented elements
@@ -39,7 +40,7 @@ unsigned int compile_identifier(CODE* c);
 /**
 *       Terms
 */
-unsigned int compile_const(CODE* c, char* keyword); 
+unsigned int compile_const(CODE* c, char* keyword);
 unsigned int compile_varname(CODE* c);
 unsigned int compile_stringconstant(CODE* c);
 unsigned int compile_integerconstant(CODE* c);

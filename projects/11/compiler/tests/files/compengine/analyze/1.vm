@@ -4,24 +4,14 @@ push constant 1
 neg
 push constant 4
 call String.new 1
-pop temp 1
-push temp 1
 push constant 68
 call String.appendChar 2
-pop temp 1
-push temp 1
 push constant 97
 call String.appendChar 2
-pop temp 1
-push temp 1
 push constant 118
 call String.appendChar 2
-pop temp 1
-push temp 1
 push constant 105
 call String.appendChar 2
-pop temp 1
-push temp 1
 call Person.new 3
 pop local 0
 push local 0

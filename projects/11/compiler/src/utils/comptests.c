@@ -25,6 +25,8 @@ unsigned int generic_compare(const char* expression, void (*tested) (CODE*, ...)
 
         c = new_code(source, target, NULL);
 
+        c->tracker = NULL;
+
         tested(c, NULL, NULL);
 
         release_code(c);
@@ -67,6 +69,8 @@ unsigned int test_compile_implemented(const char* name, unsigned int (*function)
         target = fopen(filename2, "w");
 
         c = new_code(source, target, NULL);
+
+        c->tracker = NULL; 
 
         function(c, "bing");
 

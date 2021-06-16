@@ -14,6 +14,7 @@
 #include <compengine/structure.h>
 #include <writer/writer.h>
 #include <writer/assignments.h>
+#include <writer/loops.h>
 
 // Private functions
 void open_statement(int* identation, char* keyword, FILE* target);
@@ -77,7 +78,14 @@ void compile_else(CODE* c)
 
 void compile_if(CODE* c)
 {
+    char label1[300], label2[300];
+
     open_statement(c->identation, "if", c->target);
+
+    // Get the next two label names
+    get_label(c, label1);
+    get_label(c, label2);
+
 
     compile_keyword(c, "if");
 
@@ -87,13 +95,23 @@ void compile_if(CODE* c)
 
     compile_symbol(c, ")");
 
+    // Denies the expression
+    write_not(c);
+    write_ifgoto(c, label1);
+
     compile_symbol(c, "{");
 
     compile_statements(c);
 
     compile_symbol(c, "}");
 
+    write_goto(c, label2);
+
+    write_label(c, label1);
+
     compile_else(c);
+
+    write_label(c, label2);
 
     close_statement(c->identation, "if", c->target);
 
@@ -105,8 +123,15 @@ void compile_while(CODE* c)
     /***
         <whileStatement> ::= while ( <expression> ) { <statements> }
     */
-    char label[300];
+    char label1[300], label2[300];
+
+    // Get the two next labels
+    get_label(c, label1);
+    get_label(c, label2);
+
     open_statement(c->identation, "while", c->target);  // '<whileStatement>'
+
+    write_label(c, label1);
 
     compile_keyword(c, "while");
 
@@ -116,11 +141,20 @@ void compile_while(CODE* c)
 
     compile_symbol(c, ")");       // )
 
+    // Denies the expression
+    write_not(c);
+
+    write_ifgoto(c, label2);
+
     compile_symbol(c, "{");
 
     compile_statements(c);          // <statements>
 
     compile_symbol(c, "}");
+
+    write_goto(c, label1);
+
+    write_label(c, label2);
 
     close_statement(c->identation, "while", c->target); // '</whileStatement>'
 

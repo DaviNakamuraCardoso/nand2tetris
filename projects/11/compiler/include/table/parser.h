@@ -22,3 +22,4 @@ void init_subroutine_specifics(CODE* c, __F_TYPE t);
 void init_scope(CODE* c);
 void update_table(CODE* c, char* classname, KIND k, TYPE t);
 void exit_scope(CODE* c);
+void init_method_decs(CODE* c, __F_TYPE t); 

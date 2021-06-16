@@ -69,16 +69,10 @@ static void fill_new_string(CODE* c, char* str)
     for (int i = 0; str[i] != 0; i++)
     {
         // Calling the string.appendChar method
-        writevm(c, "push temp 1");
         sprintf(append, "push constant %i", str[i]);
         writevm(c, append);
         writevm(c, "call String.appendChar 2");
-
-        // Dump the return value
-        writevm(c, "pop temp 1");
     }
-
-    writevm(c, "push temp 1");
 }
 
 static void start_new_string(CODE* c, char* str)
@@ -89,7 +83,6 @@ static void start_new_string(CODE* c, char* str)
     sprintf(create, "push constant %i", len);
     writevm(c, create);
     writevm(c, "call String.new 1");
-    write_poptemp(c, 1);
 
 }
 

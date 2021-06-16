@@ -65,3 +65,8 @@ void write_push_constant(CODE* c, unsigned int value)
 {
     writevmf(c, "push", "constant", value);
 }
+
+void write_not(CODE* c)
+{
+    writevm(c, "not"); 
+}

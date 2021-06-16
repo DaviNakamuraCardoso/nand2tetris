@@ -47,7 +47,6 @@ unsigned int push_methodarg(CODE* c, char* classname)
 }
 
 
-
 void write_functioncall(CODE* c, char* classname, char* fname, unsigned int nargs)
 {
     char function[700];
@@ -55,9 +54,13 @@ void write_functioncall(CODE* c, char* classname, char* fname, unsigned int narg
     sprintf(function, "%s.%s", classname, fname);
 
     write_function_call(c, function, nargs);
-
 }
 
+
+void init_method_args(CODE* c)
+{
+    c->table->kind_counter[ARGUMENT] = 1;
+}
 
 void init_constructor_segment(CODE* c)
 {
@@ -79,7 +82,6 @@ void init_method_arguments(CODE* c)
     writevm(c, "push argument 0");
     write_pop_pointer(c, 0);
     return;
-
 }
 
 void write_functiondec(CODE* c, char* fname)
@@ -91,7 +93,6 @@ void write_functiondec(CODE* c, char* fname)
 
     sprintf(name, "function %s.%s %i", c->table->next->classname, fname, c->table->kind_counter[LOCAL]);
     writevm(c, name);
-
 }
 
 void write_privatecall(CODE* c, char* fname, unsigned int nargs)
@@ -100,7 +101,6 @@ void write_privatecall(CODE* c, char* fname, unsigned int nargs)
 
     if (c->table == NULL) return;
 
-    write_push_pointer(c, 0);
     write_functioncall(c, c->table->classname, fname, ++nargs);
     return;
 }

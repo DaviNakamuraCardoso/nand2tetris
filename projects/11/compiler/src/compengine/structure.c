@@ -297,6 +297,8 @@ void compile_subroutinedec(CODE* c)
     ftype = compile_function_predec(c);
     compile_function_type(c);
 
+    init_method_decs(c, ftype);
+
     get_next_token_content(c, fname);
     compile_identifier(c);
 

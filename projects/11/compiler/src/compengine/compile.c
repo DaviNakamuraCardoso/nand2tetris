@@ -49,11 +49,18 @@ void putident(int ident, FILE* f)
     return;
 }
 
+// Get the current value of the counter and modifies it
 unsigned long get_counter(CODE* c)
 {
-    if (c->tracker == NULL) error("Could't access counter: tracker is NULL");
+    if (c->tracker == NULL) return 0;
     return (c->tracker->counter++);
+}
 
+// Get the current value of the counter without modifying it
+unsigned long see_counter(CODE* c)
+{
+    if (c->tracker == NULL) return 0;
+    return (c->tracker->counter);
 }
 
 void assert_type(TOKEN_TYPE a, TOKEN_TYPE b, int* status)

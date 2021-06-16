@@ -17,7 +17,10 @@
 
 static unsigned int test_write_label(void)
 {
-    char buffer[200], buffer2[200], buffer3[200];
+
+    char buffer[] = "LABEL_0";
+    char buffer2[] = "LABEL_1";
+    char buffer3[] = "LABEL_2";
 
     char* buffers0[] = {
         buffer, NULL
@@ -74,9 +77,13 @@ static unsigned int test_write_goto(void)
 
 static unsigned int test_if_branch(void)
 {
-    return writer_compare("writer/if", compile_if, 1, NULL);
+    return writer_compare("writer/if", compile_if, 3, NULL);
 }
 
+static unsigned int test_while_loop(void)
+{
+    return writer_compare("writer/while", compile_while, 1, NULL);
+}
 
 unsigned int test_loops(void)
 {
@@ -84,8 +91,10 @@ unsigned int test_loops(void)
     unsigned int (*tests[]) (void) = {
         test_write_label,
         test_write_ifgoto,
-        test_write_goto
+        test_write_goto,
+        test_if_branch,
+        test_while_loop
     };
 
-    return test(tests, 3);
+    return test(tests, 5);
 }

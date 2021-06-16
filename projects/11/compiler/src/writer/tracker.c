@@ -26,5 +26,5 @@ TRACKER* new_tracker(void)
 void release_tracker(TRACKER* t)
 {
     free(t);
-    return; 
+    return;
 }

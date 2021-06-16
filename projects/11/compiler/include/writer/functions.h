@@ -12,3 +12,4 @@ void write_functioncall(CODE* c, char* identifier, char* fname, unsigned int nar
 void write_functiondec(CODE* c, char* fname);
 void init_constructor_segment(CODE* c);
 void init_method_arguments(CODE* c);
+void init_method_args(CODE* c); 

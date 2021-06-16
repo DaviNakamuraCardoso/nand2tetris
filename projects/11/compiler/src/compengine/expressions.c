@@ -194,6 +194,10 @@ unsigned int compile_subroutinecall(CODE* c)
         compile_identifier(c);
         compile_symbol(c, ".");
     }
+    else
+    {
+        write_push_pointer(c, 0);
+    }
 
 
     get_next_token_content(c, fname);

@@ -68,6 +68,12 @@ void update_table(CODE* c, char* classname, KIND k, TYPE t)
     return;
 }
 
+void init_method_decs(CODE* c, __F_TYPE t)
+{
+    if (t != METHOD) return;
+
+    init_method_args(c);    
+}
 
 void init_subroutine_specifics(CODE* c, __F_TYPE t)
 {

@@ -16,9 +16,17 @@
 
 void write_label(CODE* c, char* buffer)
 {
-    sprintf(buffer, "label LABEL_%li", get_counter(c));
-    writevm(c, buffer);
+    char cmd[300];
+    sprintf(cmd, "label %s", buffer);
+    writevm(c, cmd);
     return;
+}
+
+void get_label(CODE* c, char* buffer)
+{
+    if (buffer == NULL) return;
+
+    sprintf(buffer, "LABEL_%li", get_counter(c));
 }
 
 
