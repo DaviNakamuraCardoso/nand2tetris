@@ -1,0 +1,21 @@
+class ShapeManager {
+
+    field Shape current;
+
+    constructor ShapeManager new(Grid grid) {
+        let current = Shape.new(grid);
+        return this;
+    }
+
+    method void render() {
+        var Grid g;
+
+        if (~current.render()) {
+            let g = current.getGrid();
+            do current.dispose();
+            let current = Shape.new(g);
+        }
+
+        return;
+    }
+}

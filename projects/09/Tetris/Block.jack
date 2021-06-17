@@ -4,11 +4,9 @@ class Block {
     field Grid grid;
 
     constructor Block new(Grid g) {
-
         let x = 0;
         let y = 8;
         let grid = g;
-
         return this;
     }
 
@@ -17,33 +15,34 @@ class Block {
         return;
     }
 
-    method void update() {
-        do updatePosition();
+    method boolean update(int newx, int newy) {
 
-        return;
-    }
+        if (newx > x) { return false; }
 
-    method void render() {
-        do grid.setCell(x, y, false);
-        do update();
-        do grid.setCell(x, y, true);
-        return;
-    }
+        let y = newy;
 
-    function int max(int a, int b) {
-        if (a > b) { return a; }
-        return b;
-    }
-
-    method void updatePosition() {
 
         if (grid.getCell(x+1, y) = 0) { let x = x + 1; }
-
-
-        if (Keyboard.keyPressed() = 83) { let y = y + 1; }
-        if (Keyboard.keyPressed() = 87) { let y = y - 1; }
-
-        return;
+        else { return false; }
+        return true;
     }
 
+    method boolean render(int newx, int newy) {
+
+        var boolean status;
+
+        do grid.setCell(x, y, false);
+        let status = update(newx, newy);
+        do grid.setCell(x, y, true);
+        return status;
+    }
+
+
+    method void setX(int xpos) {
+        let x = xpos; return;
+    }
+
+    method void setY(int ypos) {
+        let y = ypos; return;
+    }
 }

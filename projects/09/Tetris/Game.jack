@@ -1,14 +1,12 @@
 class Game {
 
     field Grid grid;
-    field Block block, blocktwo;
+    field ShapeManager sm;
 
     constructor Game new() {
 
         let grid = Grid.new(31, 15);
-        let block = Block.new(grid);
-        let blocktwo = Block.new(grid);
-
+        let sm = ShapeManager.new(grid);
         return this;
     }
 
@@ -19,22 +17,11 @@ class Game {
 
     method void loop() {
 
-        var boolean rendert;
-
-        let rendert = false;
-
         while (true) {
 
-            if (rendert) {
-                do blocktwo.render();
-            }
-
-            do block.render();
             do grid.render();
+            do sm.render();
             do Sys.wait(300);
-
-            let rendert = true;
-
         }
         return;
     }

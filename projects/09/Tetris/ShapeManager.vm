@@ -1,0 +1,31 @@
+function ShapeManager.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+call Shape.new 1
+pop this 0
+push pointer 0
+return
+function ShapeManager.render 1
+push argument 0
+pop pointer 0
+push this 0
+call Shape.render 1
+not
+not
+if-goto LABEL_0
+push this 0
+call Shape.getGrid 1
+pop local 0
+push this 0
+call Shape.dispose 1
+pop temp 0
+push local 0
+call Shape.new 1
+pop this 0
+goto LABEL_1
+label LABEL_0
+label LABEL_1
+push constant 0
+return

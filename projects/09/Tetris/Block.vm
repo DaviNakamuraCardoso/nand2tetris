@@ -21,48 +21,18 @@ return
 function Block.update 0
 push argument 0
 pop pointer 0
-push pointer 0
-call Block.updatePosition 1
-pop temp 0
-push constant 0
-return
-function Block.render 0
-push argument 0
-pop pointer 0
-push this 2
-push this 0
-push this 1
-push constant 0
-call Grid.setCell 4
-pop temp 0
-push pointer 0
-call Block.update 1
-pop temp 0
-push this 2
-push this 0
-push this 1
-push constant 1
-neg
-call Grid.setCell 4
-pop temp 0
-push constant 0
-return
-function Block.max 0
-push argument 0
 push argument 1
+push this 0
 gt
 not
-if-goto LABEL_18
-push argument 0
+if-goto LABEL_28
+push constant 0
 return
-goto LABEL_19
-label LABEL_18
-label LABEL_19
-push argument 1
-return
-function Block.updatePosition 0
-push argument 0
-pop pointer 0
+goto LABEL_29
+label LABEL_28
+label LABEL_29
+push argument 2
+pop this 1
 push this 2
 push this 0
 push constant 1
@@ -72,37 +42,53 @@ call Grid.getCell 3
 push constant 0
 eq
 not
-if-goto LABEL_20
+if-goto LABEL_30
 push this 0
 push constant 1
 add
 pop this 0
-goto LABEL_21
-label LABEL_20
-label LABEL_21
-call Keyboard.keyPressed 0
-push constant 83
-eq
-not
-if-goto LABEL_22
+goto LABEL_31
+label LABEL_30
+push constant 0
+return
+label LABEL_31
+push constant 1
+neg
+return
+function Block.render 1
+push argument 0
+pop pointer 0
+push this 2
+push this 0
+push this 1
+push constant 0
+call Grid.setCell 4
+pop temp 0
+push pointer 0
+push argument 1
+push argument 2
+call Block.update 3
+pop local 0
+push this 2
+push this 0
 push this 1
 push constant 1
-add
+neg
+call Grid.setCell 4
+pop temp 0
+push local 0
+return
+function Block.setX 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push constant 0
+return
+function Block.setY 0
+push argument 0
+pop pointer 0
+push argument 1
 pop this 1
-goto LABEL_23
-label LABEL_22
-label LABEL_23
-call Keyboard.keyPressed 0
-push constant 87
-eq
-not
-if-goto LABEL_24
-push this 1
-push constant 1
-sub
-pop this 1
-goto LABEL_25
-label LABEL_24
-label LABEL_25
 push constant 0
 return

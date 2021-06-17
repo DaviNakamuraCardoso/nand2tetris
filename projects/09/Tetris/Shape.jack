@@ -2,46 +2,77 @@ class Shape {
 
     field Grid grid;
     field Array blocks;
+    field int x, y;
     static int SHAPE_SIZE;
 
     constructor Shape new(Grid g) {
 
-        var int i;
-
         let SHAPE_SIZE = 4;
         let grid = g;
+        let x = 0; let y = 8;
         do initBlocks();
-
 
         return this;
     }
 
     method void initBlocks() {
+        var int i;
+        var Block current;
 
         let blocks = Array.new(SHAPE_SIZE);
 
-        var Block current;
         let i = 0; while (i < SHAPE_SIZE) {
 
             let current = Block.new(grid);
             let blocks[i] = current;
+            do current.setX(x+4-i);
+            do current.setY(y);
 
             let i = i + 1;
         }
         return;
-
     }
 
-    method void render() {
+    method void moveUp() {
+        let y = Math.max(0, y - 1);
+        return;
+    }
+
+    method void moveDown() {
+        let y = Math.min(grid.getHeight()-1, y + 1);
+        return;
+    }
+
+    method void listenKeys() {
+
+        if (Keyboard.keyPressed() = 83) { do moveDown(); }  // Goes up when 'S' is pressed
+        if (Keyboard.keyPressed() = 87) { do moveUp(); }    // Goes down when 'W' is pressed
+
+        return;
+    }
+
+
+    method Grid getGrid() {
+        return grid;
+    }
+
+    method boolean render() {
         var int i;
-        var Array tmp;
+        var Block tmp;
+
+        do listenKeys();
 
         let i = 0; while (i < SHAPE_SIZE) {
             let tmp = blocks[i];
-            do tmp.render();
+            if (~tmp.render(x, y)) { return false; }
             let i = i + 1;
         }
 
+        return true;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
         return;
     }
 }

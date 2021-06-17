@@ -1,5 +1,5 @@
 function Game.new 0
-push constant 3
+push constant 2
 call Memory.alloc 1
 pop pointer 0
 push constant 31
@@ -7,11 +7,8 @@ push constant 15
 call Grid.new 2
 pop this 0
 push this 0
-call Block.new 1
+call ShapeManager.new 1
 pop this 1
-push this 0
-call Block.new 1
-pop this 2
 push pointer 0
 return
 function Game.render 0
@@ -22,38 +19,24 @@ call Grid.render 1
 pop temp 0
 push constant 0
 return
-function Game.loop 1
+function Game.loop 0
 push argument 0
 pop pointer 0
-push constant 0
-pop local 0
-label LABEL_0
+label LABEL_2
 push constant 1
 neg
 not
-if-goto LABEL_1
-push local 0
-not
-if-goto LABEL_2
-push this 2
-call Block.render 1
-pop temp 0
-goto LABEL_3
-label LABEL_2
-label LABEL_3
-push this 1
-call Block.render 1
-pop temp 0
+if-goto LABEL_3
 push this 0
 call Grid.render 1
+pop temp 0
+push this 1
+call ShapeManager.render 1
 pop temp 0
 push constant 300
 call Sys.wait 1
 pop temp 0
-push constant 1
-neg
-pop local 0
-goto LABEL_0
-label LABEL_1
+goto LABEL_2
+label LABEL_3
 push constant 0
 return

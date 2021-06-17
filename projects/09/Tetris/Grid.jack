@@ -74,4 +74,7 @@ class Grid {
         }
         return;
     }
+
+    method int getWidth() { return width; }
+    method int getHeight() { return height; }
 }
