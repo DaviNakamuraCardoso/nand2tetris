@@ -1,0 +1,77 @@
+class Grid {
+
+    field Array grid;
+    field int width, height;
+
+    constructor Grid new(int w, int h) {
+        var int i;
+
+        let width = w;
+        let height = h;
+
+        let grid = Array.new(w);
+
+        let i = 0;
+
+        while (i < width) {
+            let grid[i] = Array.new(height);
+            let i = i + 1;
+        }
+        return this;
+    }
+
+    method boolean isSafe(int x, int y) {
+        if ((x > width) | (x = width)) { return false; }
+        if ((y > height) | (y = height)) { return false;}
+
+        return true;
+    }
+
+    method void setCell(int x, int y, boolean b) {
+        var Array tmp;
+
+        if (~isSafe(x, y)) {return;}
+
+        let tmp = grid[x];
+        let tmp[y] = b;
+
+        return;
+
+    }
+
+    method int getCell(int x, int y) {
+        var Array tmp;
+
+        if (~isSafe(x, y)) { return 1; }
+
+        let tmp = grid[x];
+        return tmp[y];
+
+    }
+
+    function void drawBlock(int x, int y, boolean b) {
+
+        do Screen.setColor(~b);
+        do Screen.drawRectangle(x*16, y*16, (x+1)*16, (y+1)*16);
+        return;
+    }
+
+    method void render() {
+
+        var int i, j;
+        var Array tmp;
+
+        let i = 0;
+        while (i < width) {
+            let j = 0;
+
+            while (j < height) {
+                let tmp = grid[i];
+                do Grid.drawBlock(i, j, tmp[j]);
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+}

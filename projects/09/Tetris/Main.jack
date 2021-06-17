@@ -1,75 +1,13 @@
-/**
-*       Source code for Project 09 of the course "Nand2tetris",
-*       by Shimon Schocken and Noam Nisan;
-*
-*/
-
-
 class Main {
 
 
-    static Game game;
-    static Menu menu;
-    static int GRID_WIDTH, GRID_HEIGHT;
-
     function void main() {
 
-        do Main.setup();
-        do Main.start();
-        do Main.dispose();
+        var Game game;
 
-        return;
-    }
+        let game = Game.new();
+        do game.loop();
 
-    // Basic setup
-    function void setup() {
-
-        do Main.setGame();
-        do Main.setMenu();
-
-        return;
-    }
-
-
-    function void setGame() {
-        // Setup basic variables
-        var Matrix m;
-        var Player p;
-
-        // Setup the grid size
-        do Main.setGridSize(64, 32);
-
-
-        // Creates the objects
-        let p = Player.new();
-        let m = Matrix.new(GRID_WIDTH, GRID_HEIGHT);
-
-        let game = Game.new(p, m);
-
-        return;
-
-    }
-
-    function void setGridSize(int w, int h) {
-        let GRID_WIDTH = w;
-        let GRID_HEIGHT = h;
-
-        return;
-    }
-
-    function void setMenu() {
-        // Creates a new menu
-        let menu = Menu.new();
-        return;
-    }
-
-    function void start() {
-
-        do menu.update(game);
-        return;
-    }
-
-    function void dispose() {
         return;
     }
 }

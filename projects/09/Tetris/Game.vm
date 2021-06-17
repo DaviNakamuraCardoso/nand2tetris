@@ -1,152 +1,59 @@
 function Game.new 0
-push constant 5
+push constant 3
 call Memory.alloc 1
 pop pointer 0
-push constant 0
+push constant 31
+push constant 15
+call Grid.new 2
 pop this 0
-push constant 0
-pop this 1
-push argument 0
-pop this 3
-push argument 1
-pop this 4
-push pointer 0
-return
-function Game.isPaused 0
-push argument 0
-pop pointer 0
 push this 0
-return
-function Game.isOver 0
-push argument 0
-pop pointer 0
-push this 1
-return
-function Game.getPlayer 0
-push argument 0
-pop pointer 0
-push this 3
-return
-function Game.getMatrix 0
-push argument 0
-pop pointer 0
-push this 4
-return
-function Game.pause 0
-push argument 0
-pop pointer 0
-push constant 0
-not
-pop this 0
-push constant 0
-return
-function Game.play 0
-push argument 0
-pop pointer 0
-push constant 0
-pop this 0
-push constant 0
-return
-function Game.end 0
-push argument 0
-pop pointer 0
-push constant 0
-not
+call Block.new 1
 pop this 1
-push constant 0
-return
-function Game.start 0
-push argument 0
-pop pointer 0
-push constant 0
-pop this 1
-push constant 0
-return
-function Game.updateGame 0
-push argument 0
-pop pointer 0
-label WHILE_EXP0
-push this 1
-not
-not
-if-goto WHILE_END0
+push this 0
+call Block.new 1
+pop this 2
 push pointer 0
-call Game.update 1
-pop temp 0
-push pointer 0
-call Game.render 1
-pop temp 0
-goto WHILE_EXP0
-label WHILE_END0
-push constant 0
-return
-function Game.update 1
-push argument 0
-pop pointer 0
-call Keyboard.keyPressed 0
-pop local 0
-push pointer 0
-push local 0
-call Game.switch 2
-pop temp 0
-push constant 0
 return
 function Game.render 0
 push argument 0
 pop pointer 0
-push this 3
-call Player.render 1
-pop temp 0
-push this 4
-call Matrix.render 1
+push this 0
+call Grid.render 1
 pop temp 0
 push constant 0
 return
-function Game.switch 0
+function Game.loop 1
 push argument 0
 pop pointer 0
-push argument 1
-push constant 81
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push pointer 0
-call Game.end 1
-pop temp 0
 push constant 0
-return
-label IF_FALSE0
-push argument 1
-push constant 82
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push pointer 0
-call Game.end 1
+pop local 0
+label LABEL_0
+push constant 1
+neg
+not
+if-goto LABEL_1
+push local 0
+not
+if-goto LABEL_2
+push this 2
+call Block.render 1
 pop temp 0
-push constant 0
-return
-label IF_FALSE1
-push pointer 0
-call Game.updateComponents 1
+goto LABEL_3
+label LABEL_2
+label LABEL_3
+push this 1
+call Block.render 1
 pop temp 0
-push constant 0
-return
-function Game.updateComponents 0
-push argument 0
-pop pointer 0
-push this 3
-call Player.update 1
+push this 0
+call Grid.render 1
 pop temp 0
-push this 4
-call Matrix.update 1
+push constant 300
+call Sys.wait 1
 pop temp 0
-push constant 0
-return
-function Game.print 0
-push argument 0
-pop pointer 0
+push constant 1
+neg
+pop local 0
+goto LABEL_0
+label LABEL_1
 push constant 0
 return

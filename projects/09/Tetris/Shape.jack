@@ -1,0 +1,47 @@
+class Shape {
+
+    field Grid grid;
+    field Array blocks;
+    static int SHAPE_SIZE;
+
+    constructor Shape new(Grid g) {
+
+        var int i;
+
+        let SHAPE_SIZE = 4;
+        let grid = g;
+        do initBlocks();
+
+
+        return this;
+    }
+
+    method void initBlocks() {
+
+        let blocks = Array.new(SHAPE_SIZE);
+
+        var Block current;
+        let i = 0; while (i < SHAPE_SIZE) {
+
+            let current = Block.new(grid);
+            let blocks[i] = current;
+
+            let i = i + 1;
+        }
+        return;
+
+    }
+
+    method void render() {
+        var int i;
+        var Array tmp;
+
+        let i = 0; while (i < SHAPE_SIZE) {
+            let tmp = blocks[i];
+            do tmp.render();
+            let i = i + 1;
+        }
+
+        return;
+    }
+}

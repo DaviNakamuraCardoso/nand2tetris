@@ -1,295 +1,47 @@
-/**
-*
-*       Block class for project 09 of nand2tetris
-*
-*
-*/
-
 class Block {
-    field int x, y, dx, dy, incline, size, width;
-    field char shape;
-    field Matrix matrix;
 
-    constructor Block new(char sp, Matrix m) {
+    field int x, y;
+    field Grid grid;
 
-        // Set position and size
-        let x = 10;
-        let y = 10;
-        let size = 10;
-        let width = 4;
+    constructor Block new(Grid g) {
 
-        // Horizontal and Vertical speed
-        let dx = 1;
-        let dy = 0;
-
-        // Start vertically
-        let incline = 90;
-
-        // Set shape and parent matrix
-        let shape = sp;
-        let matrix = m;
+        let x = 0;
+        let y = 8;
+        let grid = g;
 
         return this;
     }
 
-    // Accessors
-    method int getX() { return x; }
-    method int getY() { return y; }
-    method int getShape() { return shape; }
-    method int getIncline() { return incline; }
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
 
-    // Setters
-    method void setX(int val) { let x = val; return; }
-    method void setY(int val) { let y = val; return; }
-
-    // Update the block position
     method void update() {
-
-        // Check keys pressed
-        do updateKeyPresses();
-
-        // Check for collisions
-        do checkCollisions();
+        do updatePosition();
 
         return;
     }
 
-    method void checkCollisions() {
-        return;
-    }
-
-    // Changes cells on the matrix to render the block
     method void render() {
-
-
-        // I shape
-        if (shape = 73) {do renderIShape();  return; }
-
-        // L shape
-        if (shape = 76) { do renderLShape(); return; }
-
-        // T shape
-        if (shape = 84) { do renderTShape(); return; }
-
-        // If there is no correspondent shape, raise error
-        do Block.RaiseInvalidShape();
-
-        return;
-    }
-
-    // Rotate the shape
-    method void rotate(boolean left) {
-
-        // If it is being rotated to the left, increase rotate by 90
-        if (left) {
-            let incline = incline + 90;
-            let incline = Block.modulo(incline, 360);
-            return;
-        }
-
-        // Else, decrease by 90
-        let incline = incline - 90;
-        let incline = Block.modulo(incline, 360);
-        return;
-    }
-
-    // Update the block based on keypresses
-    method void updateKeyPresses() {
-
-        var char key;
-        let key = Keyboard.keyPressed();
-        do switchKeys(key);
-        return;
-
-    }
-
-    // Moves the block based on the key pressed
-    method void switchKeys(char key) {
-
-        // "A"
-        if (key = 65) { do goLeft(); return; }
-
-        // "D"
-        if (key = 68) { do goRight(); return; }
-
-        // "S"
-        if (key = 83) { do rotateRight(); return; }
-
-        // "W"
-        if (key = 87) { do rotateLeft(); return; }
-
-        return;
-    }
-
-    // Moves the block to the right
-    method void goRight() {
-        let x = x + dx;
-        return;
-    }
-
-    // Moves the block to the left
-    method void goLeft() {
-        let x = x - dx;
-        return;
-    }
-
-    // Rotates the block to the left
-    method void rotateLeft() {
-        do rotate(true);
-        return;
-    }
-
-    // Rotates the block to the right
-    method void rotateRight() {
-        do rotate(false);
-        return;
-    }
-
-
-
-    method void renderIShape() {
-
-        // Erase previous render
-        do renderI(0);
-
-        // Update position
+        do grid.setCell(x, y, false);
         do update();
-
-        // Draw new position
-        do renderI(1);
-
+        do grid.setCell(x, y, true);
         return;
     }
 
-    method void renderTShape() {
-        // Erase previous
-        do renderT(0);
-
-        // Update position
-        do update();
-
-        // Draw in new position
-        do renderT(1);
-
-        return;
+    function int max(int a, int b) {
+        if (a > b) { return a; }
+        return b;
     }
 
-    method void renderLShape() {
-        // Erase previous
-        do renderL(0);
+    method void updatePosition() {
 
-        // Update position
-        do update();
-
-        // Draw in new position
-        do renderL(1);
-
-        return;
-    }
-
-    function int modulo(int val, int m) {
-        while (val > m) {
-            let val = val - m;
-        }
-        return val;
-
-    }
-
-    // Changes the matrix to set an I shape with the given number "e"
-    method void renderI(int e) {
-        var int i;
-        let i = 0;
-
-        // Render Horizontally  (0 or 180 degrees)
-        if ((incline = 0)) {
-            while (i < size) { do matrix.setCell((x+i), y, e); let i = i + 1; }
-            return;
-        }
-        if (incline = 180) {
-            while (i < size) { do matrix.setCell((x-i), y, e); let i = i + 1; }
-            return;
-        }
-
-        // Render Vertically (90 or 270 degrees)
-        while (i < size) { do matrix.setCell(x, (y+i), e); let i = i + 1; }
-
-        return;
-    }
-
-    // Changes the matrix to set an T shape with the given number "e"
-    method void renderT(int e) {
-        var int i;
-        let i = -2;
-
-        // Render the base I format
-        do renderI(e);
+        if (grid.getCell(x+1, y) = 0) { let x = x + 1; }
 
 
-        // Render a different top for each incline value
-        if (incline = 90) {
-            while (i < 3) { do matrix.setCell((x+i), y, e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 270) {
-            while (i < 3) { do matrix.setCell((x+i), (y+size), e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 0) {
-            while (i < 3) { do matrix.setCell(x, (y+i), e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 180) {
-            while (i < 3) { do matrix.setCell(x+size, (y+i), e); let i = i + 1; }
-            return;
-        }
-
-        return;
-    }
-
-    // Changes the matrix to set an L shape with the given number "e"
-    method void renderL(int e) {
-        var int i;
-        let i = 0;
-
-        // Render the base format
-        do renderI(e);
-
-        // Render a different top for each incline value
-        if (incline = 90) {
-            while (i < 4) { do matrix.setCell((x+i), y+size, e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 270) {
-            while (i < 4) { do matrix.setCell((x-i), y, e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 0) {
-            while (i < 4) { do matrix.setCell(x+size, y-i, e); let i = i + 1; }
-            return;
-        }
-
-        if (incline = 180) {
-            while (i < 4) { do matrix.setCell(x, y+i, e); let i = i + 1; }
-            return;
-        }
-
-        return;
-    }
-
-    // Stops the execution if an invalid shape is given
-    function void RaiseInvalidShape() {
-
-        // Print the error message
-        do Output.printString("Invalid shape type");
-        do Output.println();
-
-        // Stops the program
-        do Sys.error(2);
+        if (Keyboard.keyPressed() = 83) { let y = y + 1; }
+        if (Keyboard.keyPressed() = 87) { let y = y - 1; }
 
         return;
     }

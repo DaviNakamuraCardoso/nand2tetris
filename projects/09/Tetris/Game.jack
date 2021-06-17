@@ -1,83 +1,41 @@
-/**
-*
-*       Game class for Project 09 of "Nand2tetris" course
-*
-*
-*/
-
 class Game {
-    field boolean paused, over, quit;
-    field Player player;
-    field Matrix matrix;
 
-    // Builds a game with a player and a matrix
-    constructor Game new(Player p, Matrix m) {
+    field Grid grid;
+    field Block block, blocktwo;
 
-        // Initial settings
-        let paused = false;
-        let over = false;
-        let player = p;
-        let matrix = m;
+    constructor Game new() {
+
+        let grid = Grid.new(31, 15);
+        let block = Block.new(grid);
+        let blocktwo = Block.new(grid);
 
         return this;
     }
 
-    // Accessors
-    method boolean isPaused() { return paused; }
-    method boolean isOver() { return over; }
-    method Player getPlayer() { return player; }
-    method Matrix getMatrix() { return matrix; }
-
-    // Setters
-    method void pause() { let paused = true; return; }
-    method void play() { let paused = false; return; }
-    method void end() { let over = true; return; }
-    method void start() {let over = false; return; }
-
-
-    // Main loop
-    method void updateGame() {
-        while (~over) {
-            do update();
-            do render();
-        }
-
-        return;
-    }
-
-    // Get keypresses
-    method void update() {
-        var char key;
-        let key = Keyboard.keyPressed();
-        do switch(key);
-        return;
-
-    }
-
-    // Render the player and the matrix
     method void render() {
-        do player.render();
-        do matrix.render();
+        do grid.render();
         return;
     }
 
-    // Switch on the key value
-    method void switch(char key) {
-        if (key = 81) { do end(); return; }
-        if (key = 82) { do end(); return; }
-        do updateComponents();
-        return;
-    }
+    method void loop() {
 
-    // Update player and matrix;
-    method void updateComponents() {
-        do player.update();
-        do matrix.update();
-        return;
-    }
+        var boolean rendert;
 
-    // Prints the essential info
-    method void print() {
+        let rendert = false;
+
+        while (true) {
+
+            if (rendert) {
+                do blocktwo.render();
+            }
+
+            do block.render();
+            do grid.render();
+            do Sys.wait(300);
+
+            let rendert = true;
+
+        }
         return;
     }
 }
