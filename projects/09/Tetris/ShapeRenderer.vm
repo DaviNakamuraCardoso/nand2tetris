@@ -14,13 +14,13 @@ call Shape.decX 1
 pop temp 0
 push argument 1
 pop local 0
-label LABEL_60
+label LABEL_66
 push local 0
 push constant 1
 neg
 gt
 not
-if-goto LABEL_61
+if-goto LABEL_67
 push pointer 0
 push this 0
 push local 0
@@ -34,8 +34,8 @@ push local 0
 push constant 1
 sub
 pop local 0
-goto LABEL_60
-label LABEL_61
+goto LABEL_66
+label LABEL_67
 push constant 0
 return
 function ShapeRenderer.render 3
@@ -49,12 +49,12 @@ neg
 pop local 2
 push constant 0
 pop local 1
-label LABEL_62
+label LABEL_68
 push local 1
 push constant 4
 lt
 not
-if-goto LABEL_63
+if-goto LABEL_69
 push pointer 0
 push this 0
 push local 1
@@ -64,22 +64,22 @@ push local 0
 call ShapeRenderer.renderShape 4
 not
 not
-if-goto LABEL_64
+if-goto LABEL_70
 push pointer 0
 push local 1
 call ShapeRenderer.undo 2
 pop temp 0
 push constant 0
 return
-goto LABEL_65
-label LABEL_64
-label LABEL_65
+goto LABEL_71
+label LABEL_70
+label LABEL_71
 push local 1
 push constant 1
 add
 pop local 1
-goto LABEL_62
-label LABEL_63
+goto LABEL_68
+label LABEL_69
 push this 0
 call Shape.incX 1
 pop temp 0
@@ -92,28 +92,28 @@ push argument 3
 push constant 0
 eq
 not
-if-goto LABEL_66
+if-goto LABEL_72
 push pointer 0
 push argument 1
 push argument 2
 call ShapeRenderer.renderI 3
 return
-goto LABEL_67
-label LABEL_66
-label LABEL_67
+goto LABEL_73
+label LABEL_72
+label LABEL_73
 push argument 3
 push constant 1
 eq
 not
-if-goto LABEL_68
+if-goto LABEL_74
 push pointer 0
 push argument 1
 push argument 2
 call ShapeRenderer.renderT 3
 return
-goto LABEL_69
-label LABEL_68
-label LABEL_69
+goto LABEL_75
+label LABEL_74
+label LABEL_75
 push constant 1
 neg
 return
@@ -133,64 +133,64 @@ push local 4
 push constant 0
 eq
 not
-if-goto LABEL_70
-push local 2
-push constant 4
-push argument 2
-sub
-add
-pop local 0
-push local 3
-pop local 1
-goto LABEL_71
-label LABEL_70
-label LABEL_71
-push local 4
-push constant 2
-eq
-not
-if-goto LABEL_72
-push local 2
-push argument 2
-sub
-pop local 0
-push local 3
-pop local 1
-goto LABEL_73
-label LABEL_72
-label LABEL_73
-push local 4
-push constant 1
-eq
-not
-if-goto LABEL_74
-push local 2
-pop local 0
-push local 3
-push argument 2
-push constant 4
-sub
-add
-pop local 1
-goto LABEL_75
-label LABEL_74
-label LABEL_75
-push local 4
-push constant 3
-eq
-not
 if-goto LABEL_76
 push local 2
-pop local 0
-push local 3
 push constant 4
 push argument 2
 sub
 add
+pop local 0
+push local 3
 pop local 1
 goto LABEL_77
 label LABEL_76
 label LABEL_77
+push local 4
+push constant 2
+eq
+not
+if-goto LABEL_78
+push local 2
+push argument 2
+sub
+pop local 0
+push local 3
+pop local 1
+goto LABEL_79
+label LABEL_78
+label LABEL_79
+push local 4
+push constant 1
+eq
+not
+if-goto LABEL_80
+push local 2
+pop local 0
+push local 3
+push argument 2
+push constant 4
+sub
+add
+pop local 1
+goto LABEL_81
+label LABEL_80
+label LABEL_81
+push local 4
+push constant 3
+eq
+not
+if-goto LABEL_82
+push local 2
+pop local 0
+push local 3
+push constant 4
+push argument 2
+sub
+add
+pop local 1
+goto LABEL_83
+label LABEL_82
+label LABEL_83
 push argument 1
 push local 0
 push local 1
@@ -209,26 +209,62 @@ push this 0
 call Shape.getY 1
 pop local 3
 push argument 2
-push constant 0
-gt
+push constant 3
+lt
 not
-if-goto LABEL_78
+if-goto LABEL_84
 push pointer 0
 push argument 1
 push argument 2
 call ShapeRenderer.renderI 3
 return
-goto LABEL_79
-label LABEL_78
-label LABEL_79
-push local 2
+goto LABEL_85
+label LABEL_84
+label LABEL_85
+push local 4
+push constant 0
+eq
+push local 4
 push constant 2
+eq
+or
+not
+if-goto LABEL_86
+push local 2
+push constant 3
+push local 4
+sub
 add
 pop local 0
 push local 3
 push constant 1
+push local 4
+sub
 add
 pop local 1
+goto LABEL_87
+label LABEL_86
+label LABEL_87
+push local 4
+push constant 3
+eq
+push local 4
+push constant 1
+eq
+or
+not
+if-goto LABEL_88
+push local 2
+push constant 2
+push local 4
+sub
+add
+pop local 0
+push local 3
+pop local 1
+goto LABEL_89
+label LABEL_88
+label LABEL_89
 push argument 1
 push local 0
 push local 1

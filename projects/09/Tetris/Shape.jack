@@ -25,10 +25,9 @@ class Shape {
 
         let i = 0; while (i < SHAPE_SIZE) {
 
-            let current = Block.new(grid);
+            let current = Block.new(grid, this);
             let blocks[i] = current;
-            do current.setX(x+4-i);
-            do current.setY(y);
+            let current.setType(1);
 
             let i = i + 1;
         }
@@ -95,6 +94,20 @@ class Shape {
 
     method void setType(int t) { let type = t; return;}
 
+    method boolean isMine(int sx, int sy) {
+        var int i;
+        var Block b;
+
+        let i = 0; while (i < 4) {
+            let b = blocks[i];
+
+            if ((b.getX() = sx) & (b.getY() = sy)) { return true; }
+            let i = i + 1;
+        }
+
+        return false;
+    }
+
     method void dispose() {
         var int i;
         var Block b;
@@ -104,6 +117,7 @@ class Shape {
             do b.dispose();
             let i = i + 1;
         }
+        do blocks.dispose();
         do Memory.deAlloc(this);
         return;
     }

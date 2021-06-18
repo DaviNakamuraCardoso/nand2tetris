@@ -69,9 +69,11 @@ class ShapeRenderer {
         let sx = shape.getX();
         let sy = shape.getY();
 
-        if (index > 0) { return renderI(b, index); }
+        if (index < 3) { return renderI(b, index); }
 
-        let x = sx + 2; let y = sy + 1;
+        if ((direction = 0) | (direction = 2)) { let x = sx + 3 - direction; let y = sy + 1 - direction;}
+
+        if ((direction = 3) | (direction = 1)) { let x = sx + 2 - direction; let y = sy; }
 
         return b.render(x, y);
     }

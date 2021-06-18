@@ -42,7 +42,7 @@ class Grid {
     method int getCell(int x, int y) {
         var Array tmp;
 
-        if (~isSafe(x, y)) { return 1; }
+        if (~isSafe(x, y)) { return true; }
 
         let tmp = grid[x];
         return tmp[y];

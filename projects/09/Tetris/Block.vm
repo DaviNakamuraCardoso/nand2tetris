@@ -1,13 +1,15 @@
 function Block.new 0
-push constant 3
+push constant 4
 call Memory.alloc 1
 pop pointer 0
 push constant 0
 pop this 0
-push constant 8
+push constant 7
 pop this 1
 push argument 0
 pop this 2
+push argument 1
+pop this 3
 push pointer 0
 return
 function Block.dispose 0
@@ -21,23 +23,27 @@ return
 function Block.update 0
 push argument 0
 pop pointer 0
-push argument 2
-pop this 1
 push this 2
 push argument 1
-push this 1
+push argument 2
 call Grid.getCell 3
-push constant 0
-eq
-not
-if-goto LABEL_58
+push this 3
 push argument 1
-pop this 0
-goto LABEL_59
-label LABEL_58
+push argument 2
+call Shape.isMine 3
+not
+and
+not
+if-goto LABEL_62
 push constant 0
 return
-label LABEL_59
+goto LABEL_63
+label LABEL_62
+label LABEL_63
+push argument 1
+pop this 0
+push argument 2
+pop this 1
 push constant 1
 neg
 return
@@ -55,6 +61,9 @@ push argument 1
 push argument 2
 call Block.update 3
 pop local 0
+push local 0
+not
+if-goto LABEL_64
 push this 2
 push this 0
 push this 1
@@ -62,7 +71,20 @@ push constant 1
 neg
 call Grid.setCell 4
 pop temp 0
+goto LABEL_65
+label LABEL_64
+label LABEL_65
 push local 0
+return
+function Block.getX 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Block.getY 0
+push argument 0
+pop pointer 0
+push this 1
 return
 function Block.setX 0
 push argument 0

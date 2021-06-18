@@ -2,11 +2,13 @@ class Block {
 
     field int x, y;
     field Grid grid;
+    field Shape shape;
 
-    constructor Block new(Grid g) {
+    constructor Block new(Grid g, Shape s) {
         let x = 0;
-        let y = 8;
+        let y = 7;
         let grid = g;
+        let shape = s;
         return this;
     }
 
@@ -16,10 +18,10 @@ class Block {
     }
 
     method boolean update(int newx, int newy) {
-        let y = newy;
+        if ((grid.getCell(newx, newy)) & (~shape.isMine(newx, newy)))  { return false; }
 
-        if (grid.getCell(newx, y) = 0) { let x = newx; }
-        else { return false; }
+        let x = newx; let y = newy;
+
         return true;
     }
 
@@ -29,10 +31,16 @@ class Block {
 
         do grid.setCell(x, y, false);
         let status = update(newx, newy);
-        do grid.setCell(x, y, true);
+        if (status)
+        {
+            do grid.setCell(x, y, true);
+
+        }
         return status;
     }
 
+    method int getX() { return x; }
+    method int getY() { return y; }
 
     method boolean setX(int xpos) {
         let x = xpos; return true;
