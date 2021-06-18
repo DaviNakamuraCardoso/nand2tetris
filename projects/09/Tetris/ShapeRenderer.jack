@@ -8,19 +8,43 @@ class ShapeRenderer {
     }
 
     method boolean render() {
-        var int type, i; let type  = shape.getType();
+        var int type, i;
+        var boolean status;
+
+        let type = shape.getType();
+        let status = true;
+
+        do shape.incX();
 
         let i = 0; while (i < 4) {
-            
 
+            if (~renderShape(shape.getBlock(i), i, type)) { let status = false;}
             let i = i + 1;
         }
 
-        if (type = 0) { return renderI(); }
+
+        return status;
+    }
+    method boolean renderShape(Block b, int i, int type) {
+        if (type = 0) { return renderI(b, i); }
+
         return true;
+
     }
 
     method boolean renderI(Block b, int index) {
-        return b.render(shape.getX(), shape.getY());
+        var int x, y, sx, sy, direction;
+        let direction = shape.getDirection();
+        let sx = shape.getX();
+        let sy = shape.getY();
+
+        if (direction = 0) { let x = sx + 4 - index; let y = sy; }
+        if (direction = 2) { let x = sx - index; let y = sy;}
+        if (direction = 1) { let x = sx; let y = sy + index - 4; }
+        if (direction = 3) { let x = sx; let y = sy + 4 - index; }
+
+        return b.render(x, y);
     }
+
+
 }

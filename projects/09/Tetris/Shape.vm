@@ -1,5 +1,5 @@
 function Shape.new 0
-push constant 5
+push constant 6
 call Memory.alloc 1
 pop pointer 0
 push constant 4
@@ -10,9 +10,11 @@ push constant 0
 pop this 2
 push constant 8
 pop this 3
+push constant 0
+pop this 4
 push pointer 0
 call ShapeRenderer.new 1
-pop this 4
+pop this 5
 push pointer 0
 call Shape.initBlocks 1
 pop temp 0
@@ -88,6 +90,48 @@ call Math.min 2
 pop this 3
 push constant 0
 return
+function Shape.turnLeft 0
+push argument 0
+pop pointer 0
+push this 4
+push constant 3
+eq
+not
+if-goto LABEL_6
+push constant 0
+pop this 4
+push constant 0
+return
+goto LABEL_7
+label LABEL_6
+label LABEL_7
+push this 4
+push constant 1
+add
+pop this 4
+push constant 0
+return
+function Shape.turnRight 0
+push argument 0
+pop pointer 0
+push this 4
+push constant 0
+eq
+not
+if-goto LABEL_8
+push constant 3
+pop this 4
+push constant 0
+return
+goto LABEL_9
+label LABEL_8
+label LABEL_9
+push this 4
+push constant 1
+sub
+pop this 4
+push constant 0
+return
 function Shape.listenKeys 0
 push argument 0
 pop pointer 0
@@ -95,24 +139,46 @@ call Keyboard.keyPressed 0
 push constant 83
 eq
 not
-if-goto LABEL_6
+if-goto LABEL_10
 push pointer 0
 call Shape.moveDown 1
 pop temp 0
-goto LABEL_7
-label LABEL_6
-label LABEL_7
+goto LABEL_11
+label LABEL_10
+label LABEL_11
 call Keyboard.keyPressed 0
 push constant 87
 eq
 not
-if-goto LABEL_8
+if-goto LABEL_12
 push pointer 0
 call Shape.moveUp 1
 pop temp 0
-goto LABEL_9
-label LABEL_8
-label LABEL_9
+goto LABEL_13
+label LABEL_12
+label LABEL_13
+call Keyboard.keyPressed 0
+push constant 65
+eq
+not
+if-goto LABEL_14
+push pointer 0
+call Shape.turnLeft 1
+pop temp 0
+goto LABEL_15
+label LABEL_14
+label LABEL_15
+call Keyboard.keyPressed 0
+push constant 68
+eq
+not
+if-goto LABEL_16
+push pointer 0
+call Shape.turnRight 1
+pop temp 0
+goto LABEL_17
+label LABEL_16
+label LABEL_17
 push constant 0
 return
 function Shape.getGrid 0
@@ -126,7 +192,7 @@ pop pointer 0
 push pointer 0
 call Shape.listenKeys 1
 pop temp 0
-push this 4
+push this 5
 call ShapeRenderer.render 1
 return
 function Shape.getBlock 0
@@ -152,6 +218,11 @@ function Shape.getType 0
 push argument 0
 pop pointer 0
 push constant 0
+return
+function Shape.getDirection 0
+push argument 0
+pop pointer 0
+push this 4
 return
 function Shape.incX 0
 push argument 0

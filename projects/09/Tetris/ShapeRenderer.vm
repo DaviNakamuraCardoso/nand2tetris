@@ -6,33 +6,144 @@ push argument 0
 pop this 0
 push pointer 0
 return
-function ShapeRenderer.render 1
+function ShapeRenderer.render 3
 push argument 0
 pop pointer 0
 push this 0
 call Shape.getType 1
 pop local 0
+push constant 1
+neg
+pop local 2
+push this 0
+call Shape.incX 1
+pop temp 0
+push constant 0
+pop local 1
+label LABEL_52
+push local 1
+push constant 4
+lt
+not
+if-goto LABEL_53
+push pointer 0
+push this 0
+push local 1
+call Shape.getBlock 2
+push local 1
 push local 0
+call ShapeRenderer.renderShape 4
+not
+not
+if-goto LABEL_54
+push constant 0
+pop local 2
+goto LABEL_55
+label LABEL_54
+label LABEL_55
+push local 1
+push constant 1
+add
+pop local 1
+goto LABEL_52
+label LABEL_53
+push local 2
+return
+function ShapeRenderer.renderShape 0
+push argument 0
+pop pointer 0
+push argument 3
 push constant 0
 eq
 not
-if-goto LABEL_28
+if-goto LABEL_56
 push pointer 0
-call ShapeRenderer.renderI 1
+push argument 1
+push argument 2
+call ShapeRenderer.renderI 3
 return
-goto LABEL_29
-label LABEL_28
-label LABEL_29
+goto LABEL_57
+label LABEL_56
+label LABEL_57
 push constant 1
 neg
 return
-function ShapeRenderer.renderI 0
+function ShapeRenderer.renderI 5
 push argument 0
 pop pointer 0
-push argument 1
+push this 0
+call Shape.getDirection 1
+pop local 4
 push this 0
 call Shape.getX 1
+pop local 2
 push this 0
 call Shape.getY 1
+pop local 3
+push local 4
+push constant 0
+eq
+not
+if-goto LABEL_58
+push local 2
+push constant 4
+push argument 2
+sub
+add
+pop local 0
+push local 3
+pop local 1
+goto LABEL_59
+label LABEL_58
+label LABEL_59
+push local 4
+push constant 2
+eq
+not
+if-goto LABEL_60
+push local 2
+push argument 2
+sub
+pop local 0
+push local 3
+pop local 1
+goto LABEL_61
+label LABEL_60
+label LABEL_61
+push local 4
+push constant 1
+eq
+not
+if-goto LABEL_62
+push local 2
+pop local 0
+push local 3
+push argument 2
+push constant 4
+sub
+add
+pop local 1
+goto LABEL_63
+label LABEL_62
+label LABEL_63
+push local 4
+push constant 3
+eq
+not
+if-goto LABEL_64
+push local 2
+pop local 0
+push local 3
+push constant 4
+push argument 2
+sub
+add
+pop local 1
+goto LABEL_65
+label LABEL_64
+label LABEL_65
+push argument 1
+push local 0
+push local 1
 call Block.render 3
 return

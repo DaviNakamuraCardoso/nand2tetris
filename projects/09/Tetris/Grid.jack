@@ -56,6 +56,57 @@ class Grid {
         return;
     }
 
+    method void move(int column) {
+        var int i, j;
+        var Array tmp;
+
+        let i = column; while (i > 0) {
+            let j = 0; while (j < height) {
+                if (i = column) {
+                    do setCell(i, j, false);
+                }
+                else {
+                    if (getCell(i, j)) {
+                        do setCell(i, j, false);
+                        do setCell(i+1, j, true);
+                    }
+                }
+
+                let j = j + 1;
+            }
+            let i = i - 1;
+        }
+        return;
+
+    }
+
+    method boolean checkEnd() {
+        var int i;
+
+        let i = 0; while (i < height) {
+            if (getCell(0, i)) { return false; }
+        }
+        return true;
+    }
+
+    method boolean update() {
+        var int i, j;
+
+        let i = 0; while (i < width) {
+            let j = 0; while ((j < height) & (~(getCell(i, j) = 0))) {
+                let j = j + 1;
+            }
+
+            if (j > (height - 1)) {
+                do move(i);
+                let i = i - 1;
+            }
+
+            let i = i + 1;
+        }
+        return;
+    }
+
     method void render() {
 
         var int i, j;
@@ -77,4 +128,6 @@ class Grid {
 
     method int getWidth() { return width; }
     method int getHeight() { return height; }
+
+
 }

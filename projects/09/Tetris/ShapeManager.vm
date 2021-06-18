@@ -22,6 +22,9 @@ push this 0
 call Shape.dispose 1
 pop temp 0
 push local 0
+call Grid.update 1
+pop temp 0
+push local 0
 call Shape.new 1
 pop this 0
 goto LABEL_1

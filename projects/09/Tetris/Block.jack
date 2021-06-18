@@ -16,13 +16,9 @@ class Block {
     }
 
     method boolean update(int newx, int newy) {
-
-        if (newx > x) { return false; }
-
         let y = newy;
 
-
-        if (grid.getCell(x+1, y) = 0) { let x = x + 1; }
+        if (grid.getCell(newx, y) = 0) { let x = newx; }
         else { return false; }
         return true;
     }

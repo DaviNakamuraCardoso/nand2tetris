@@ -2,7 +2,7 @@ class Shape {
 
     field Grid grid;
     field Array blocks;
-    field int x, y;
+    field int x, y, direction;
     field ShapeRenderer renderer;
     static int SHAPE_SIZE;
 
@@ -10,7 +10,7 @@ class Shape {
 
         let SHAPE_SIZE = 4;
         let grid = g;
-        let x = 0; let y = 8;
+        let x = 0; let y = 8; let direction = 0;
         let renderer = ShapeRenderer.new(this);
         do initBlocks();
 
@@ -45,10 +45,24 @@ class Shape {
         return;
     }
 
+    method void turnLeft() {
+        if (direction = 3) { let direction = 0; return; }
+        let direction = direction + 1;
+        return;
+    }
+
+    method void turnRight() {
+        if (direction = 0) { let direction = 3; return; }
+        let direction = direction - 1;
+        return;
+    }
+
     method void listenKeys() {
 
         if (Keyboard.keyPressed() = 83) { do moveDown(); }  // Goes up when 'S' is pressed
         if (Keyboard.keyPressed() = 87) { do moveUp(); }    // Goes down when 'W' is pressed
+        if (Keyboard.keyPressed() = 65) { do turnLeft(); }
+        if (Keyboard.keyPressed() = 68) { do turnRight(); }
 
         return;
     }
@@ -71,6 +85,7 @@ class Shape {
     method int getX() { return x; }
     method int getY() { return y; }
     method int getType() { return 0; }
+    method int getDirection() { return direction; }
 
     method void incX() { let x = x + 1; return; }
 

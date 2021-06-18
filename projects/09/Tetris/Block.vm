@@ -21,37 +21,23 @@ return
 function Block.update 0
 push argument 0
 pop pointer 0
-push argument 1
-push this 0
-gt
-not
-if-goto LABEL_24
-push constant 0
-return
-goto LABEL_25
-label LABEL_24
-label LABEL_25
 push argument 2
 pop this 1
 push this 2
-push this 0
-push constant 1
-add
+push argument 1
 push this 1
 call Grid.getCell 3
 push constant 0
 eq
 not
-if-goto LABEL_26
-push this 0
-push constant 1
-add
+if-goto LABEL_50
+push argument 1
 pop this 0
-goto LABEL_27
-label LABEL_26
+goto LABEL_51
+label LABEL_50
 push constant 0
 return
-label LABEL_27
+label LABEL_51
 push constant 1
 neg
 return
