@@ -38,8 +38,8 @@ class Block {
     }
 
 
-    method void setX(int xpos) {
-        let x = xpos; return;
+    method boolean setX(int xpos) {
+        let x = xpos; return true;
     }
 
     method void setY(int ypos) {
