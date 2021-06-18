@@ -18,6 +18,7 @@ class ShapeManager {
             do current.dispose();
             let status = g.update();
             let current = Shape.new(g);
+            do current.setType(1);
         }
 
         return status;

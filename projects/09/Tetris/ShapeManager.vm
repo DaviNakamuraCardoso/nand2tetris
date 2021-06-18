@@ -30,6 +30,10 @@ pop local 1
 push local 0
 call Shape.new 1
 pop this 0
+push this 0
+push constant 1
+call Shape.setType 2
+pop temp 0
 goto LABEL_1
 label LABEL_0
 label LABEL_1

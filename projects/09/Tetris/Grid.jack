@@ -97,12 +97,10 @@ class Grid {
             let j = 0; while ((j < height) & (~(getCell(i, j) = 0))) {
                 let j = j + 1;
             }
-
             if (j > (height - 1)) {
                 do move(i);
                 let i = i - 1;
             }
-
             let i = i + 1;
         }
         return checkEnd();

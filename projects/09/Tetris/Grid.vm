@@ -11,12 +11,12 @@ call Array.new 1
 pop this 0
 push constant 0
 pop local 0
-label LABEL_22
+label LABEL_24
 push local 0
 push this 1
 lt
 not
-if-goto LABEL_23
+if-goto LABEL_25
 push local 0
 push this 0
 add
@@ -30,8 +30,8 @@ push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_22
-label LABEL_23
+goto LABEL_24
+label LABEL_25
 push pointer 0
 return
 function Grid.isSafe 0
@@ -45,12 +45,12 @@ push this 1
 eq
 or
 not
-if-goto LABEL_24
+if-goto LABEL_26
 push constant 0
 return
-goto LABEL_25
-label LABEL_24
-label LABEL_25
+goto LABEL_27
+label LABEL_26
+label LABEL_27
 push argument 2
 push this 2
 gt
@@ -59,12 +59,12 @@ push this 2
 eq
 or
 not
-if-goto LABEL_26
+if-goto LABEL_28
 push constant 0
 return
-goto LABEL_27
-label LABEL_26
-label LABEL_27
+goto LABEL_29
+label LABEL_28
+label LABEL_29
 push constant 1
 neg
 return
@@ -77,12 +77,12 @@ push argument 2
 call Grid.isSafe 3
 not
 not
-if-goto LABEL_28
+if-goto LABEL_30
 push constant 0
 return
-goto LABEL_29
-label LABEL_28
-label LABEL_29
+goto LABEL_31
+label LABEL_30
+label LABEL_31
 push this 0
 push argument 1
 add
@@ -108,12 +108,12 @@ push argument 2
 call Grid.isSafe 3
 not
 not
-if-goto LABEL_30
+if-goto LABEL_32
 push constant 1
 return
-goto LABEL_31
-label LABEL_30
-label LABEL_31
+goto LABEL_33
+label LABEL_32
+label LABEL_33
 push this 0
 push argument 1
 add
@@ -156,37 +156,23 @@ push argument 0
 pop pointer 0
 push argument 1
 pop local 0
-label LABEL_32
+label LABEL_34
 push local 0
 push constant 0
 gt
 not
-if-goto LABEL_33
+if-goto LABEL_35
 push constant 0
 pop local 1
-label LABEL_34
+label LABEL_36
 push local 1
 push this 2
 lt
 not
-if-goto LABEL_35
+if-goto LABEL_37
 push local 0
 push argument 1
 eq
-not
-if-goto LABEL_36
-push pointer 0
-push local 0
-push local 1
-push constant 0
-call Grid.setCell 4
-pop temp 0
-goto LABEL_37
-label LABEL_36
-push pointer 0
-push local 0
-push local 1
-call Grid.getCell 3
 not
 if-goto LABEL_38
 push pointer 0
@@ -195,6 +181,20 @@ push local 1
 push constant 0
 call Grid.setCell 4
 pop temp 0
+goto LABEL_39
+label LABEL_38
+push pointer 0
+push local 0
+push local 1
+call Grid.getCell 3
+not
+if-goto LABEL_40
+push pointer 0
+push local 0
+push local 1
+push constant 0
+call Grid.setCell 4
+pop temp 0
 push pointer 0
 push local 0
 push constant 1
@@ -204,22 +204,22 @@ push constant 1
 neg
 call Grid.setCell 4
 pop temp 0
-goto LABEL_39
-label LABEL_38
+goto LABEL_41
+label LABEL_40
+label LABEL_41
 label LABEL_39
-label LABEL_37
 push local 1
 push constant 1
 add
 pop local 1
-goto LABEL_34
-label LABEL_35
+goto LABEL_36
+label LABEL_37
 push local 0
 push constant 1
 sub
 pop local 0
-goto LABEL_32
-label LABEL_33
+goto LABEL_34
+label LABEL_35
 push constant 0
 return
 function Grid.checkEnd 1
@@ -227,29 +227,29 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label LABEL_40
+label LABEL_42
 push local 0
 push this 2
 lt
 not
-if-goto LABEL_41
+if-goto LABEL_43
 push pointer 0
 push constant 1
 push local 0
 call Grid.getCell 3
 not
-if-goto LABEL_42
+if-goto LABEL_44
 push constant 0
 return
-goto LABEL_43
-label LABEL_42
-label LABEL_43
+goto LABEL_45
+label LABEL_44
+label LABEL_45
 push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_40
-label LABEL_41
+goto LABEL_42
+label LABEL_43
 push constant 1
 neg
 return
@@ -258,15 +258,15 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label LABEL_44
+label LABEL_46
 push local 0
 push this 1
 lt
 not
-if-goto LABEL_45
+if-goto LABEL_47
 push constant 0
 pop local 1
-label LABEL_46
+label LABEL_48
 push local 1
 push this 2
 lt
@@ -279,20 +279,20 @@ eq
 not
 and
 not
-if-goto LABEL_47
+if-goto LABEL_49
 push local 1
 push constant 1
 add
 pop local 1
-goto LABEL_46
-label LABEL_47
+goto LABEL_48
+label LABEL_49
 push local 1
 push this 2
 push constant 1
 sub
 gt
 not
-if-goto LABEL_48
+if-goto LABEL_50
 push pointer 0
 push local 0
 call Grid.move 2
@@ -301,15 +301,15 @@ push local 0
 push constant 1
 sub
 pop local 0
-goto LABEL_49
-label LABEL_48
-label LABEL_49
+goto LABEL_51
+label LABEL_50
+label LABEL_51
 push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_44
-label LABEL_45
+goto LABEL_46
+label LABEL_47
 push pointer 0
 call Grid.checkEnd 1
 return
@@ -318,20 +318,20 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label LABEL_50
+label LABEL_52
 push local 0
 push this 1
 lt
 not
-if-goto LABEL_51
+if-goto LABEL_53
 push constant 0
 pop local 1
-label LABEL_52
+label LABEL_54
 push local 1
 push this 2
 lt
 not
-if-goto LABEL_53
+if-goto LABEL_55
 push this 0
 push local 0
 add
@@ -351,14 +351,14 @@ push local 1
 push constant 1
 add
 pop local 1
-goto LABEL_52
-label LABEL_53
+goto LABEL_54
+label LABEL_55
 push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_50
-label LABEL_51
+goto LABEL_52
+label LABEL_53
 push constant 0
 return
 function Grid.getWidth 0

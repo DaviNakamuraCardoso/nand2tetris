@@ -2,7 +2,7 @@ class Shape {
 
     field Grid grid;
     field Array blocks;
-    field int x, y, direction;
+    field int x, y, direction, type;
     field ShapeRenderer renderer;
     static int SHAPE_SIZE;
 
@@ -10,7 +10,7 @@ class Shape {
 
         let SHAPE_SIZE = 4;
         let grid = g;
-        let x = 0; let y = 8; let direction = 0;
+        let x = 0; let y = 7; let direction = 0;
         let renderer = ShapeRenderer.new(this);
         do initBlocks();
 
@@ -59,10 +59,13 @@ class Shape {
 
     method void listenKeys() {
 
-        if (Keyboard.keyPressed() = 83) { do moveDown(); }  // Goes up when 'S' is pressed
-        if (Keyboard.keyPressed() = 87) { do moveUp(); }    // Goes down when 'W' is pressed
-        if (Keyboard.keyPressed() = 65) { do turnLeft(); }
-        if (Keyboard.keyPressed() = 68) { do turnRight(); }
+        var char key;
+        let key = Keyboard.keyPressed();
+
+        if ((key = 83) | (key = 133)) { do moveDown(); }  // Goes up when 'S' or DownArrow is pressed
+        if ((key = 87) | (key = 131)) { do moveUp(); }    // Goes down when 'W'  or UpArrow is pressed
+        if ((key = 65) | (key = 130)) { do turnLeft(); }  // Turns left when 'A' or LeftArrow is pressed
+        if ((key = 68) | (key = 132)) { do turnRight(); } // Turns right when 'D' or RightArrow is pressed
 
         return;
     }
@@ -84,12 +87,23 @@ class Shape {
     method Block getBlock(int i) { return blocks[i]; }
     method int getX() { return x; }
     method int getY() { return y; }
-    method int getType() { return 0; }
+    method int getType() { return type; }
     method int getDirection() { return direction; }
 
     method void incX() { let x = x + 1; return; }
+    method void decX() { let x = x - 1; return; }
+
+    method void setType(int t) { let type = t; return;}
 
     method void dispose() {
+        var int i;
+        var Block b;
+
+        let i = 0; while (i < 4) {
+            let b = blocks[i];
+            do b.dispose();
+            let i = i + 1;
+        }
         do Memory.deAlloc(this);
         return;
     }

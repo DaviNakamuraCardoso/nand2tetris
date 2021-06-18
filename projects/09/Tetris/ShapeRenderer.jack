@@ -7,6 +7,18 @@ class ShapeRenderer {
         return this;
     }
 
+    method void undo(int index) {
+        var int i;
+
+        do shape.decX();
+        let i = index; while (i > -1) {
+            do renderShape(shape.getBlock(i), i, shape.getType());
+            let i = i - 1;
+        }
+
+        return;
+    }
+
     method boolean render() {
         var int type, i;
         var boolean status;
@@ -17,7 +29,10 @@ class ShapeRenderer {
 
         let i = 0; while (i < 4) {
 
-            if (~renderShape(shape.getBlock(i), i, type)) { let status = false;}
+            if (~renderShape(shape.getBlock(i), i, type)) {
+                do undo(i);
+                return false;
+            }
             let i = i + 1;
         }
 
@@ -25,8 +40,10 @@ class ShapeRenderer {
 
         return status;
     }
+
     method boolean renderShape(Block b, int i, int type) {
         if (type = 0) { return renderI(b, i); }
+        if (type = 1) { return renderT(b, i); }
 
         return true;
 
@@ -42,6 +59,19 @@ class ShapeRenderer {
         if (direction = 2) { let x = sx - index; let y = sy;}
         if (direction = 1) { let x = sx; let y = sy + index - 4; }
         if (direction = 3) { let x = sx; let y = sy + 4 - index; }
+
+        return b.render(x, y);
+    }
+
+    method boolean renderT(Block b, int index) {
+        var int x, y, sx, sy, direction;
+        let direction = shape.getDirection();
+        let sx = shape.getX();
+        let sy = shape.getY();
+
+        if (index > 0) { return renderI(b, index); }
+
+        let x = sx + 2; let y = sy + 1;
 
         return b.render(x, y);
     }

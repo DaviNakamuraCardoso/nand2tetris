@@ -1,5 +1,5 @@
 function Shape.new 0
-push constant 6
+push constant 7
 call Memory.alloc 1
 pop pointer 0
 push constant 4
@@ -8,13 +8,13 @@ push argument 0
 pop this 0
 push constant 0
 pop this 2
-push constant 8
+push constant 7
 pop this 3
 push constant 0
 pop this 4
 push pointer 0
 call ShapeRenderer.new 1
-pop this 5
+pop this 6
 push pointer 0
 call Shape.initBlocks 1
 pop temp 0
@@ -132,12 +132,18 @@ sub
 pop this 4
 push constant 0
 return
-function Shape.listenKeys 0
+function Shape.listenKeys 1
 push argument 0
 pop pointer 0
 call Keyboard.keyPressed 0
+pop local 0
+push local 0
 push constant 83
 eq
+push local 0
+push constant 133
+eq
+or
 not
 if-goto LABEL_14
 push pointer 0
@@ -146,9 +152,13 @@ pop temp 0
 goto LABEL_15
 label LABEL_14
 label LABEL_15
-call Keyboard.keyPressed 0
+push local 0
 push constant 87
 eq
+push local 0
+push constant 131
+eq
+or
 not
 if-goto LABEL_16
 push pointer 0
@@ -157,9 +167,13 @@ pop temp 0
 goto LABEL_17
 label LABEL_16
 label LABEL_17
-call Keyboard.keyPressed 0
+push local 0
 push constant 65
 eq
+push local 0
+push constant 130
+eq
+or
 not
 if-goto LABEL_18
 push pointer 0
@@ -168,9 +182,13 @@ pop temp 0
 goto LABEL_19
 label LABEL_18
 label LABEL_19
-call Keyboard.keyPressed 0
+push local 0
 push constant 68
 eq
+push local 0
+push constant 132
+eq
+or
 not
 if-goto LABEL_20
 push pointer 0
@@ -192,7 +210,7 @@ pop pointer 0
 push pointer 0
 call Shape.listenKeys 1
 pop temp 0
-push this 5
+push this 6
 call ShapeRenderer.render 1
 return
 function Shape.getBlock 0
@@ -217,7 +235,7 @@ return
 function Shape.getType 0
 push argument 0
 pop pointer 0
-push constant 0
+push this 5
 return
 function Shape.getDirection 0
 push argument 0
@@ -233,9 +251,48 @@ add
 pop this 2
 push constant 0
 return
-function Shape.dispose 0
+function Shape.decX 0
 push argument 0
 pop pointer 0
+push this 2
+push constant 1
+sub
+pop this 2
+push constant 0
+return
+function Shape.setType 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 5
+push constant 0
+return
+function Shape.dispose 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label LABEL_22
+push local 0
+push constant 4
+lt
+not
+if-goto LABEL_23
+push this 1
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call Block.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto LABEL_22
+label LABEL_23
 push pointer 0
 call Memory.deAlloc 1
 pop temp 0
