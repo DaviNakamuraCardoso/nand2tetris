@@ -9,14 +9,17 @@ class ShapeManager {
 
     method boolean render() {
         var Grid g;
+        var boolean status;
+
+        let status = true;
 
         if (~current.render()) {
             let g = current.getGrid();
             do current.dispose();
-            do g.update();
+            let status = g.update();
             let current = Shape.new(g);
         }
 
-        return;
+        return status;
     }
 }

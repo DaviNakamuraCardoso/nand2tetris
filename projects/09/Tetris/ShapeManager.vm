@@ -7,9 +7,12 @@ call Shape.new 1
 pop this 0
 push pointer 0
 return
-function ShapeManager.render 1
+function ShapeManager.render 2
 push argument 0
 pop pointer 0
+push constant 1
+neg
+pop local 1
 push this 0
 call Shape.render 1
 not
@@ -23,12 +26,12 @@ call Shape.dispose 1
 pop temp 0
 push local 0
 call Grid.update 1
-pop temp 0
+pop local 1
 push local 0
 call Shape.new 1
 pop this 0
 goto LABEL_1
 label LABEL_0
 label LABEL_1
-push constant 0
+push local 1
 return

@@ -30,14 +30,14 @@ call Grid.getCell 3
 push constant 0
 eq
 not
-if-goto LABEL_50
+if-goto LABEL_56
 push argument 1
 pop this 0
-goto LABEL_51
-label LABEL_50
+goto LABEL_57
+label LABEL_56
 push constant 0
 return
-label LABEL_51
+label LABEL_57
 push constant 1
 neg
 return

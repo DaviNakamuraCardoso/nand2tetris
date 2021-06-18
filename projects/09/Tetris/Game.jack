@@ -10,19 +10,69 @@ class Game {
         return this;
     }
 
-    method void render() {
-        do grid.render();
+    function boolean isOver() {
+        return Keyboard.keyPressed() = 82;
+    }
+
+    function void over() {
+
+        do Screen.clearScreen();
+        do Output.moveCursor(10, 28);
+        do Output.printString("Game Over");
+        do Output.println();
+        do Output.moveCursor(12, 22);
+        do Output.printString("Press r to play again");
+
+        while (~Game.isOver()) {}
+
         return;
+    }
+
+    function void init() {
+        var String tetris, credits, instruction;
+
+        do Screen.clearScreen();
+
+        let tetris = "TETRIS";
+        let credits = "by Davi Nakamura Cardoso";
+        let instruction = "Press p to play";
+
+        do Output.moveCursor(9, 32 - (tetris.length() / 2));
+        do Output.printString(tetris);
+
+        do Output.moveCursor(11, 32 - (credits.length() / 2));
+        do Output.printString(credits);
+
+        do Output.moveCursor(13, 32 - (instruction.length() / 2));
+        do Output.printString(instruction);
+
+        do tetris.dispose();
+        do credits.dispose();
+        do instruction.dispose();
+
+        return;
+    }
+
+    function boolean start() {
+        var char key;
+
+        let key = Keyboard.keyPressed();
+
+        return (key = 80);
     }
 
     method void loop() {
 
-        while (true) {
+        do Game.init();
 
+        while (~Game.start()) {}
+
+        while (sm.render()) {
             do grid.render();
-            do sm.render();
             do Sys.wait(300);
         }
+
+        do Game.over();
         return;
     }
 }

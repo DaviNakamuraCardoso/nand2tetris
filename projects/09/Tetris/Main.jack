@@ -6,7 +6,11 @@ class Main {
         var Game game;
 
         let game = Game.new();
-        do game.loop();
+
+        while (true) {
+
+            do game.loop();
+        }
 
         return;
     }

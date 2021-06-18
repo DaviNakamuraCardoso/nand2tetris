@@ -14,7 +14,6 @@ class ShapeRenderer {
         let type = shape.getType();
         let status = true;
 
-        do shape.incX();
 
         let i = 0; while (i < 4) {
 
@@ -22,6 +21,7 @@ class ShapeRenderer {
             let i = i + 1;
         }
 
+        do shape.incX();
 
         return status;
     }
