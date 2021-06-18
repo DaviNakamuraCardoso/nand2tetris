@@ -1,0 +1,26 @@
+class ShapeRenderer {
+
+    field Shape shape;
+
+    constructor ShapeRenderer new(Shape s) {
+        let shape = s;
+        return this;
+    }
+
+    method boolean render() {
+        var int type, i; let type  = shape.getType();
+
+        let i = 0; while (i < 4) {
+            
+
+            let i = i + 1;
+        }
+
+        if (type = 0) { return renderI(); }
+        return true;
+    }
+
+    method boolean renderI(Block b, int index) {
+        return b.render(shape.getX(), shape.getY());
+    }
+}

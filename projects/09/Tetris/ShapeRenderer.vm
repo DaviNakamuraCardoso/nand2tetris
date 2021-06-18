@@ -1,0 +1,38 @@
+function ShapeRenderer.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push pointer 0
+return
+function ShapeRenderer.render 1
+push argument 0
+pop pointer 0
+push this 0
+call Shape.getType 1
+pop local 0
+push local 0
+push constant 0
+eq
+not
+if-goto LABEL_28
+push pointer 0
+call ShapeRenderer.renderI 1
+return
+goto LABEL_29
+label LABEL_28
+label LABEL_29
+push constant 1
+neg
+return
+function ShapeRenderer.renderI 0
+push argument 0
+pop pointer 0
+push argument 1
+push this 0
+call Shape.getX 1
+push this 0
+call Shape.getY 1
+call Block.render 3
+return
