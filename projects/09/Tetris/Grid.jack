@@ -20,6 +20,23 @@ class Grid {
         return this;
     }
 
+    method void clear() {
+        var int i, j;
+        var Array a;
+
+        let i = 0;  while (i < width) {
+            let j = 0; while (j < height) {
+                let a = grid[i];
+                let a[j] = 0;
+                let j = j + 1;
+            }
+            let i = i + 1;
+
+        }
+
+        return;
+    }
+
     method boolean isSafe(int x, int y) {
         if ((x > width) | (x = width)) { return false; }
         if ((y > height) | (y = height)) { return false;}
@@ -84,7 +101,7 @@ class Grid {
         var int i;
 
         let i = 0; while (i < height) {
-            if (getCell(1, i)) { return false; }
+            if (getCell(2, i)) { return false; }
             let i = i + 1;
         }
         return true;

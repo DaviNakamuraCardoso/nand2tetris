@@ -23,6 +23,8 @@ class Game {
         do Output.moveCursor(12, 22);
         do Output.printString("Press r to play again");
 
+        do grid.clear();
+
         while (~Game.isOver()) {}
 
         return;

@@ -6,7 +6,8 @@ push constant 4
 pop static 0
 push argument 0
 pop this 0
-push constant 0
+push constant 1
+neg
 pop this 2
 push constant 7
 pop this 3
