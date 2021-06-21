@@ -116,6 +116,7 @@ class Shape {
             let i = i + 1;
         }
         do blocks.dispose();
+        do renderer.dispose(); 
         do Memory.deAlloc(this);
         return;
     }
