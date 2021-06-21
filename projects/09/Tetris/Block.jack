@@ -31,10 +31,8 @@ class Block {
 
         do grid.setCell(x, y, false);
         let status = update(newx, newy);
-        if (status) {
-            do grid.setCell(x, y, true);
+        do grid.setCell(x, y, true);
 
-        }
         return status;
     }
 

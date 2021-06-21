@@ -6,11 +6,12 @@ class Shape {
     field ShapeRenderer renderer;
     static int SHAPE_SIZE;
 
-    constructor Shape new(Grid g) {
+    constructor Shape new(Grid g, int t) {
 
         let SHAPE_SIZE = 4;
         let grid = g;
         let x = -1; let y = 7; let direction = 0;
+        let type = t;
         let renderer = ShapeRenderer.new(this);
         do initBlocks();
 
@@ -27,7 +28,6 @@ class Shape {
 
             let current = Block.new(grid, this);
             let blocks[i] = current;
-            let current.setType(1);
 
             let i = i + 1;
         }
@@ -91,8 +91,6 @@ class Shape {
 
     method void incX() { let x = x + 1; return; }
     method void decX() { let x = x - 1; return; }
-
-    method void setType(int t) { let type = t; return;}
 
     method boolean isMine(int sx, int sy) {
         var int i;

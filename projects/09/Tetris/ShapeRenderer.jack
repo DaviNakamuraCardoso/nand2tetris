@@ -20,16 +20,15 @@ class ShapeRenderer {
     }
 
     method boolean render() {
-        var int type, i;
+        var int i;
         var boolean status;
 
-        let type = shape.getType();
         let status = true;
 
 
         let i = 0; while (i < 4) {
-
-            if (~renderShape(shape.getBlock(i), i, type)) {
+            let status = renderShape(shape.getBlock(i), i, shape.getType());
+            if (~status) {
                 do undo(i);
                 return false;
             }
@@ -41,9 +40,12 @@ class ShapeRenderer {
         return status;
     }
 
-    method boolean renderShape(Block b, int i, int type) {
-        if (type = 0) { return renderI(b, i); }
-        if (type = 1) { return renderT(b, i); }
+    method boolean renderShape(Block b, int i, int t) {
+        if (t = 0) { return renderI(b, i); }
+        if (t = 1) { return renderL(b, i); }
+        if (t = 2) { return renderT(b, i); }
+        if (t = 3) { return renderS(b, i); }
+        if (t = 4) { return renderO(b, i); }
 
         return true;
 
@@ -56,8 +58,21 @@ class ShapeRenderer {
         let sy = shape.getY();
 
         if (direction = 0) { let x = sx + 4 - index; let y = sy; }
-        if (direction = 2) { let x = sx - index; let y = sy;}
         if (direction = 1) { let x = sx; let y = sy + index - 4; }
+        if (direction = 2) { let x = sx - index; let y = sy;}
+        if (direction = 3) { let x = sx; let y = sy + 4 - index; }
+
+        return b.render(x, y);
+    }
+
+    method boolean renderIBase(Block b, int index, int sx, int sy) {
+
+        var int x, y, direction;
+        let direction = shape.getDirection();
+
+        if (direction = 0) { let x = sx + 4 - index; let y = sy; }
+        if (direction = 1) { let x = sx; let y = sy + index - 4; }
+        if (direction = 2) { let x = sx - index; let y = sy;}
         if (direction = 3) { let x = sx; let y = sy + 4 - index; }
 
         return b.render(x, y);
@@ -72,12 +87,66 @@ class ShapeRenderer {
 
         if (index > 0) { return renderI(b, index); }
 
-        if (direction = 0) { let x = sx + 1; let y = sy + 1; }
-        if (direction = 2) { let x = sx - 1; let y = sy - 1; }
+        if (direction = 0) { let x = sx + 2; let y = sy + 1; }
+        if (direction = 1) { let x = sx + 1; let y = sy - 2; }
+        if (direction = 2) { let x = sx - 2; let y = sy - 1; }
+        if (direction = 3) { let x = sx - 1; let y = sy + 2; }
 
 
 
         return b.render(x, y);
+    }
+
+    method boolean renderL(Block b, int index) {
+        var int x, y, sx, sy, direction;
+
+        let direction = shape.getDirection();
+        let sx = shape.getX();
+        let sy = shape.getY();
+
+        if (index > 0) { return renderI(b, index); }
+
+        if (direction = 0) { let x = sx + 1; let y = sy - 1; }
+        if (direction = 1) { let x = sx - 1; let y = sy - 1; }
+        if (direction = 2) { let x = sx - 1; let y = sy + 1; }
+        if (direction = 3) { let x = sx + 1; let y = sy + 1; }
+
+        return b.render(x, y);
+    }
+
+    method boolean renderS(Block b, int index) {
+        var int x, y, sx, sy, direction;
+
+        let direction = shape.getDirection();
+        let sx = shape.getX();
+        let sy = shape.getY();
+
+        if (index > 1) { return renderI(b, index); }
+
+        if (direction = 0) { let x = sx - 1; let y = sy - 1; }
+        if (direction = 1) { let x = sx - 1; let y = sy + 1; }
+        if (direction = 2) { let x = sx - 1; let y = sy + 1; }
+        if (direction = 3) { let x = sx + 1; let y = sy - 1; }
+
+        return renderIBase(b, index, x, y);
+    }
+
+    method boolean renderO(Block b, int index) {
+        var int x, y, sx, sy, direction;
+
+        let direction = shape.getDirection();
+        let sx = shape.getX();
+        let sy = shape.getY();
+
+        if (index > 1) { return renderI(b, index); }
+
+        if (direction = 0) { let x = sx - 2; let y = sy - 1; }
+        if (direction = 1) { let x = sx - 1; let y = sy + 2; }
+        if (direction = 2) { let x = sx - 2; let y = sy + 1; }
+        if (direction = 3) { let x = sx + 1; let y = sy - 2; }
+
+
+        return renderIBase(b, index, x, y);
     }
 
 

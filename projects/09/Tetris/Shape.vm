@@ -13,6 +13,8 @@ push constant 7
 pop this 3
 push constant 0
 pop this 4
+push argument 1
+pop this 5
 push pointer 0
 call ShapeRenderer.new 1
 pop this 6
@@ -29,12 +31,12 @@ call Array.new 1
 pop this 1
 push constant 0
 pop local 0
-label LABEL_8
+label LABEL_10
 push local 0
 push static 0
 lt
 not
-if-goto LABEL_9
+if-goto LABEL_11
 push this 0
 push pointer 0
 call Block.new 2
@@ -47,16 +49,12 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push pointer 0
-push constant 1
-call Shape.setType 2
-pop local 1
 push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_8
-label LABEL_9
+goto LABEL_10
+label LABEL_11
 push constant 0
 return
 function Shape.moveUp 0
@@ -91,14 +89,14 @@ push this 4
 push constant 3
 eq
 not
-if-goto LABEL_10
+if-goto LABEL_12
 push constant 0
 pop this 4
 push constant 0
 return
-goto LABEL_11
-label LABEL_10
-label LABEL_11
+goto LABEL_13
+label LABEL_12
+label LABEL_13
 push this 4
 push constant 1
 add
@@ -112,14 +110,14 @@ push this 4
 push constant 0
 eq
 not
-if-goto LABEL_12
+if-goto LABEL_14
 push constant 3
 pop this 4
 push constant 0
 return
-goto LABEL_13
-label LABEL_12
-label LABEL_13
+goto LABEL_15
+label LABEL_14
+label LABEL_15
 push this 4
 push constant 1
 sub
@@ -139,13 +137,13 @@ push constant 133
 eq
 or
 not
-if-goto LABEL_14
+if-goto LABEL_16
 push pointer 0
 call Shape.moveDown 1
 pop temp 0
-goto LABEL_15
-label LABEL_14
-label LABEL_15
+goto LABEL_17
+label LABEL_16
+label LABEL_17
 push local 0
 push constant 87
 eq
@@ -154,13 +152,13 @@ push constant 131
 eq
 or
 not
-if-goto LABEL_16
+if-goto LABEL_18
 push pointer 0
 call Shape.moveUp 1
 pop temp 0
-goto LABEL_17
-label LABEL_16
-label LABEL_17
+goto LABEL_19
+label LABEL_18
+label LABEL_19
 push local 0
 push constant 65
 eq
@@ -169,13 +167,13 @@ push constant 130
 eq
 or
 not
-if-goto LABEL_18
+if-goto LABEL_20
 push pointer 0
 call Shape.turnLeft 1
 pop temp 0
-goto LABEL_19
-label LABEL_18
-label LABEL_19
+goto LABEL_21
+label LABEL_20
+label LABEL_21
 push local 0
 push constant 68
 eq
@@ -184,13 +182,13 @@ push constant 132
 eq
 or
 not
-if-goto LABEL_20
+if-goto LABEL_22
 push pointer 0
 call Shape.turnRight 1
 pop temp 0
-goto LABEL_21
-label LABEL_20
-label LABEL_21
+goto LABEL_23
+label LABEL_22
+label LABEL_23
 push constant 0
 return
 function Shape.getGrid 0
@@ -254,24 +252,17 @@ sub
 pop this 2
 push constant 0
 return
-function Shape.setType 0
-push argument 0
-pop pointer 0
-push argument 1
-pop this 5
-push constant 0
-return
 function Shape.isMine 2
 push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label LABEL_22
+label LABEL_24
 push local 0
 push constant 4
 lt
 not
-if-goto LABEL_23
+if-goto LABEL_25
 push this 1
 push local 0
 add
@@ -288,19 +279,19 @@ push argument 2
 eq
 and
 not
-if-goto LABEL_24
+if-goto LABEL_26
 push constant 1
 neg
 return
-goto LABEL_25
-label LABEL_24
-label LABEL_25
+goto LABEL_27
+label LABEL_26
+label LABEL_27
 push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_22
-label LABEL_23
+goto LABEL_24
+label LABEL_25
 push constant 0
 return
 function Shape.dispose 2
@@ -308,12 +299,12 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label LABEL_26
+label LABEL_28
 push local 0
 push constant 4
 lt
 not
-if-goto LABEL_27
+if-goto LABEL_29
 push this 1
 push local 0
 add
@@ -327,8 +318,8 @@ push local 0
 push constant 1
 add
 pop local 0
-goto LABEL_26
-label LABEL_27
+goto LABEL_28
+label LABEL_29
 push this 1
 call Array.dispose 1
 pop temp 0

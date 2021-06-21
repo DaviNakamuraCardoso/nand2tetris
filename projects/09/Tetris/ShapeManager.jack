@@ -3,11 +3,11 @@ class ShapeManager {
     field Shape current;
 
     constructor ShapeManager new(Grid grid) {
-        let current = Shape.new(grid);
+        let current = Shape.new(grid, 0);
         return this;
     }
 
-    method boolean render() {
+    method boolean render(int counter) {
         var Grid g;
         var boolean status;
 
@@ -17,8 +17,7 @@ class ShapeManager {
             let g = current.getGrid();
             do current.dispose();
             let status = g.update();
-            let current = Shape.new(g);
-            do current.setType(1);
+            let current = Shape.new(g, counter);
         }
 
         return status;

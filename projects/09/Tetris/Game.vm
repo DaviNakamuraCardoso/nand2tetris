@@ -256,6 +256,13 @@ pop temp 0
 push local 2
 call String.dispose 1
 pop temp 0
+label LABEL_4
+call Game.start 0
+not
+not
+if-goto LABEL_5
+goto LABEL_4
+label LABEL_5
 push constant 0
 return
 function Game.start 1
@@ -265,31 +272,51 @@ push local 0
 push constant 80
 eq
 return
-function Game.loop 0
-push argument 0
-pop pointer 0
-call Game.init 0
-pop temp 0
-label LABEL_4
-call Game.start 0
-not
-not
-if-goto LABEL_5
-goto LABEL_4
-label LABEL_5
+function Game.update 2
+push constant 1
+neg
+pop local 0
+push constant 1
+pop local 1
 label LABEL_6
-push this 1
-call ShapeManager.render 1
+push local 0
 not
 if-goto LABEL_7
+push this 1
+push local 1
+call ShapeManager.render 2
+pop local 0
 push this 0
 call Grid.render 1
 pop temp 0
 push constant 300
 call Sys.wait 1
 pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+push local 1
+push constant 4
+gt
+not
+if-goto LABEL_8
+push constant 0
+pop local 1
+goto LABEL_9
+label LABEL_8
+label LABEL_9
 goto LABEL_6
 label LABEL_7
+push constant 0
+return
+function Game.loop 0
+push argument 0
+pop pointer 0
+call Game.init 0
+pop temp 0
+call Game.update 0
+pop temp 0
 call Game.over 0
 pop temp 0
 push constant 0

@@ -52,6 +52,8 @@ class Game {
         do credits.dispose();
         do instruction.dispose();
 
+        while (~Game.start()) {}
+
         return;
     }
 
@@ -63,17 +65,28 @@ class Game {
         return (key = 80);
     }
 
+    function void update() {
+        var boolean status;
+        var int counter;
+
+        let status = true;
+        let counter = 1;
+
+        while (status) {
+
+            let status = sm.render(counter);
+            do grid.render();
+            do Sys.wait(300);
+            let counter = counter + 1;
+            if (counter > 4) { let counter = 0; }
+        }
+        return;
+    }
+
     method void loop() {
 
         do Game.init();
-
-        while (~Game.start()) {}
-
-        while (sm.render()) {
-            do grid.render();
-            do Sys.wait(300);
-        }
-
+        do Game.update();
         do Game.over();
         return;
     }

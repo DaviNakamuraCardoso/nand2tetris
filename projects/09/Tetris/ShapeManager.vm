@@ -3,7 +3,8 @@ push constant 1
 call Memory.alloc 1
 pop pointer 0
 push argument 0
-call Shape.new 1
+push constant 0
+call Shape.new 2
 pop this 0
 push pointer 0
 return
@@ -28,12 +29,9 @@ push local 0
 call Grid.update 1
 pop local 1
 push local 0
-call Shape.new 1
+push argument 1
+call Shape.new 2
 pop this 0
-push this 0
-push constant 1
-call Shape.setType 2
-pop temp 0
 goto LABEL_1
 label LABEL_0
 label LABEL_1

@@ -34,12 +34,12 @@ call Shape.isMine 3
 not
 and
 not
-if-goto LABEL_66
+if-goto LABEL_68
 push constant 0
 return
-goto LABEL_67
-label LABEL_66
-label LABEL_67
+goto LABEL_69
+label LABEL_68
+label LABEL_69
 push argument 1
 pop this 0
 push argument 2
@@ -61,9 +61,6 @@ push argument 1
 push argument 2
 call Block.update 3
 pop local 0
-push local 0
-not
-if-goto LABEL_68
 push this 2
 push this 0
 push this 1
@@ -71,9 +68,6 @@ push constant 1
 neg
 call Grid.setCell 4
 pop temp 0
-goto LABEL_69
-label LABEL_68
-label LABEL_69
 push local 0
 return
 function Block.getX 0

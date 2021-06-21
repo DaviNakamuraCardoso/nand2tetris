@@ -1,15 +1,15 @@
 function Main.main 1
 call Game.new 0
 pop local 0
-label LABEL_64
+label LABEL_66
 push constant 1
 neg
 not
-if-goto LABEL_65
+if-goto LABEL_67
 push local 0
 call Game.loop 1
 pop temp 0
-goto LABEL_64
-label LABEL_65
+goto LABEL_66
+label LABEL_67
 push constant 0
 return
