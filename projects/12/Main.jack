@@ -1,0 +1,14 @@
+class Main {
+
+    function void main() {
+        var int x;
+
+        let x = 20;
+
+        do Output.printInt(x*x);
+        do Output.printInt(x/x);
+        do Output.printInt(Math.sqrt(x));
+        
+        return;
+    }
+}
