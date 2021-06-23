@@ -123,7 +123,7 @@ class Screen {
         var int i;
 
         if (x1 = x2) {
-            do Screen.drawVertical(x1, y1, y2); return;
+            do Screen.drawVertical(x1, y1, y2); return; 
         }
 
         let i = y1; while (i < (y2+1)) {
