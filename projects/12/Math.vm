@@ -21,8 +21,8 @@ pop pointer 1
 push temp 0
 pop that 0
 push local 1
-push constant 2
-call Math.multiply 2
+push local 1
+add
 pop local 1
 push local 0
 push constant 1
@@ -85,10 +85,49 @@ label IF_FALSE2
 label IF_END0
 push argument 0
 return
+function Math.bitneg 0
+push argument 1
+push constant 15
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+label IF_FALSE0
+push argument 0
+neg
+push constant 1
+sub
+push argument 1
+call Math.bit 2
+not
+return
 function Math.bit 2
 push argument 0
 pop local 1
-push constant 16
+push argument 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+push argument 1
+call Math.bitneg 2
+return
+label IF_FALSE0
+push argument 1
+push constant 15
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push constant 14
 pop local 0
 label WHILE_EXP0
 push local 0
@@ -101,9 +140,14 @@ push local 0
 call Math.bitin 1
 push local 1
 lt
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+push local 0
+call Math.bitin 1
+push local 1
+eq
+or
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
 push local 1
 push local 0
 call Math.bitin 1
@@ -112,23 +156,23 @@ pop local 1
 push argument 1
 push local 0
 eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
 push constant 0
 not
 return
-label IF_FALSE1
-label IF_FALSE0
+label IF_FALSE3
+label IF_FALSE2
 push argument 1
 push local 0
 eq
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
 push constant 0
 return
-label IF_FALSE2
+label IF_FALSE4
 push local 0
 push constant 1
 sub
@@ -173,7 +217,21 @@ goto WHILE_EXP0
 label WHILE_END0
 push local 1
 return
-function Math.divide 1
+function Math.divide 2
+push argument 0
+push constant 0
+lt
+pop local 1
+push argument 1
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+not
+pop local 1
+label IF_FALSE0
 push argument 0
 call Math.abs 1
 pop argument 0
@@ -183,15 +241,15 @@ pop argument 1
 push argument 1
 push argument 0
 gt
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
 push constant 0
 return
-label IF_FALSE0
+label IF_FALSE1
 push argument 0
-push constant 2
 push argument 1
+push constant 2
 call Math.multiply 2
 call Math.divide 2
 pop local 0
@@ -204,28 +262,53 @@ call Math.multiply 2
 sub
 push argument 1
 lt
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 1
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 2
+push local 0
+call Math.multiply 2
+neg
+return
+label IF_FALSE3
 push constant 2
 push local 0
 call Math.multiply 2
 return
-goto IF_END1
-label IF_FALSE1
+goto IF_END2
+label IF_FALSE2
+push local 1
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 2
+push local 0
+call Math.multiply 2
+push constant 1
+add
+neg
+return
+label IF_FALSE4
 push constant 2
 push local 0
 call Math.multiply 2
 push constant 1
 add
 return
-label IF_END1
+label IF_END2
 function Math.pow 0
 push argument 0
 push argument 0
 call Math.multiply 2
+call Math.abs 1
 return
-function Math.sqrt 3
+function Math.sqrt 5
+push constant 0
+pop local 0
 push constant 7
 pop local 1
 label WHILE_EXP0
@@ -235,31 +318,40 @@ neg
 gt
 not
 if-goto WHILE_END0
-push local 0
 push local 1
 push static 0
 add
 pop pointer 1
 push that 0
-add
-call Math.pow 1
 pop local 2
 push local 2
-push argument 0
-lt
 push local 2
+call Math.multiply 2
+pop local 3
 push argument 0
+push local 0
+push local 0
+call Math.multiply 2
+sub
+push constant 2
+push local 2
+push local 0
+call Math.multiply 2
+call Math.multiply 2
+sub
+pop local 4
+push local 3
+push local 4
+lt
+push local 3
+push local 4
 eq
 or
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push local 0
-push local 1
-push static 0
-add
-pop pointer 1
-push that 0
+push local 2
 add
 pop local 0
 label IF_FALSE0
@@ -303,4 +395,44 @@ push argument 1
 call Math.divide 2
 call Math.multiply 2
 sub
+return
+function Math.mergeBits 0
+push argument 0
+push argument 1
+or
+return
+function Math.shift 2
+push constant 0
+pop local 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 16
+push argument 1
+sub
+lt
+not
+if-goto WHILE_END0
+push argument 0
+push local 0
+call Math.bit 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push local 0
+push argument 1
+add
+call Math.bitin 1
+add
+pop local 1
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
 return

@@ -21,7 +21,7 @@ class Math {
 
             let bin[i] = val;
 
-            let val = val * 2;
+            let val = val + val;
             let i = i + 1;
         }
         return;
@@ -51,14 +51,24 @@ class Math {
         return val;
     }
 
+    function boolean bitneg(int x, int i) {
+        if (i = 15) { return true; }
+
+        return (~Math.bit(-x-1, i));
+    }
+
     function boolean bit(int x, int i) {
         var int index, sum;
 
         let sum = x;
 
-        let index = 16; while (index > -1) {
+        if (x < 0) { return Math.bitneg(x, i);}
 
-            if (Math.bitin(index) < sum) {
+        if (i = 15) { return false; }
+
+        let index = 14; while (index > -1) {
+
+            if ((Math.bitin(index) < sum) | (Math.bitin(index) = sum)) {
                 let sum = sum - Math.bitin(index);
                 if (i = index) { return true; }
             }
@@ -103,16 +113,22 @@ class Math {
     function int divide(int x, int y) {
 
         var int q;
+        var boolean isNeg;
+
+        let isNeg = (x < 0);
+        if (y < 0) { let isNeg = ~isNeg;}
 
         let x = Math.abs(x); let y = Math.abs(y);
 
         if (y > x) { return 0; }
 
-        let q = Math.divide(x, 2 * y);
+        let q = (x) / (y * 2);
 
         if ((x - (2 * q * y)) < y) {
+            if (isNeg) { return -(2*q);}
             return 2 * q;
         } else {
+            if (isNeg) { return -((2*q)+1);}
             return (2 * q) + 1;
         }
 
@@ -120,17 +136,27 @@ class Math {
 
     /** Returns the integer part of the square root of x. */
     function int pow(int x) {
-        return x * x;
+        return Math.abs(x*x);
     }
 
 
     function int sqrt(int x) {
-        var int y, j, tmp;
+        var int y, j, tmp, tmp2, tmp3;
 
+        let y = 0;
         let j = 7; while (j > -1) {
-            let tmp = Math.pow(y + bin[j]);
-            if ((tmp < x) | (tmp = x)) {
-                let y = y + bin[j];
+            let tmp = bin[j];
+
+            let tmp2 = tmp*tmp;
+
+            /* =========================================
+                 PREVENTS INTEGER OVERFLOW!!!
+            **/
+
+            let tmp3 = x - (y*y) - (2 * (tmp * y));
+
+            if ((tmp2 < tmp3) | (tmp2 = tmp3)) {
+                let y = y + tmp;
             }
 
             let j = j - 1;
@@ -154,5 +180,23 @@ class Math {
 
     function int modulo(int a, int b) {
         return (a - (b * (a / b)));
+    }
+
+    function int mergeBits(int a, int b) {
+        return (a | b);
+    }
+
+    function int shift(int a, int index) {
+        var int i, val;
+
+        let val = 0;
+        let i = 0; while (i < (16-index)) {
+            if (Math.bit(a, i)) {
+                let val = val + Math.bitin(i+index);
+            }
+            let i = i + 1;
+        }
+
+        return val;
     }
 }
