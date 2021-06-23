@@ -120,17 +120,16 @@ class Math {
 
         let x = Math.abs(x); let y = Math.abs(y);
 
-        if (y = 0) { return 0; }
         if (y > x) { return 0; }
 
-        let q = Math.divide(x, y+y);
+        let q = (x) / (y * 2);
 
-        if ((x - ((q+q) * y)) < y) {
-            if (isNeg) { return -(q+q);}
-            return (q+q);
+        if ((x - (2 * q * y)) < y) {
+            if (isNeg) { return -(2*q);}
+            return 2 * q;
         } else {
-            if (isNeg) { return -((q+q)+1);}
-            return (q + q) + 1;
+            if (isNeg) { return -((2*q)+1);}
+            return (2 * q) + 1;
         }
 
     }
@@ -149,10 +148,6 @@ class Math {
             let tmp = bin[j];
 
             let tmp2 = tmp*tmp;
-
-            /* =========================================
-                 PREVENTS INTEGER OVERFLOW!!!
-            **/
 
             let tmp3 = x - (y*y) - (2 * (tmp * y));
 
