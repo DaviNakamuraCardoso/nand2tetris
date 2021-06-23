@@ -23,6 +23,8 @@ class Memory {
         return;
     }
 
+    function int getFree() { return free; }
+
     /** Returns the RAM value at the given address. */
     function int peek(int address) {
         return ram[address];
@@ -44,13 +46,16 @@ class Memory {
         while (~(current = 0)) {
             // Free memory
             let segsize = current[1];
-            if ((segsize > (size+2)) | (segsize = (size + 2))) {
+            if ((segsize > (size + 2)) | (segsize = (size + 2))) {
 
                 // Sets the pointer for the new object at the bottom of the segment
                 let new = current + segsize - size - 2;
 
                 // Resets the size of the free segment
                 let current[1] = segsize - size - 2;
+
+                let new[0] = 0;
+                let new[1] = size - 2;
 
                 // Return the base pointer to the caller
                 return new+2;
