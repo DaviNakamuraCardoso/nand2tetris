@@ -3,12 +3,12 @@
 Build a modern computer from Nand to Tetris (Project-Centered Course), with the
 professors Noam Nisan and Shimon Shocken
 
-# Week 01: Boolean Functions and Gate Logic
+## Week 01: Boolean Functions and Gate Logic
 
-## Lecture 01: Boolean Logic
+### Lecture 01: Boolean Logic
 
-### Truth Tables
-#### AND
+#### Truth Tables
+##### AND
 | x     |  y     | result |
 | :------------- | :------------- | :------- |
 | 0       | 0       | 0|
@@ -16,7 +16,7 @@ professors Noam Nisan and Shimon Shocken
 | 0 | 1 | 0 |
 | 1 | 1 | 1 |
 
-#### OR
+##### OR
 | x     |  y     | result |
 | :------------- | :------------- | :------- |
 | 0       | 0       | 0|
@@ -24,29 +24,31 @@ professors Noam Nisan and Shimon Shocken
 | 0 | 1 | 1 |
 | 1 | 1 | 1 |
 
-#### NOT
+##### NOT
 | x     |  not x     |
 | :------------- | :------------- |
 | 0       | 1       |
 | 1 | 0 |
 
-###  Boolean Identities
-#### Commutative Laws
+####  Boolean Identities
+##### Commutative Laws
 - (x AND y) = (y AND x)
 - (x OR y) = (y OR x)
 
-#### Associative Laws
+##### Associative Laws
 - (x AND (y AND z)) = ((x AND y) AND z)
 - (x OR (y OR z)) = ((x OR y) OR z)
 
-#### Distributive Laws
+##### Distributive Laws
 - (x AND (y OR z)) = ((x AND y) OR (x AND z))
 - (x OR (y AND z)) = ((x OR y) AND (x OR z))
 
 
-#### De Morgan Laws
+##### De Morgan Laws
 - NOT(x AND y) = NOT(x) OR NOT(y)
 - NOT(x OR y) = NOT(x) AND NOT(y)
+
+#### Project: Chipset for the Hack Computer
 
 
 ### Boolean functions from
