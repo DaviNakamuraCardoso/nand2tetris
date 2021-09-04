@@ -1,7 +1,6 @@
-# Nand2Tetris
-## by Hebrew University of Jerusalem
-Build a modern computer from Nand to Tetris (Project-Centered Course), with the
-professors Noam Nisan and Shimon Shocken
+# Nand2Tetris: The Elements of Computing Systems
+## by the Hebrew University of Jerusalem
+In this course we take a hands-on approach to build a modern computer from [Nand to Tetris](https://nand2tetris.org), guided by the professors [Noam Nisan](https://en.wikipedia.org/Noam_Nisan) and [Shimon Shocken](https://www.shimonschocken.com/).
 
 ### Week 01: Boolean Functions and Gate Logic
 In this week we learned the concepts behind modern hardware: Boolean logic. We then built a total of 16 logic gates starting only with a **nand** gate, and then building more complex ones, like multiplexors and demultiplexors. 
