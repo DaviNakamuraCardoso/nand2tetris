@@ -1,4 +1,0 @@
-push constant 81
-neg
-push constant 91
-not

@@ -78,7 +78,7 @@ In this week we were introduced to the concept of a Virtual Machine (VM) for a h
 #### Project 07: VM Translator I
 -   [VM Translator Source Code](./week_07/)
 
-### Week 08: Virtual Machine II
+### Week 08: Virtual Machines II
 We finally complete our Virtual Machine by introducing function calls, labels, goto's and if-goto's.
 
 #### Project 08: VM Translator II
