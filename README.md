@@ -94,7 +94,7 @@ After completing the virtual machine, we were introduced to a high level, object
 In this week we looked at the first steps of compilation: tokenization and lexical analysis, and built a simple parser that produces XML code from Jack source files.
 
 #### Project 10: Analyzer 
--   [Analyzer](./week_10/Analyzer/)
+-   [Analyzer](./week_10/analyzer/)
 
 ### Week 11: Compilers II
 We finished the Jack Compiler by generating VM code from the Parsing Trees. The result is a compiler for a modern object-oriented language.

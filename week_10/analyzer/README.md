@@ -4,11 +4,11 @@ Tokenizer and lexical analyzer for the Jack Programming Language. Generates XML 
 
 #### Building 
 ```Bash
-make analyzer
+make dcc 
 ```
 
 #### Usage
 ```Bash
-./analyzer source.jack
-./analyzer path/to/project
+./dcc source.jack
+./dcc path/to/project
 ```
