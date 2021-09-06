@@ -1,75 +1,68 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "ascii.h"
 #include "tokenizer.h"
 #include "tokens.h"
  
-#define LINESIZE 300
-#define CMDSIZE 30
-
-
-unsigned int isnewline(char c)
+static char* getword(FILE* stream, char* buff)
 {
-    return (c == '\n') || (c == '\r'); 
-}
+fstart: {}
 
-char* readline(FILE* stream, char* buff)
-{
     int i = 0; 
     char c;
-    while ((c = fgetc(stream)) != EOF)
+
+    buff[0] = '\0'; 
+
+    if ((c = fgetc(stream)) == EOF) return NULL;
+
+    if (isnullchar(c))
     {
-        if (isnewline(c)) 
-        {
-            buff[i] = '\0'; 
-            return buff; 
-        }
-        buff[i++] = c;
+        do {
+            c = fgetc(stream);
+            if (c == EOF) return NULL; 
+        } while (isnullchar(c));
     }
+
+    if (issym(c)) 
+    {
+        do {
+            buff[i++] = c; 
+        } while (isvalidsym((c = fgetc(stream)), buff, i));
+        ungetc(c, stream); 
+
+        goto end; 
+    }
+
+    do {
+        buff[i++] = c;
+    } while (iscmd((c = fgetc(stream))));
+
+end: 
     buff[i] = '\0'; 
 
-    return NULL; 
+    if (iscommentstart(buff)) { skipc(stream, buff); goto fstart; }
+
+    return buff; 
 }
 
-
-char** parseline(char* line, char** contents)
+int tokenize(FILE* stream)
 {
+    char buff[300]; 
 
-    int i = 0, k = 0;
+    sh** cmds = cmdhash();
+    sh** msegs = mseghash(); 
 
-    for (; i < 3 && line[k] != '\0'; i++) 
+    while (getword(stream, buff) != NULL) 
     {
-        int j;
-        for (j = 0; !isblank(line[k]) && line[k] != '\0'; j++, k++)
-        {
-           contents[i][j] = line[k]; 
-        }
+        short type = gethash(cmds, buff);
+        if (type == -1) type = gethash(msegs, buff);
 
-        contents[i][j] = '\0';
-
-        for (; isblank(line[k]) && line[k] != '\0'; k++);
+        printf("%s", buff);
+        printf(" %i\n", type);
     }
 
-    for (int l = i; l < 3; l++)
-        contents[l][0] = '\0'; 
+    return 0; 
 
-    return contents; 
-} 
-
-void* tokenize(FILE* stream)
-{
-    char line[LINESIZE]; 
-    char** cmds = calloc(sizeof(char*), 3); 
-    for (int i = 0; i < 3; i++) cmds[i] = calloc(sizeof(char), CMDSIZE);
-
-    while (readline(stream, line) != NULL)
-    {
-        parseline(line, cmds); 
-    }
-
-    parseline(line, cmds); 
-
-    return NULL; 
 }
-
 

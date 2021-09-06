@@ -1,2 +1,2 @@
 
-void* tokenize(FILE* stream); 
+int tokenize(FILE* stream); 

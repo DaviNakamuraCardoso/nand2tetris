@@ -2,84 +2,52 @@
 #include <stdlib.h>
 #include "tokens.h"
 
-static unsigned int match(char* cmd, unsigned short index); 
-static unsigned int matchm(char* memseg, unsigned short index); 
-static Token* new_token(enum cmd c, enum memseg m, long value); 
-
-const char* cmds[] = {
-    "pop",
-    "push",
-    "label", 
-    "goto",
-    "if-goto",
-    "call",
-    "function",
-    "add",
-    "sub",
-    "mult",
-    "div",
-    "gt",
-    "lt",
-    "eq"
+static char* cmds[] = {
+    [PUSH]      = "push",
+    [POP]       = "pop",
+    [LABEL]     = "label", 
+    [GOTO]      = "goto",
+    [IFGOTO]    = "if-goto",
+    [CALL]      = "call",
+    [FUNCTION]  = "function",
+    [ADD]       = "add",
+    [SUB]       = "sub",
+    [MULT]      = "mult",
+    [DIV]       = "div",
+    [GT]        = "gt",
+    [LT]        = "lt",
+    [EQ]        = "eq"
 };
 
-static const char* memsegs[] = {
-    "static",
-    "argument",
-    "local",
-    "this",
-    "that",
-    "pointer",
-    "temp"
+static char* memsegs[] = {
+    [STATIC]    = "static",
+    [ARGUMENT]  = "argument",
+    [LOCAL]     = "local",
+    [THIS]      = "this",
+    [THAT]      = "that",
+    [POINTER]   = "pointer",
+    [TEMP]      = "temp"
 };
 
-     
-enum command cmdtype(char* cmd)
+sh** cmdhash(void)
 {
-    
+    sh** h = new_hash();
     for (int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
     {
-        if (match(cmd, i)) return i; 
+       add_hash(h, cmds[i], i); 
     }
 
-    return -1; 
-}
+    return h;
+} 
 
-
-enum memseg memsegtype(char* memseg)
+sh** mseghash(void)
 {
-    for (int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
-        if (matchm(cmd, i)) return i;
+    sh** h = new_hash();
+    for (int i = 0; i < sizeof(memsegs) / sizeof(char*); i++)
+    {
+       add_hash(h, memsegs[i], i); 
+    }
 
-    return -1; 
-
+    return h;
 }
 
-static Token* new_token(enum cmd c, enum memseg m, long value)
-{
-    Token* t = malloc(sizeof(Token)); 
-    t->cmd = c; 
-    t->memseg = m;
-    t->value = value; 
-
-    return t; 
-
-}
-
-
-static unsigned int match(char* cmd, unsigned short index)
-{
-
-    for (int i = 0; cmd[i] != '\0' && cmds[index][i] != '\0'; i++)
-        if (cmd[i] != cmds[index][i]) return 0; 
-    
-    return cmds[index][i] == cmd[i]; 
-}
-
-static unsigned int matchm(char* memseg, unsigned short index)
-{
-    for (int i = 0; memseg[i] != '\0' && memsegs[index][i] != '\0'; i++)
-        if (memseg[i] != memsegs[index][i]) return 0; 
-
-    return memsegs[index][i] == memseg[i]; 
-}

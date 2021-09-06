@@ -1,3 +1,7 @@
+#include "hash.h"
+
+#ifndef __TOKENSH
+#define __TOKENSH
 
 enum command { 
     PUSH, 
@@ -26,15 +30,7 @@ enum memseg {
     TEMP
 };
     
-typedef struct _token {
-    enum command cmd;
-    union {
-        enum memseg ms;
-        unsigned long address;
-    };
-    long value;
-} Token; 
+sh** cmdhash(void);
+sh** mseghash(void);
 
-
-enum command cmdtype(char* cmd);
-enum memseg memsegtype(char* memseg);
+#endif 
