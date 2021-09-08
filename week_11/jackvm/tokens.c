@@ -20,6 +20,7 @@ static char* cmds[] = {
 };
 
 static char* memsegs[] = {
+    [CONSTANT]  = "constant", 
     [STATIC]    = "static",
     [ARGUMENT]  = "argument",
     [LOCAL]     = "local",

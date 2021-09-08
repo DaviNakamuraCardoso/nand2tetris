@@ -21,6 +21,7 @@ enum command {
 }; 
 
 enum memseg {
+    CONSTANT, 
     STATIC,
     ARGUMENT,
     LOCAL, 
