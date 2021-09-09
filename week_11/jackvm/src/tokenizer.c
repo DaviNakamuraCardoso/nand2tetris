@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "ascii.h"
-#include "tokenizer.h"
-#include "tokens.h"
+#include <ascii.h>
+#include <tokenizer.h>
+#include <tokens.h>
  
 static char* getword(FILE* stream, char* buff)
 {

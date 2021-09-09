@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hash.h"
+#include <hash.h>
 
 #define HASHSIZE 30
 
@@ -27,6 +27,7 @@ sh* new_sh(char* key, short type)
 
 unsigned int hash(char* key)
 {
+     
     unsigned int val = 0; 
     for (char *c = key; *c != '\0'; c++)
         val += (*c) * 31; 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "tokens.h"
+#include <tokens.h>
 
 static char* cmds[] = {
     [PUSH]      = "push",
@@ -33,7 +33,7 @@ static char* memsegs[] = {
 sh** cmdhash(void)
 {
     sh** h = new_hash();
-    for (int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
+    for (unsigned int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
     {
        add_hash(h, cmds[i], i); 
     }
@@ -44,7 +44,7 @@ sh** cmdhash(void)
 sh** mseghash(void)
 {
     sh** h = new_hash();
-    for (int i = 0; i < sizeof(memsegs) / sizeof(char*); i++)
+    for (unsigned int i = 0; i < sizeof(memsegs) / sizeof(char*); i++)
     {
        add_hash(h, memsegs[i], i); 
     }
