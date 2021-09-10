@@ -5,13 +5,13 @@
 The Jack language is compiled in a two-tier process:
 ![Two tier compilation process. from the book *Compilers: Principles, Techniques and tools*](./compilation.png)
 
-The code is first translated to an intermediate program (like Java's *bytecode* and C#'s *Intermediate Language*) and then a Virtual Machine Translator finishes the compilation process either interpreting the program or translating to the Assembly Language of the target machine.  
+The code is first translated to an intermediate program (like Java's *bytecode* and C#'s *Intermediate Language*) and then a Virtual Machine Translator finishes the compilation process either by interpreting the VM code or by translating to the target's machine assembly language.  
 
 ### Features
-Jack is a Turing-complete object-oriented language, featuring most of the high-level concepts any modern language has, such as selection, loops, assignments, arrays, classes, methods, arithmetic operations and many more.
+Jack is a Turing-complete, object-oriented language, with most of the features that any modern language has, such as branching, loops, assignments, arrays, classes, methods, arithmetic operations and more.
 
 ### Syntax
-Jack has a C-like syntax, with a few differences (e.g. equality and negation operators). Reserved words in Jack are:
+Jack has a C-like syntax. Reserved words in Jack are:
 
 |      |      |
 | :------------- | :------------- |
@@ -41,7 +41,7 @@ class Main {
 
 ```
 
-### Object construction
+### Object Oriented features 
 
 In Dog.jack:
 
