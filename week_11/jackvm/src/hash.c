@@ -3,11 +3,11 @@
 #include <string.h>
 #include <hash.h>
 
-#define HASHSIZE 30
+#define HASHSIZE 300
 
-sh** new_hash(void)
+Hash** new_hash(void)
 {
-    sh **h = calloc(sizeof(sh*), HASHSIZE);
+    Hash **h = calloc(sizeof(Hash*), HASHSIZE);
     for (int i = 0; i < HASHSIZE; i++)
     {
         h[i] = NULL; 
@@ -16,9 +16,9 @@ sh** new_hash(void)
     return h;
 }
 
-sh* new_sh(char* key, short type)
+Hash* new_hashnode(char* key, short type)
 {
-    sh* hn = malloc(sizeof(sh));
+    Hash* hn = malloc(sizeof(Hash));
     hn->key = strdup(key);
     hn->type = type; 
 
@@ -35,9 +35,9 @@ unsigned int hash(char* key)
     return val % HASHSIZE; 
 }
 
-void add_hash(sh** h, char* key, short value)
+void add_hash(Hash** h, char* key, short value)
 {
-    sh *hn, *new = new_sh(key, value);
+    Hash *hn, *new = new_hashnode(key, value);
     int index = hash(key);
     if (h[index] == NULL)
     {
@@ -60,10 +60,10 @@ unsigned int strmatch(char* s1, char* s2)
     return s1[i] == s2[i];
 }
 
-short gethash(sh** h, char* key)
+short gethash(Hash** h, char* key)
 {
     unsigned int index = hash(key);
-    for (sh* np = h[index]; np != NULL; np = np ->next)
+    for (Hash* np = h[index]; np != NULL; np = np ->next)
     {
         if (strmatch(np->key, key)) return np->type;
     }
@@ -71,4 +71,20 @@ short gethash(sh** h, char* key)
     return -1;
 }
 
-    
+void release_hash(Hash** root)
+{
+    for (unsigned int i = 0; i < HASHSIZE; i++)
+    {
+        Hash *current = root[i],  *next;
+        for (; current != NULL; current = next)
+        {
+            next = current->next;
+            free(current->key);
+            free(current);
+        }
+    }
+
+    free(root);
+    return;
+
+} 

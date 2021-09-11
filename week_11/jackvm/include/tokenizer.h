@@ -1,2 +1,3 @@
 
-int tokenize(FILE* stream); 
+#include <list.h>
+List* tokenize(FILE* stream); 

@@ -1,8 +1,10 @@
-
+#ifndef __LISTH
+#define __LISTH
 typedef struct _list List; 
 List* new_list(void);
-void addl(List* l, void* t);
-void* getelement(List* l, unsigned long index);
-const void* popl(List* l); 
+void addl(List* l, unsigned short t);
+unsigned short getelement(List* l, unsigned long index);
+unsigned short popl(List* l); 
 unsigned long listlength(List* l); 
-
+unsigned short lastel(List* l); 
+#endif

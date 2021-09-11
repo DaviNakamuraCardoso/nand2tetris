@@ -30,9 +30,9 @@ static char* memsegs[] = {
     [TEMP]      = "temp"
 };
 
-sh** cmdhash(void)
+Hash** cmdhash(void)
 {
-    sh** h = new_hash();
+    Hash** h = new_hash();
     for (unsigned int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
     {
        add_hash(h, cmds[i], i); 
@@ -41,9 +41,9 @@ sh** cmdhash(void)
     return h;
 } 
 
-sh** mseghash(void)
+Hash** mseghash(void)
 {
-    sh** h = new_hash();
+    Hash** h = new_hash();
     for (unsigned int i = 0; i < sizeof(memsegs) / sizeof(char*); i++)
     {
        add_hash(h, memsegs[i], i); 

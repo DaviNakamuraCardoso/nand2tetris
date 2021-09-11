@@ -16,6 +16,24 @@ unsigned int isnullchar(char c)
     return (c < 32);
 }
 
+unsigned int isnumeral(char* str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        if (!isdigit(str[i])) return 0;
+    }
+
+    return 1; 
+}
+
+unsigned int islabel(char* str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+        if (!iscmd(str[i])) return 0;
+    
+    return 1; 
+}
+
 unsigned int issym(char c)
 {
     switch (c)

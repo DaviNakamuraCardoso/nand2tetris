@@ -15,7 +15,13 @@ int main(int argc, const char** argv)
         stream = fopen(argv[1], "r");
     }
 
-    tokenize(stream); 
+    List * tokens = tokenize(stream); 
+
+    for (unsigned int i = 0; i < listlength(tokens); i++)
+        printf("%u\n", getelement(tokens, i));
+
+
+    if (stream != stdout) fclose(stream);
 
     return 0; 
 

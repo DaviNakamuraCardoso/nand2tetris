@@ -9,7 +9,7 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
 # Targets
-MODULES = main tokenizer ascii hash tokens
+MODULES = main tokenizer ascii hash tokens list
 OBJPATHS = $(foreach obj, $(MODULES), $(addprefix $(O), $(obj)))  
 OBJECTS = $(foreach obj, $(OBJPATHS), $(addsuffix .o, $(obj)))
 

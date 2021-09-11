@@ -2,16 +2,17 @@
 #ifndef __HASHH
 #define __HASHH
 
-typedef struct _sh {
+typedef struct _hash {
     short type;
     char* key;
-    struct _sh* next; 
-} sh; 
+    struct _hash* next; 
+} Hash; 
 
 
-sh** new_hash(void); 
-void add_hash(sh** h, char* key, short value); 
-short gethash(sh** h, char* key); 
+Hash** new_hash(void); 
+void add_hash(Hash** h, char* key, short value); 
+short gethash(Hash** h, char* key); 
+void release_hash(Hash** root); 
 
 #endif 
 
