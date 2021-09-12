@@ -1,4 +1,5 @@
 #include "hash.h"
+#include "list.h"
 
 #ifndef __TOKENSH
 #define __TOKENSH
@@ -11,13 +12,15 @@ enum command {
     IFGOTO  =   4,
     CALL    =   5,
     FUNCTION=   6,
-    ADD     =   7,
-    SUB     =   8,
-    MULT    =   9,
-    DIV     =   10,
-    GT      =   11,
-    LT      =   12,
-    EQ      =   13
+    RETURN  =   7,
+    ADD     =   8,
+    SUB     =   9,
+    MULT    =   10,
+    DIV     =   11,
+    GT      =   12,
+    LT      =   13,
+    EQ      =   14, 
+    NOT     =   15
 }; 
 
 enum memseg {
@@ -30,8 +33,19 @@ enum memseg {
     POINTER         =   6,
     TEMP            =   7
 };
+
+typedef struct _source {
+    List* tokens;
+    Hash** cmds;
+    Hash** memsegs;
+    Map* indexes;
+    unsigned long *labels;
+    unsigned long staticcount, stdcount; 
+} Source;
+
     
-Hash** cmdhash(void);
-Hash** mseghash(void);
+Source* new_source(void);
+void release_source(Source* s);
+
 
 #endif 
