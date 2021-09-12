@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-make && ./jackvm tests/test.vm
+make && ./jackvm tests/stack/

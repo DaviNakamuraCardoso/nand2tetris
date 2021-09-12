@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <tokens.h>
 
+
+static Hash** cmdhash(void);
+static Hash** mseghash(void);
+
 static char* cmds[] = {
     [PUSH]      = "push",
     [POP]       = "pop",
@@ -10,13 +14,15 @@ static char* cmds[] = {
     [IFGOTO]    = "if-goto",
     [CALL]      = "call",
     [FUNCTION]  = "function",
+    [RETURN]    = "return",
     [ADD]       = "add",
     [SUB]       = "sub",
     [MULT]      = "mult",
     [DIV]       = "div",
     [GT]        = "gt",
     [LT]        = "lt",
-    [EQ]        = "eq"
+    [EQ]        = "eq", 
+    [NOT]       = "not"
 };
 
 static char* memsegs[] = {
@@ -30,7 +36,30 @@ static char* memsegs[] = {
     [TEMP]      = "temp"
 };
 
-Hash** cmdhash(void)
+
+Source* new_source(void)
+{
+    Source* s = malloc(sizeof(Source));
+    s->tokens = new_list();
+    s->cmds= cmdhash();
+    s->memsegs = mseghash();
+    s->indexes = new_map();
+    s->labels = calloc(sizeof(unsigned long), 5000); 
+    s->staticcount = 0;
+
+    return s;
+}
+
+void release_source(Source* s)
+{
+    release_hash(s->cmds);
+    release_hash(s->memsegs);
+    free(s->labels);
+    free(s);
+}
+
+
+static Hash** cmdhash(void)
 {
     Hash** h = new_hash();
     for (unsigned int i = 0; i < sizeof(cmds) / sizeof(char*); i++)
@@ -41,7 +70,8 @@ Hash** cmdhash(void)
     return h;
 } 
 
-Hash** mseghash(void)
+
+static Hash** mseghash(void)
 {
     Hash** h = new_hash();
     for (unsigned int i = 0; i < sizeof(memsegs) / sizeof(char*); i++)

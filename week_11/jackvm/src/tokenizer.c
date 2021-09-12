@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <ascii.h>
 #include <tokenizer.h>
 #include <tokens.h>
@@ -47,18 +50,16 @@ end:
     return buff; 
 }
 
-List* tokenize(FILE* stream)
+Source* tokenize(FILE* stream, Source* s)
 {
     char buff[300]; 
-    unsigned short labelcount = 1; 
-    unsigned long *labels = calloc(sizeof(unsigned long), 4000);
+    unsigned long *labels = s->labels, maxi = 0;
 
-    List* tokens = new_list();
-    Hash** cmds = cmdhash();
-    Hash** msegs = mseghash(); 
-    Hash** index = new_hash(); 
-//    Hash** functions = new_hash(); 
-//
+    List* tokens = s->tokens; 
+    Hash** cmds = s->cmds; 
+    Hash** msegs = s->memsegs; 
+    Map* index = s->indexes;
+
     inline void getconstant(char* word)
     {
         long l = atol(word);
@@ -66,7 +67,6 @@ List* tokenize(FILE* stream)
         {
             unsigned short s = 0;
             s |= l >> ((3-i)*16);
-
             addl(tokens, s); 
         }
     }
@@ -74,11 +74,16 @@ List* tokenize(FILE* stream)
     inline void getspecial(char* word) 
     {
         short last = lastel(tokens), labeli = -1;
+
+        // Check for Memory segment indexes
         if (isnumeral(word) && last != CONSTANT)
         {
-            addl(tokens, atoi(word));
+            short i = atoi(word);
+            maxi = max(i, maxi); 
+            addl(tokens, s->staticcount + i);
             return;
         }
+
         switch (last)
         {
             case CONSTANT: 
@@ -91,11 +96,11 @@ List* tokenize(FILE* stream)
             case CALL: 
             case LABEL: 
             {
-                labeli = gethash(index, word); 
+                labeli = getmap(index, word); 
                 if (labeli == -1) 
                 { 
-                    labeli = labelcount++;
-                    add_hash(index, word, labeli);
+                    labeli = index->counter;
+                    add_map(index, word);
                 }
 
                 addl(tokens, labeli);
@@ -129,13 +134,64 @@ List* tokenize(FILE* stream)
         generatetoken(buff);
     }
 
-    release_hash(cmds);
-    release_hash(msegs);
+    s->staticcount += maxi + 1;
 
-    printf("%lu is LOOP\n", labels[1]);
-    printf("%lu is HELLO\n", labels[2]); 
+    return s; 
 
-    return tokens; 
+}
+
+Source* tokenizedir(const char* argv, Source* s)
+{
+    DIR* d = opendir(argv);
+    struct dirent* de; 
+    if (d == NULL)
+    {
+        fprintf(stderr, "%s is not a valid directory.\n", argv);
+        return NULL;
+    }
+
+    while ((de = readdir(d)) != NULL)
+    {
+        if (isvmsource(de->d_name))
+        {
+            char filename[300];
+            strcpy(filename, argv); 
+            strcat(filename, de->d_name);
+
+            FILE* f = fopen(filename, "r");
+            s = tokenize(f, s);
+            fclose(f);
+        }
+    }
+
+    closedir(d);
+
+    return s;
+}
+
+static void stdlib(Source* s)
+{
+    add_map(s->indexes, "Output.printString");
+    s->stdcount = s->indexes->counter; 
+
+    return;
+}
+
+Source *tokenizeall(const char* argv)
+{
+    Source *s = new_source();
+    stdlib(s);
+
+    if (isdir(argv))
+    {
+        return tokenizedir(argv, s);
+    }
+
+    FILE* f = fopen(argv, "r");
+
+    if (f == NULL) return NULL; 
+
+    return tokenize(f, s); 
 
 }
 

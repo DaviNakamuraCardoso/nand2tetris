@@ -1,0 +1,6 @@
+class Dog {
+    static int dogs;
+    function int fun(int a) {
+        return a + 2;
+    }
+}

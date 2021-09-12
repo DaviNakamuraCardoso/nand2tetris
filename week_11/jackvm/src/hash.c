@@ -5,6 +5,7 @@
 
 #define HASHSIZE 300
 
+
 Hash** new_hash(void)
 {
     Hash **h = calloc(sizeof(Hash*), HASHSIZE);
@@ -14,6 +15,15 @@ Hash** new_hash(void)
     }
 
     return h;
+}
+
+Map* new_map(void)
+{
+    Map *m = malloc(sizeof(Map));
+    m->hash = new_hash();
+    m->counter = 1;
+
+    return m;
 }
 
 Hash* new_hashnode(char* key, short type)
@@ -51,6 +61,11 @@ void add_hash(Hash** h, char* key, short value)
     return;
 }
 
+void add_map(Map* m, char* key)
+{
+    add_hash(m->hash, key, m->counter++);
+}
+
 unsigned int strmatch(char* s1, char* s2)
 {
     int i;
@@ -69,6 +84,11 @@ short gethash(Hash** h, char* key)
     }
 
     return -1;
+}
+
+short getmap(Map* m, char* key)
+{
+    return gethash(m->hash, key);
 }
 
 void release_hash(Hash** root)

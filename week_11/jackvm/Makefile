@@ -6,10 +6,12 @@ I = ./include/
 
 # Compiler and flags
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra 
 
 # Targets
-MODULES = main tokenizer ascii hash tokens list
+CMDS = push pop operators jumps
+CMDSP = $(foreach cmd, $(CMDS), $(addprefix cmds/, $(cmd)))
+MODULES = main tokenizer ascii hash tokens list vm $(CMDSP) 
 OBJPATHS = $(foreach obj, $(MODULES), $(addprefix $(O), $(obj)))  
 OBJECTS = $(foreach obj, $(OBJPATHS), $(addsuffix .o, $(obj)))
 
@@ -22,3 +24,6 @@ all: $(OBJECTS)
 
 clean: 
 	rm $(O)*.o
+
+test:
+	$(CC) tests/test.c -o tests/test

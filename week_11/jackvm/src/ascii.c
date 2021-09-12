@@ -1,10 +1,20 @@
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <dirent.h>
+
+int max(int a, int b)
+{
+    if (a > b) return a;
+    return b;
+}
 
 unsigned int iscmd(char c)
 {
     switch (c)
     {
+        case '.':
         case '_': 
         case '-': return 1;
         default: return isalnum(c);
@@ -34,6 +44,20 @@ unsigned int islabel(char* str)
     return 1; 
 }
 
+unsigned int isdir(const char* filename)
+{
+    DIR* d = opendir(filename);
+    unsigned int status = d != NULL;
+    if (status) closedir(d);
+
+    return status;
+}
+
+
+unsigned int isvmsource(char* filename)
+{
+    return strstr(filename, ".vm") != NULL;
+}
 unsigned int issym(char c)
 {
     switch (c)

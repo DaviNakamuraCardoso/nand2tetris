@@ -4,7 +4,7 @@
 #include "tokens.h"
 
 typedef struct _list {
-    short *contents; 
+    unsigned short *contents; 
     unsigned long elems;
     unsigned short maxsizei;
 } List; 
@@ -79,5 +79,10 @@ unsigned short popl(List* l)
 unsigned short lastel(List* l)
 {
     return l->contents[l->elems-1];
+}
+
+unsigned short* lcontents(List* l)
+{
+    return l->contents; 
 }
 
