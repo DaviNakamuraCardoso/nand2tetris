@@ -3,15 +3,13 @@ class Main {
 
     function void main() {
         var int i;
-
-        let i = 0;
-        let a = 0;
-        while (i < 10) {
-            let a = a + 7; 
-            let i = i + 1; 
-        }
-
-        let i = a;
+        let i = 12; 
+        let i = Dog.fun(i);
         return;
     }
+
+    function int fun(int i) {
+        return i + 2; 
+    }
+
 }

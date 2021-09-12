@@ -79,8 +79,15 @@ Source* tokenize(FILE* stream, Source* s)
         if (isnumeral(word) && last != CONSTANT)
         {
             short i = atoi(word);
-            maxi = max(i, maxi); 
-            addl(tokens, s->staticcount + i);
+            if (last == STATIC)
+            {
+                maxi = max(i, maxi); 
+                addl(tokens, s->staticcount + i);
+            }
+            else 
+            {
+                addl(tokens, i);
+            }
             return;
         }
 
@@ -104,7 +111,6 @@ Source* tokenize(FILE* stream, Source* s)
                 }
 
                 addl(tokens, labeli);
-
                 if (last == FUNCTION || last == LABEL) 
                 { 
                     labels[labeli] = listlength(tokens); 
@@ -159,7 +165,7 @@ Source* tokenizedir(const char* argv, Source* s)
             strcat(filename, de->d_name);
 
             FILE* f = fopen(filename, "r");
-            s = tokenize(f, s);
+            tokenize(f, s);
             fclose(f);
         }
     }

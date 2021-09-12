@@ -28,6 +28,26 @@ void (*commands[]) (Program*) = {
 
 };
 
+static char* cmds[] = {
+    [PUSH]      = "push",
+    [POP]       = "pop",
+    [LABEL]     = "label", 
+    [GOTO]      = "goto",
+    [IFGOTO]    = "if-goto",
+    [CALL]      = "call",
+    [FUNCTION]  = "function",
+    [RETURN]    = "return",
+    [ADD]       = "add",
+    [SUB]       = "sub",
+    [MULT]      = "mult",
+    [DIV]       = "div",
+    [GT]        = "gt",
+    [LT]        = "lt",
+    [EQ]        = "eq", 
+    [NOT]       = "not"
+};
+
+
 unsigned short next(Program* p)
 {
     return p->source[p->pc++];
@@ -44,16 +64,21 @@ void vm(Source* s)
         pushv(p, 0);
     }
 
+    printf("%lu\n", p->sp);
     while (!p->done)
     {
         unsigned short c = next(p); 
+    //    printf("%s\n", cmds[c]);
         commands[c](p); 
+        puts("===");
+        for (int i = 0; i < 12; i++)
+        {
+            printf("%li\n", p->stack[i]);
+        }
+        puts("===");
     }
 
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%li\n", p->stack[i]);
-    }
+    
     
 
     return;

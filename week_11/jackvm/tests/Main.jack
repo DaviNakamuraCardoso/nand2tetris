@@ -1,7 +1,7 @@
 class Main {
     function void main() {
         var int a;
-        let a = Main.fib(6); 
+        let a = Main.fib(1); 
         return;
     }
     function int fib(int a) {

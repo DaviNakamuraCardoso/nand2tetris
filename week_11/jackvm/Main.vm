@@ -1,25 +1,13 @@
 function Main.main 1
-push constant 0
+push constant 12
 pop local 0
-push constant 0
-pop static 0
-label LABEL_0
 push local 0
-push constant 10
-lt
-not
-if-goto LABEL_1
-push static 0
-push constant 7
-add
-pop static 0
-push local 0
-push constant 1
-add
-pop local 0
-goto LABEL_0
-label LABEL_1
-push static 0
+call Dog.fun 1
 pop local 0
 push constant 0
+return
+function Main.fun 0
+push argument 0
+push constant 2
+add
 return

@@ -48,24 +48,24 @@ void call(Program* p)
     pushv(p, p->this);
     pushv(p, p->that);
 
-    p->arguments = (p->sp - 5) - nargs;
+    p->arguments = (p->sp - 5) - (nargs);
     p->locals = p->sp;
 
-    if (index >= p->stdcount)
-        p->pc = p->labels[index];
+    p->pc = p->labels[index];
 
-   zeros = next(p);
-   for (int i = 0; i < zeros; i++)
-   {
-      pushv(p, 0); 
-   }
+    zeros = next(p);
+    printf("%u locals\n", zeros);
+    for (int i = 0; i < zeros; i++)
+    {
+        pushv(p, 0); 
+    }
 
 }
 
 void returnc(Program* p)
 {
     unsigned long endframe = p->locals, 
-                  retaddr = p->stack[p->locals - 5];
+                  retaddr = p->stack[endframe - 5];
 
     if (endframe == 0)
     {
@@ -80,7 +80,6 @@ void returnc(Program* p)
     p->locals = p->stack[endframe-4];
 
     p->pc = retaddr;
-
 
     return;
 }
