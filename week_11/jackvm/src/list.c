@@ -81,6 +81,11 @@ unsigned short lastel(List* l)
     return l->contents[l->elems-1];
 }
 
+unsigned short lasttolast(List* l)
+{
+    return l->contents[l->elems-2];
+}
+
 unsigned short* lcontents(List* l)
 {
     return l->contents; 

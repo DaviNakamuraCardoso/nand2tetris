@@ -1,15 +1,12 @@
 class Main {
-    static int a;
 
-    function void main() {
-        var int i;
-        let i = 12; 
-        let i = Dog.fun(i);
-        return;
-    }
+    function int main() {
+        var String name;
 
-    function int fun(int i) {
-        return i + 2; 
+        let name = Keyboard.getString("What's your name? "); 
+        do Output.printf("Hello, %s!\n", name);
+
+        return 0; 
     }
 
 }

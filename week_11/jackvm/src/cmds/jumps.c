@@ -42,6 +42,14 @@ void ifgoto(Program* p)
 void call(Program* p)
 {
     unsigned short index = next(p), nargs = next(p), zeros;
+
+
+    if (index < p->stdcount)
+    {
+        void (*f) (Program*, unsigned short) = (void (*) (Program*, unsigned short)) p->labels[index];
+        f(p, nargs); return; 
+    }
+
     pushv(p, p->pc);
     pushv(p, p->locals);
     pushv(p, p->arguments);
@@ -54,7 +62,6 @@ void call(Program* p)
     p->pc = p->labels[index];
 
     zeros = next(p);
-    printf("%u locals\n", zeros);
     for (int i = 0; i < zeros; i++)
     {
         pushv(p, 0); 

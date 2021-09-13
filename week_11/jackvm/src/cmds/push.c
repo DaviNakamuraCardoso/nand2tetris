@@ -51,7 +51,8 @@ static void push_that(Program* p)
 static void push_this(Program* p)
 {
     long* ptr = (long*) p->this;
-    pushv(p, ptr[next(p)]); 
+    unsigned short index = next(p);
+    pushv(p, ptr[index]); 
 }
 
 static void push_local(Program* p)

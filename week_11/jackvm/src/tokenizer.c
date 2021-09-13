@@ -50,6 +50,12 @@ end:
     return buff; 
 }
 
+unsigned int isstatic(prev, last)
+    unsigned short prev, last;
+{
+    return (prev == PUSH || prev == POP) && (last == STATIC);
+}
+
 Source* tokenize(FILE* stream, Source* s)
 {
     char buff[300]; 
@@ -73,13 +79,13 @@ Source* tokenize(FILE* stream, Source* s)
     
     inline void getspecial(char* word) 
     {
-        short last = lastel(tokens), labeli = -1;
+        short prevlast = lasttolast(tokens), last = lastel(tokens), labeli = -1;
 
         // Check for Memory segment indexes
         if (isnumeral(word) && last != CONSTANT)
         {
             short i = atoi(word);
-            if (last == STATIC)
+            if (isstatic(prevlast, last))
             {
                 maxi = max(i, maxi); 
                 addl(tokens, s->staticcount + i);
@@ -175,13 +181,7 @@ Source* tokenizedir(const char* argv, Source* s)
     return s;
 }
 
-static void stdlib(Source* s)
-{
-    add_map(s->indexes, "Output.printString");
-    s->stdcount = s->indexes->counter; 
 
-    return;
-}
 
 Source *tokenizeall(const char* argv)
 {

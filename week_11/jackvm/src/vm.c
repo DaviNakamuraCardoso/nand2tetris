@@ -53,6 +53,18 @@ unsigned short next(Program* p)
     return p->source[p->pc++];
 }
 
+void printstack(Program* p, int n)
+{
+    puts("====");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%li\n", p->stack[i]);
+    }
+    puts("====");
+}
+
+
+
 void vm(Source* s)
 {
     Program *p = new_program(s);
@@ -64,21 +76,13 @@ void vm(Source* s)
         pushv(p, 0);
     }
 
-    printf("%lu\n", p->sp);
     while (!p->done)
     {
         unsigned short c = next(p); 
-    //    printf("%s\n", cmds[c]);
         commands[c](p); 
-        puts("===");
-        for (int i = 0; i < 12; i++)
-        {
-            printf("%li\n", p->stack[i]);
-        }
-        puts("===");
+//        printstack(p, 20);
     }
-
-    
+   
     
 
     return;
